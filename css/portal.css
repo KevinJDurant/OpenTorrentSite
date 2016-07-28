@@ -50,4 +50,45 @@ nav {
     opacity: 0.5;
 }
 
-/* OVERLAY */
+/* SMALL RES FIX */
+@media only screen and (max-width: 700px) {
+	nav {
+		margin: auto;
+		width: 60%;
+		padding-left: 12%;
+	}
+	.card {
+		display:inline-block;
+		width: 15vw; 
+		transition: opacity .25s ease-in-out;
+		-moz-transition: opacity .25s ease-in-out;
+		-webkit-transition: opacity .25s ease-in-out;
+	}
+}
+ 
+@media only screen and (max-width: 500px) {
+	nav {
+		margin: auto;
+		width: 60%;
+		padding-left: 12%;
+	}
+	
+	form {
+		margin: 0;
+		padding: 0;
+	}
+	
+	.card {
+		display:inline-block;
+		width: 15vw; 
+		transition: opacity .25s ease-in-out;
+		-moz-transition: opacity .25s ease-in-out;
+		-webkit-transition: opacity .25s ease-in-out;
+	}
+	
+	.pure-input-1-2 {
+		height: 1.2em;
+		font-size: 0.8em;
+		margin: auto;
+	}
+}
