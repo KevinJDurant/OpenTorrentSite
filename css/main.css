@@ -1,0 +1,93 @@
+html {
+    background-image: url("../images/background.png");
+    background-repeat: repeat;
+}
+
+a {
+  color:inherit;
+  text-decoration: none;
+}
+ 
+@font-face {
+	font-family: infinity;
+	src:url(../font/infinity.ttf);
+}
+
+nav {
+	height: 34px;
+	background: white;
+	width: 100%;
+}
+
+.pure-form input[type=text] {
+	box-shadow: none;
+	border: none;
+	height: 100%;
+}
+
+form {
+	margin-bottom: 0;
+	margin:0 auto;
+	text-align:center;
+	display:block;
+	height: 100%;
+}
+
+p.categorie {
+	padding-top: 3vh;
+	padding-bottom: 1vh;
+	margin: 0;
+}
+
+.categorie {
+	color: white;
+	font-size: 2em;
+	font-family: infinity;
+}
+
+.pure-table {
+	margin-top: 1vh;
+	width: 80vw;
+}
+
+.pure-table-even {
+	background: white;
+}
+
+.right {
+	margin-left: 5px;
+    text-align: right;
+    float: right;
+}
+
+.container {
+	padding-left: 2vw;
+}
+
+.uploader {
+	font-size: 0.6em;
+}
+
+/* FIX FOR MOBILE */
+@media only screen and (max-width: 500px) {
+	.hidesmall {
+		display: none;
+	}
+	
+	.container {
+		padding: 0;
+		width: 100%;
+	}
+	
+	.pure-table {
+		margin-top: 1vh;
+	}
+	
+	nav {
+		width: 100%;
+	}
+	
+	p.categorie {
+		padding-left: 2vw;
+	}
+}

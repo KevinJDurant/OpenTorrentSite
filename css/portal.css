@@ -10,7 +10,7 @@ html {
 
 /* SITENAME */
 .sitename {
-	padding-top: 2vh;
+	padding-top: 1vh;
 	padding-bottom: 1vh;
 	text-align: center;
 	vertical-align: middle;
@@ -25,8 +25,9 @@ form {
 }
 
 .pure-input-1-2 {
-	height: 2.5em;
-	font-size: 1.5em;
+	min-height: 4vw;
+	height: 4vw;
+	font-size: 2vw;
 	margin: auto;
 }
 
@@ -87,8 +88,9 @@ nav {
 	}
 	
 	.pure-input-1-2 {
-		height: 1.2em;
-		font-size: 0.8em;
+		min-height: 2vh;
+		height: 2vh;
+		font-size: 2vh;
 		margin: auto;
 	}
 }
