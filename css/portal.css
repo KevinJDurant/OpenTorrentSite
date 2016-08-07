@@ -5,12 +5,11 @@ html {
 
 @font-face {
 	font-family:infinity;
-	src:url(../font/infinity.ttf);
+	src:url(../fonts/infinity.ttf);
 }
 
 /* SITENAME */
 .sitename {
-	padding-top: 1vh;
 	padding-bottom: 1vh;
 	text-align: center;
 	vertical-align: middle;

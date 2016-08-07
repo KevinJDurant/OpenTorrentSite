@@ -10,36 +10,30 @@ a {
  
 @font-face {
 	font-family: infinity;
-	src:url(../font/infinity.ttf);
+	src:url(../fonts/infinity.ttf);
 }
 
+/* Nav needs to be 45PX in edge and IE10*/
 nav {
 	height: 34px;
 	background: white;
 	width: 100%;
 }
 
-.pure-form input[type=text] {
-	box-shadow: none;
-	border: none;
-	height: 100%;
-}
-
 form {
 	margin-bottom: 0;
 	margin:0 auto;
-	text-align:center;
 	display:block;
 	height: 100%;
 }
 
-p.categorie {
+p.category {
 	padding-top: 3vh;
 	padding-bottom: 1vh;
 	margin: 0;
 }
 
-.categorie {
+.category {
 	color: white;
 	font-size: 2em;
 	font-family: infinity;
@@ -68,8 +62,50 @@ p.categorie {
 	font-size: 0.6em;
 }
 
+.button-success {
+		background: rgb(28, 184, 65);
+		color: white;
+		border-radius: 0px;
+}
+
+#menu > li:last-child {
+	width: 20vw;
+}
+
+td:last-child {
+	font-weight: bold;
+	color: red;
+}
+
+td:nth-last-child(2){
+	font-weight: bold;
+	color: green;
+}
+
+.pure-form-stacked label {
+	margin: .5em 0 .2em;
+}
+
+.searches {
+	padding-right: 1vw;
+	float: right;
+	width: 15vw;
+}
+
+tr.pure-table-odd.search td {	color: black; 	font-weight: normal;}
+tr.pure-table-even.search td { color: black; 	font-weight: normal;}
+
+@media only screen and (max-width: 850px) {
+	.searches {
+		display: none;
+	}
+	.pure-table {
+		width: 98%;
+	}
+}
+
 /* FIX FOR MOBILE */
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 580px) {
 	.hidesmall {
 		display: none;
 	}
@@ -80,6 +116,7 @@ p.categorie {
 	}
 	
 	.pure-table {
+		width: auto;
 		margin-top: 1vh;
 	}
 	
@@ -90,4 +127,9 @@ p.categorie {
 	p.categorie {
 		padding-left: 2vw;
 	}
+	
+	#menu > li:last-child {
+		width: 25vw;
+	}
+
 }
