@@ -1,3 +1,4 @@
+/* Barebone css */
 html {
     background-image: url("../images/background.png");
     background-repeat: repeat;
@@ -15,7 +16,7 @@ a {
 
 /* Nav needs to be 45PX in edge and IE10*/
 nav {
-	height: 34px;
+	height: 36px;
 	background: white;
 	width: 100%;
 }
@@ -95,6 +96,30 @@ td:nth-last-child(2){
 tr.pure-table-odd.search td {	color: black; 	font-weight: normal;}
 tr.pure-table-even.search td { color: black; 	font-weight: normal;}
 
+/* FOOTER CSS */
+footer {
+	margin-top: 2em;
+	height: 4em;
+	background-color: white;
+}
+#bottom {
+	font-family: infinity;
+	font-size: 1.1em;
+	font-weight: 900;
+	padding-top: 1em;
+    display: table;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+#copyright {
+	font-family: sans-serif;
+	font-size: 0.6em;
+	font-weight: normal;
+}
+
+
+/* Fix for small resolutions */
 @media only screen and (max-width: 850px) {
 	.searches {
 		display: none;
@@ -105,7 +130,7 @@ tr.pure-table-even.search td { color: black; 	font-weight: normal;}
 }
 
 /* FIX FOR MOBILE */
-@media only screen and (max-width: 580px) {
+@media only screen and (max-width: 580px) {	
 	.hidesmall {
 		display: none;
 	}
@@ -132,4 +157,23 @@ tr.pure-table-even.search td { color: black; 	font-weight: normal;}
 		width: 25vw;
 	}
 
+}
+
+@media only screen and (max-width: 460px) {
+	.flow {
+		overflow: scroll;
+	}
+}
+
+/* FIX TOP BAR */
+@media only screen and (max-width: 400px) {
+	.pure-form{
+		width: 60vw;
+	}
+	#loginbtn {
+		display: none;
+	}
+	#uploadbtn {
+		display: none;
+	}
 }

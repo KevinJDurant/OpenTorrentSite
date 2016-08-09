@@ -14,7 +14,7 @@ html {
 	text-align: center;
 	vertical-align: middle;
 	color: white;
-	font-size: 9vw;
+	font-size: 8vw;
 	font-family: infinity;
 }
 
@@ -24,8 +24,8 @@ form {
 }
 
 .pure-input-1-2 {
-	min-height: 4vw;
-	height: 4vw;
+	min-height: 3vw;
+	height: 3vw;
 	font-size: 2vw;
 	margin: auto;
 }
