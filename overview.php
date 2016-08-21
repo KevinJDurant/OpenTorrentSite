@@ -1,17 +1,5 @@
-<?php
-	include_once "engine/login_handler.php";
-	
-	if (isset($_POST['tos']) && $_POST['password2'] && $_POST['email2'] && $_POST['cpassword']) {
-		register();
-	}
-	
-	if (isset($_POST['email']) && $_POST['password']) {
-		login();
-	}
-?>
-
 <!DOCTYPE html>
-<head>	
+<head>		
 	<!-- Standard Meta -->
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -51,7 +39,7 @@
 				</li>
 			</ul>
 			<button id="loginbtn" class="button-success pure-button" data-toggle="modal" data-target="#loginmodal" style="float: right;">Login</button>
-			<button id="uploadbtn" class="pure-button pure-button-disabled" style="float: right;"><i class="fa fa-upload" aria-hidden="true"></i>Upload</button>
+			<button id="uploadbtn" class="pure-button pure-button-disabled" style="float: right;" disabled><i class="fa fa-upload" aria-hidden="true"></i>Upload</button>
 		</div>
 	</nav>
 	
@@ -62,14 +50,14 @@
 		</div>
 
 		<div class="modal-body">
-			<form class="pure-form pure-form-stacked" action="<?php echo $_SERVER['PHP_SELF']; ?>"  method="post">
+			<form class="pure-form pure-form-stacked" action="<?php echo $_SERVER['PHP_SELF']; ?>"  method="post" onkeypress="return event.keyCode != 13;">
 				<legend>Not yet registered? <a href="" data-toggle="modal" data-target="#registermodal" data-dismiss="modal"><u>Click here</u>.</a></legend>
 
 				<label for="email">Email</label>
-				<input id="email" name="email" type="text" placeholder="Email">
+				<input id="email" name="email" type="text" placeholder="Email" required>
 
 				<label for="password">Password</label>
-				<input id="password" name="password" type="password" placeholder="Password">
+				<input id="password" name="password" type="password" placeholder="Password" required>
 
 				<label class="pure-checkbox">
 					<input type="checkbox" name="remember"> Remember me
@@ -89,22 +77,22 @@
 		</div>
 
 		<div class="modal-body">
-			<form class="pure-form pure-form-stacked" action="<?php echo $_SERVER['PHP_SELF']; ?>"  method="post">
+			<form class="pure-form pure-form-stacked" action="<?php echo $_SERVER['PHP_SELF']; ?>"  method="post" onkeypress="return event.keyCode != 13;">
 			<legend>Min. 6 characters, include numbers!</legend>
 				<label for="name2">Username</label>
-				<input id="name2" name="username" type="text" placeholder="Username" maxlength="10">
+				<input id="name2" name="username" type="text" placeholder="Username" maxlength="10" required>
 				
 				<label for="email2">Email</label>
-				<input id="email2" name="email2" type="text" placeholder="Email" maxlength="30">
+				<input id="email2" name="email2" type="text" placeholder="Email" maxlength="30" required>
 
 				<label for="password2">Password</label>
-				<input id="password2" name="password2" type="password" placeholder="Password">
+				<input id="password2" name="password2" type="password" placeholder="Password" required>
 
 				<label for="cpassword">Confirm password</label>
-				<input id="cpassword" name="cpassword" type="password" placeholder="Password">
+				<input id="cpassword" name="cpassword" type="password" placeholder="Password" required>
 				
 				<label class="pure-checkbox">
-					<input type="checkbox" name="tos"> I read and accept the TOS
+					<input type="checkbox" name="tos" required> I read and accept the TOS
 				</label>
 		</div>
 		<div class="modal-footer">
@@ -507,5 +495,17 @@
 		<span id="copyright">Copyright '16 @ yoursitename.com</span>
 	</footer>
 	
+	<!-- Login php needs to be at the bottom -->
+	<?php
+		include_once "engine/login_handler.php";
+		
+		if (isset($_POST['tos']) && $_POST['password2'] && $_POST['email2'] && $_POST['cpassword']) {
+			register();
+		}
+		
+		if (isset($_POST['email']) && $_POST['password']) {
+			login();
+		}
+	?>
 </body>
 </html>

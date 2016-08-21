@@ -50,12 +50,18 @@ function login() {
 	$email = htmlentities($_POST['email']);
 	
 	//Verifying the user's login attempt.
-	$sql = "SELECT password FROM users WHERE email='$email'";
+	$sql = "SELECT password, username FROM users WHERE email='$email'";
 	$result = mysqli_query($conn, $sql) or die(mysql_error());
 	$hash = mysqli_fetch_assoc($result);
 
 	if (password_verify($password, $hash['password'])) {
-		echo 'Password verified!';
+		//Convert this to cookies
+		echo "
+            <script type=\"text/javascript\">
+            document.getElementById('loginbtn').innerHTML = '"; echo $hash['username']; echo "';
+			document.getElementById('uploadbtn').className = 'pure-button';
+            </script>
+        ";
 	} else {
 		echo 'There was a problem with your username or password.';
 	}
