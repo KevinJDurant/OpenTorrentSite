@@ -1,0 +1,20 @@
+#footer {
+	background-color: #2b2c30;
+	padding: 8px 8px 8px 8px;
+	color: rgb(119, 119, 119);
+	margin-top: 350px;
+}
+
+.fright {
+    float: right;
+}
+
+span {
+    margin-right: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+    .fright {
+        display: none;
+    }
+}

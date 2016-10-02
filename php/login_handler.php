@@ -1,9 +1,14 @@
 <?php 
+if (!isset($_SESSION))
+  {
+    session_start();
+}
 // PHP code that handles both registration and validation. Your website is by law required to have HTTPS.
 // Setting the default timezone. (change this setting)
 include_once "password.php";
 date_default_timezone_set('Europe/Brussels');
-	
+
+//REGISTER FUNCTION
 function register() {
 	//(change these values)
 	$servername = "localhost";
@@ -29,11 +34,19 @@ function register() {
 	if($password == $cpassword) {
 		$user_sql = 'INSERT INTO users (email, reg_date, username, password)' .
 		"VALUES ('$email', '$mysql_date', '$username', '$hashed_password')";
+
+		echo '<script language="javascript">';
+		echo 'alert(' . $password . ' ' . $cpassword . ')';
+		echo '</script>';
+
 		mysqli_query($conn, $user_sql) or die(mysql_error());
 		mysqli_close($conn);
+		header("Location: browse.php");
+		echo "triggered";
 	}
 }
 
+//LOGIN FUNCTION
 function login() {
 	//(change these values)
 	$servername = "localhost";
@@ -54,14 +67,25 @@ function login() {
 	$result = mysqli_query($conn, $sql) or die(mysql_error());
 	$hash = mysqli_fetch_assoc($result);
 
+
 	if (password_verify($password, $hash['password'])) {
-		//Convert this to cookies
-		echo "
-            <script type=\"text/javascript\">
-            document.getElementById('loginbtn').innerHTML = '"; echo $hash['username']; echo "';
-			document.getElementById('uploadbtn').className = 'pure-button';
-            </script>
-        ";
+		$key = md5(uniqid(rand(), true));
+
+		$user_sql = "UPDATE users SET tempkey='$key' WHERE email='$email'";
+		mysqli_query($conn, $user_sql) or die(mysql_error());
+		mysqli_close($conn);
+
+		$_SESSION["username"] = $hash['username'];
+		$_SESSION["key"] = $key;
+
+		header("Location: browse.php");
+		//echo "
+        //    <script type=\"text/javascript\">
+        //    document.getElementById('loginbtn').innerHTML = '"; echo $hash['username']; echo "';
+		//	document.getElementById('uploadbtn').className = 'pure-button';
+        //    </script>
+        //";
+
 	} else {
 		echo 'There was a problem with your username or password.';
 	}

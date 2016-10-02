@@ -12,6 +12,7 @@ if (file_exists($target_file)) {
 
 // Check file size
 if ($_FILES["fileToUpload"]["size"] > 100000) {
+	//remove error echo's and give a visual warning
     echo "Sorry, your file is too large.";
     $uploadOk = 0;
 }
@@ -28,6 +29,7 @@ if ($uploadOk == 0) {
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+		//redirect to torrent overview page
         echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
     } else {
         echo "Sorry, there was an error uploading your file.";
