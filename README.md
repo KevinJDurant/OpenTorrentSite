@@ -23,7 +23,7 @@ A modern torrent site template that is easy to setup with an intuitive GUI. Engi
 | Secure register & login handler  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png)  |
 | Torrent metadata  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png)  |
 | Secure session handler  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png)  |
-| Torrent uploading | (50%) |
+| Torrent uploading | 50% |
 | Seed/Peer Data  | ![incomplete](http://files.softicons.com/download/application-icons/boolean-icons-by-prax-08/png/16/Denied.png) |
 | Off-site torrent caching support (iTorrents & torCache) | ![incomplete](http://files.softicons.com/download/application-icons/boolean-icons-by-prax-08/png/16/Denied.png) |
 | User stats & preferences handling | ![incomplete](http://files.softicons.com/download/application-icons/boolean-icons-by-prax-08/png/16/Denied.png)  |
@@ -36,7 +36,7 @@ Status list only contains parts of the website that are now being worked on, pla
 * Font Awesome: font and CSS framework.
 * BCrypt compatibility library.
 * Torrent RW by github.com/adriengibrat.
-* Normalize.cc by github.com/necolas.
+* Normalize.css by github.com/necolas.
 
 ## Note
 This project is developed with the intention to learn new web technologies and broaden my knowledge of webdesign and user interface. I won't host a copy of this site anywhere except on my official "github.io" or "kevindurant.be" domain for demo and portfolio purposes. The project is MIT licensed and the code is free to use, when using this code for your personal project you agree that I cannot be held liable for any possible legal issues you're facing. This work will be free of copyrighted material, if data in this project breaks any IP or Copyright laws that corresponding data will get deleted.
