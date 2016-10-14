@@ -15,7 +15,11 @@ a { color: black; text-decoration: none; }
 #menu {	background-color: white; width: 100%; }
 .right { position: absolute; right: 0px; }
 .button-success { background: rgb(28, 184, 65); color: white; border-radius: 0px; }
-
+.inputfix {
+    box-shadow: none !important; 
+    border: none !important; 
+    height: 100% !important;
+}
 /* TORRENTS */
 .pure-table-even { background: white; }
 .category { color: white; font-family: infinityregular; font-size: 2em; margin: 8px 0px 8px 0px;}
@@ -45,10 +49,15 @@ table th {
 	margin-left: 1em;
 }
 
+.download {
+    border-left: none !important;
+    text-align: right !important;
+}
+
 /* SMALL SCREEN FIXES */
 @media only screen and (max-width: 600px) {
 	#btns, #title {	display: none;}
-	.pure-table-odd, .pure-table-even { padding: 0; }
+	.pure-table-odd, .pure-table-even { margin: 0 !important; padding: 0; }
 
     table.popular {
         border: 0;
@@ -98,5 +107,9 @@ table th {
 
     .left {
     	margin-left: 0px;
+    }
+
+    .pure-input-1 {
+        margin: 0 !important;
     }
 }

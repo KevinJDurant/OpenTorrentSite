@@ -56,15 +56,21 @@ if (!isset($_SESSION)) {
 					<!-- search -->
 					<li class="pure-menu-item pure-menu">
 						<form class="pure-form">
-							<input class="pure-input-1" type="text" style="box-shadow: none; border: none; height: 100%;" placeholder="search...">
+							<input class="pure-input-1 inputfix" type="text" placeholder="search...">
 						</form>
 					</li>
 					<!-- login -->
 					<li id="btns" class="pure-menu-item pure-menu right">
 						<!-- upload button -->
-						<button id="uploadbtn" class="pure-button pure-button-disabled" disabled><i class="fa fa-upload" aria-hidden="true"></i>Upload</button>
-						<!-- login button -->
-						<a href="login.php"><button type="button" id="loginbtn" class="button-success pure-button">Login</button></a>
+						<?php
+							if(isset($_SESSION["username"])) {
+								echo '<button id="uploadbtn" class="pure-button pure-button"><i class="fa fa-upload" aria-hidden="true"></i>Upload</button>';
+								echo '<a href="login.php"><button type="button" id="loginbtn" class="button-success pure-button">' . $_SESSION["username"] . '</button></a>';
+							} else {
+								echo '<a href="login.php"><button type="button" id="loginbtn" class="button-success pure-button">Login</button></a>';
+							}
+
+						?>
 					</li>
 				</ul>
 			</div>
@@ -78,6 +84,7 @@ if (!isset($_SESSION)) {
 					<thead>
 						<tr>
 							<th>TORRENT</th>
+							<th class="download"></th>
 							<th>SIZE</th>
 							<th>AGE</th>
 							<th>SEED</th>
@@ -86,11 +93,11 @@ if (!isset($_SESSION)) {
 					</thead>
 					<tbody>
 						<tr class="pure-table-odd">
-							<td data-label="torrent">Ubuntu 16.04.1 LTS 
+							<td class="header" data-label="torrent">Ubuntu 16.04.1 LTS</td>
+							<td class="download" data-label="links">
 								<a href="magnet:?xt=urn:btih:4344503b7e797ebf31582327a5baae35b11bda01&dn=ubuntu-16.04-desktop-amd64.iso"><i class="fa fa-magnet"></i></a>
 								<a href="http://releases.ubuntu.com/16.04/ubuntu-16.04-desktop-amd64.iso.torrent"><i class="fa fa-download"></i></a>
 								<a href="#"><i class="fa fa-comments" aria-hidden="false"></i></a><br>
-								<span>By: Admin</span>
 							</td>
 							<td data-label="size">1.4 GB</td>
 							<td data-label="age">15/06/2009</td>
@@ -98,11 +105,11 @@ if (!isset($_SESSION)) {
 							<td data-label="leech">23</td>
 						</tr>
 						<tr class="pure-table-even">
-							<td data-label="torrent">Ubuntu 16.04.1 LTS 
+							<td class="header" data-label="torrent">Ubuntu 16.04.1 LTS</td>
+							<td class="download" data-label="links">
 								<a href="magnet:?xt=urn:btih:4344503b7e797ebf31582327a5baae35b11bda01&dn=ubuntu-16.04-desktop-amd64.iso"><i class="fa fa-magnet"></i></a>
 								<a href="http://releases.ubuntu.com/16.04/ubuntu-16.04-desktop-amd64.iso.torrent"><i class="fa fa-download"></i></a>
 								<a href="#"><i class="fa fa-comments" aria-hidden="false"></i></a><br>
-								<span>By: Admin</span>
 							</td>
 							<td data-label="size">1.4 GB</td>
 							<td data-label="age">15/06/2009</td>
@@ -113,6 +120,7 @@ if (!isset($_SESSION)) {
 				</table>
 			</div>
 		</div>
+
 		<!-- (community) -->
 		<div id="community" class="pure-u-1 pure-u-md-1-4">
 			<div class="left">
@@ -173,5 +181,54 @@ if (!isset($_SESSION)) {
 				</div>
 			</div>
 		</div>
+		<script>
+			/* VERY BAD CODE */
+			var x = 0;
+			var slidedUp = 0;
+			var needToSlideDown = 0;
+
+			var win = $(this);
+			
+			if(win.width() <= 585) {
+				if(x == 0) {
+						if(slidedUp == 0) {
+							$('.header').nextUntil('tr').slideUp();
+							slidedUp = 1;
+						}
+						$(".header").unbind('click');
+						$('.header').click(function(){
+							$(this).nextUntil('tr').slideToggle();
+						});
+						x = 1;
+						needToSlideDown = 1;
+				}
+			}
+
+			$(window).on('resize', function(){
+				if (win.width() <= 585) {
+					if(x == 0) {
+						if(slidedUp == 0) {
+							$('.header').nextUntil('tr').slideUp();
+							slidedUp = 1;
+						}
+						$(".header").unbind('click');
+						$('.header').click(function(){
+							$(this).nextUntil('tr').slideToggle();
+						});
+						x = 1;
+						needToSlideDown = 1;
+					}
+				} else {
+					if(needToSlideDown == 1) {
+						$('.header').nextUntil('tr').slideDown();
+						$('td').removeAttr('style');
+					}
+					$(".header").unbind('click');
+					needToSlideDown = 0;
+					x = 0;
+					slidedUp = 0;
+				}
+			});
+		</script>
 	</div>
 </body>

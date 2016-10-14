@@ -39,7 +39,7 @@ if (!isset($_SESSION))
 			<div class="pure-menu pure-menu-horizontal">
 				<ul class="pure-menu-list" id="menu">
 					<!-- title -->
-					<li id="title" class="pure-menu-item pure-menu"><a href="../index.php" class="pure-menu-link hidesmall">openTorrentSite</a></li>
+					<li id="title" class="pure-menu-item pure-menu"><a href="browse.php" class="pure-menu-link hidesmall">openTorrentSite</a></li>
 					<!-- nav -->
 					<li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
 						<a href="#" id="menuLink1" class="pure-menu-link">Section</a>

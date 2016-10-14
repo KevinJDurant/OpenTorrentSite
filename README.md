@@ -12,22 +12,22 @@ A modern torrent site template that is easy to setup with an intuitive GUI. Engi
 * V0.0.4 Full page css nearly done & mobile fixes.
 * V0.0.5 Added login and register handler. (Requires php 5.3.7)
 * V0.0.6 Added torrent file handling.
-* **V0.0.7 Reworking the entire code base.**
+* V0.0.7 Reworking the entire code base.
+* **V0.0.8 Added mobile torrent overview support.**
 
 | Item  | Status |
 | ------------- | ------------- |
 | ![chromeicon](http://findicons.com/files/icons/2781/google_jfk_icons/16/chrome_ico.png) Chrome compatibility  | 100%  |
 | ![firefoxicon](https://forums.digitalpoint.com/proxy/V%2FlNRoM4xGeK7bNGvqxMj7DCYGWbMtim7OburMxH1iFHf4167F%2Bek8n86jv%2FDB%2FLZMYRisyC71gNG8KyIGpDsg%3D%3D/image.png) Firefox compatibility  | 100%  |
 | ![ieicon](http://findicons.com/files/icons/2142/webset/16/ie.png) Explorer/Edge compatibility  | 100% |
-| Mobile support  | 80% |
+| Mobile support  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png) |
 | Secure register & login handler  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png)  |
 | Torrent metadata  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png)  |
 | Secure session handler  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png)  |
-| Torrent uploading | 50% |
+| Torrent uploading | In progress. |
+| Off-site torrent caching support (iTorrents & torCache) | In progress. |
 | Seed/Peer Data  | ![incomplete](http://files.softicons.com/download/application-icons/boolean-icons-by-prax-08/png/16/Denied.png) |
-| Off-site torrent caching support (iTorrents & torCache) | ![incomplete](http://files.softicons.com/download/application-icons/boolean-icons-by-prax-08/png/16/Denied.png) |
 | User stats & preferences handling | ![incomplete](http://files.softicons.com/download/application-icons/boolean-icons-by-prax-08/png/16/Denied.png)  |
-
 
 Status list only contains parts of the website that are now being worked on, planned features will be added periodically.
 
