@@ -4,6 +4,10 @@ _**Current version "0.1.1"**_
 
 A modern torrent search engine/website template that is easy to setup with an intuitive GUI. Engineered to be one of the easiest to use torrent websites out there. 
 
+## Design
+![Index](http://i.imgur.com/ovyRdj2.png)
+![Detail](http://i.imgur.com/jly4Mch.png)
+![Upload](http://i.imgur.com/YDtYYTt.png)
 
 ## Setup:
 1. Copy & Paste all files to your webspace.
