@@ -1,42 +1,54 @@
-# OpenTorrentSite
-A modern torrent site template that is easy to setup with an intuitive GUI. Engineered to be one of the easiest to use torrent websites out there. 
+# OpenTorrentSite 
 
-## Design
-![Website portal](http://i.imgur.com/jBuPJMm.png)
-![Early torrent page](http://i.imgur.com/q5HsfVn.png)
+_**Current version "0.1.1"**_ 
 
-## Updates
-* V0.0.1 Added PureCSS Framework and basic portal page. 
-* V0.0.2 Added Mobile CSS Support. 
-* V0.0.3 Started building CSS Base.
-* V0.0.4 Full page css nearly done & mobile fixes.
-* V0.0.5 Added login and register handler. (Requires php 5.3.7)
-* V0.0.6 Added torrent file handling.
-* V0.0.7 Reworking the entire code base.
-* **V0.0.8 Added mobile torrent overview support.**
+A modern torrent search engine/website template that is easy to setup with an intuitive GUI. Engineered to be one of the easiest to use torrent websites out there. 
 
-| Item  | Status |
-| ------------- | ------------- |
-| ![chromeicon](http://findicons.com/files/icons/2781/google_jfk_icons/16/chrome_ico.png) Chrome compatibility  | 100%  |
-| ![firefoxicon](https://forums.digitalpoint.com/proxy/V%2FlNRoM4xGeK7bNGvqxMj7DCYGWbMtim7OburMxH1iFHf4167F%2Bek8n86jv%2FDB%2FLZMYRisyC71gNG8KyIGpDsg%3D%3D/image.png) Firefox compatibility  | 100%  |
-| ![ieicon](http://findicons.com/files/icons/2142/webset/16/ie.png) Explorer/Edge compatibility  | 100% |
-| Mobile support  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png) |
-| Secure register & login handler  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png)  |
-| Torrent metadata  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png)  |
-| Secure session handler  | ![check](http://findicons.com/files/icons/1694/sizcons/16/accept_green.png)  |
-| Torrent uploading | In progress. |
-| Off-site torrent caching support (iTorrents & torCache) | In progress. |
-| Seed/Peer Data  | ![incomplete](http://files.softicons.com/download/application-icons/boolean-icons-by-prax-08/png/16/Denied.png) |
-| User stats & preferences handling | ![incomplete](http://files.softicons.com/download/application-icons/boolean-icons-by-prax-08/png/16/Denied.png)  |
 
-Status list only contains parts of the website that are now being worked on, planned features will be added periodically.
+## Setup:
+1. Copy & Paste all files to your webspace.
+2. Setup a new MySQL database. For security purposes you should create a user with appropriate permissions.
+3. Change the database credentials inside 'config/config.ini.php'.
+4. Import all .sql files from the 'sql' folder.
 
-## Current used frameworks, libraries and modules:
-* PureCSS: css framework.
-* Font Awesome: font and CSS framework.
-* BCrypt compatibility library.
-* Torrent RW by github.com/adriengibrat.
-* Normalize.css by github.com/necolas.
+## Current features:
+- [x] User Register and Login.
+- [x] Torrent Uploading.
+- [x] Torrent Seed & Peer data.
+- [x] Crossbrowser compatibility.
+- [x] Mobile support.
+- [ ] Torrent Search.
 
-## Note
-This project is developed with the intention to learn new web technologies and broaden my knowledge of webdesign and user interface. I won't host a copy of this site anywhere except on my official "github.io" or "kevindurant.be" domain for demo and portfolio purposes. The project is MIT licensed and the code is free to use, when using this code for your personal project you agree that I cannot be held liable for any possible legal issues you're facing. This work will be free of copyrighted material, if data in this project breaks any IP or Copyright laws that corresponding data will get deleted.
+For a full overview of available features and what's to come see [this gist](https://gist.github.com/KevinJDurant/690ff206779582a404d481ab0a165519). Note: a lot of parts will probably be insecure during the early stages of development.
+
+## Open Source Credits for OpenTorrentSite:
+* BCrypt compatibility library:
+  -  [Project: password_compat v2.1.0](https://github.com/ircmaxell/password_compat)
+  -  Copyright ©, Anthony Ferrara
+  -  [License (MIT)](http://www.opensource.org/licenses/mit-license.html)
+* Torrent RW by github.com/adriengibrat:
+  -  [Project: Torrent-rw v0.0.3](https://github.com/adriengibrat/torrent-rw)
+  -  Copyright ©, Adrien Gibrat
+  -  [License (GPLv3)](http://www.gnu.org/licenses/gpl.html)
+* Normalize.css by github.com/necolas:
+  -  [Project: normalize.css v5.0.0](https://github.com/necolas/normalize.css)
+  -  Normalize.css is a project by Nicolas Gallagher, co-created with Jonathan Neal.
+  -  [License (MIT)](https://github.com/necolas/normalize.css/blob/master/LICENSE.md)
+* Scrapeer:
+  -  [Project: Scrapeer v0.4.8](https://github.com/medariox/Scrapeer)
+  -  Copyright ©, medariox
+  -  [License (MIT)](http://www.opensource.org/licenses/MIT)
+* Bootstrap:
+  -  [Project: Bootstrap v3.3.7](http://getbootstrap.com)
+  -  Code and documentation copyright 2011-2017 the Bootstrap Authors and Twitter, Inc.
+  -  [License (MIT)](https://github.com/twbs/bootstrap/blob/master/LICENSE)
+* Alertify.js:
+  -  [Project: Alertify.js v0.4.0](http://fabien-d.github.io/alertify.js/)
+  -  Copyright ©, Fabien Doiron
+  -  [License (MIT)](http://www.opensource.org/licenses/MIT)
+* TinyMCE:
+  -  [Project: TinyMCE v4.5.3](https://github.com/tinymce/tinymce)
+  -  [License (LGPLv2.1)](https://github.com/tinymce/tinymce/blob/master/LICENSE.TXT)
+
+## License
+MIT © [Kevin Durant](https://github.com/KevinJDurant)
