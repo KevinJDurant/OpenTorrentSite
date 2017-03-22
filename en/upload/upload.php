@@ -7,6 +7,9 @@
         session_start();
     }
 
+    // Include plugin.
+    include_once "../../plugins/private_signup_plugin.php";
+
     // Redirects if the user is not logged in.
     if(!isset($_SESSION["username"])) {
         header("Location: ../account/login.php");
@@ -104,7 +107,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#"><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                            <a href="../view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                         </li>
                                         <li>
                                             <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
@@ -200,11 +203,5 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../../js/bootstrap.min.js"></script>
-
-    <!-- Error notifications -->
-    <?php
-        
-    ?>
-
 </body>
 </html>

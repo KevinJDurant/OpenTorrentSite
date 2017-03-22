@@ -7,6 +7,9 @@
     // Include database accessor.
     include_once "../../php/dbaccess.php";
 
+    // Include plugin.
+    include_once "../../plugins/private_signup_plugin.php";
+
     // Start the session.
     if (!isset($_SESSION)) {
         session_start();
@@ -57,11 +60,6 @@
 
     <!-- Editor TinyMCE -->
     <script src="../../js/tinymce/tinymce.min.js"></script>
-
-    <!-- Alertify.js -->
-    <script src="../../../js/alertify/alertify.min.js"></script>
-    <link rel="stylesheet" href="../../../js/alertify/alertify.core.css" />
-    <link rel="stylesheet" href="../../../js/alertify/alertify.default.css" />
 
     <script>
         tinymce.init({
@@ -128,7 +126,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#"><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                            <a href="my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                         </li>
                                         <li>
                                             <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
@@ -152,23 +150,24 @@
             <!-- Search -->
             <div class="row">
                 <div class="col-lg-12">
-                    <form action="search.html">
+                    <form action="../search/search.php">
                         <div class="input-group">
                             <div class="input-group-btn search-panel">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                     <span id="search_concept">Category</span> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                  <li><a href="#movies">Movies</a></li>
-                                  <li><a href="#television">Television</a></li>
-                                  <li><a href="#music">Music</a></li>
-                                  <li><a href="#games">Games</a></li>
-                                  <li><a href="#software">Software</a></li>
-                                  <li><a href="#anime">Anime</a></li>
-                                  <li><a href="#books">Books</a></li>
-                                  <li><a href="#xxx">XXX</a></li>
+                                  <li><a href="1">Movies</a></li>
+                                  <li><a href="2">Television</a></li>
+                                  <li><a href="3">Music</a></li>
+                                  <li><a href="4">Games</a></li>
+                                  <li><a href="5">Software</a></li>
+                                  <li><a href="6">Anime</a></li>
+                                  <li><a href="7">Books</a></li>
+                                  <li><a href="8">XXX</a></li>
+                                  <li><a href="9">Other</a></li>
                                   <li class="divider"></li>
-                                  <li><a href="#anything">Anything</a></li>
+                                  <li><a href="all">Anything</a></li>
                                 </ul>
                             </div>
                             <input type="hidden" name="category" value="all" id="category">         
@@ -286,10 +285,6 @@
 
             return round($bytes, $precision) . ' ' . $units[$pow]; 
         } 
-
-        if(isset($_GET['success'])) {
-            echo '<script>alertify.success("Torrent uploaded!");</script>';
-        }
     ?>
 </body>
 </html>

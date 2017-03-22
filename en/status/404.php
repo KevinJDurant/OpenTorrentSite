@@ -1,15 +1,6 @@
 <?php
-    // Start the output buffer.
     ob_start();
-
-    // Setting the default timezone. (change this setting)
-    date_default_timezone_set('Europe/Brussels');
-
-    // Start the session.
-    if (!isset($_SESSION)) {
-        session_start();
-    }
-
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +14,7 @@
     <meta name="author" content="Kevin Durant">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>404 Oops... | OpenTorrentSite</title>
+    <title>404 | OpenTorrentSite</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -84,7 +75,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#"><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                        <a href="../view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                     </li>
                                     <li>
                                         <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
@@ -153,12 +144,6 @@
         });
     });
     </script>
-
-    <?php
-    if(isset($_GET['welcome']) && isset($_SESSION["username"])) {
-        echo '<script>alertify.success("Welcome!");</script>';
-    }
-    ?>
     
 </body>
 </html>

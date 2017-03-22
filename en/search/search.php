@@ -1,26 +1,29 @@
 <?php
-    // Start the output buffer.
     ob_start();
-
-    // Include database accessor.
-    include_once "php/dbaccess.php";
-
-    // Setting the default timezone. (change this setting)
+    session_start();
     date_default_timezone_set('Europe/Brussels');
 
-    // Start the session.
-    if (!isset($_SESSION)) {
-        session_start();
-    }
+    include_once "../../php/dbaccess.php";
+    include_once "../../plugins/private_signup_plugin.php";
 
-    // Include plugin.
-    include_once "plugins/private_signup_plugin.php";
-
-    // Fetch data.
     $db = new Db();
 
-    $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id");
-    $categories = $db -> select("SELECT * from categories");
+    if(!empty($_SESSION["userid"])) {
+        $userid = $_SESSION["userid"];
+        $temp = $userid;
+    }
+
+
+    //Implement search by userdID, category
+
+    $searchquery = $db->quote(htmlspecialchars($_GET['query']));
+    $category = $db->quote(htmlspecialchars($_GET['category']));
+
+    if($category != "'all'") {
+        $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE MATCH (t.name) AGAINST (".$searchquery." IN BOOLEAN MODE) AND c.id=".$category."");
+    } else {
+        $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE MATCH (t.name) AGAINST (".$searchquery." IN BOOLEAN MODE)");
+    }
 
     ?>
 
@@ -38,16 +41,16 @@
     <title>Browse | OpenTorrentSite</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Bootstrap CSS -->
-    <link href="css/1-col-portfolio.css" rel="stylesheet">
+    <link href="../../css/1-col-portfolio.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/custom.css" rel="stylesheet">
+    <link href="../../css/custom.css" rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/png" href="css/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="../../css/favicon.png"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -69,7 +72,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">OpenTorrentSite</a>
+                <a class="navbar-brand" href="../../index.php">OpenTorrentSite</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -81,16 +84,16 @@
                 <ul class="nav navbar-nav navbar-right">
                 <?php
                     if(!isset($_SESSION["username"])) {
-                        echo '<li><a href="en/account/register.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>';
-                        echo '<li><a href="en/account/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>';
+                        echo '<li><a href="../account/register.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>';
+                        echo '<li><a href="../account/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>';
                     } else {
-                        echo '<li><a href="en/upload/upload.php"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>';
+                        echo '<li><a href="../upload/upload.php"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>';
                         echo '
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="en/view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                        <a href="../view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                     </li>
                                     <li>
                                         <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
@@ -113,10 +116,9 @@
     <div class="container">
 
         <!-- Search -->
-        <!-- SELECT * FROM `torrents` WHERE MATCH (name) AGAINST ('arrival 1080 bluray') -->
         <div class="row">
             <div class="col-lg-12">
-                <form action="../en/search/search.php">
+                <form action="../search/search.php">
                     <div class="input-group">
                         <div class="input-group-btn search-panel">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -150,41 +152,37 @@
         <!-- Torrents -->
         <div class="row">
             <div class="col-lg-12">
-                <!-- Categories starts-->
+            <h1>Search results</h1>
                 <?php
-                    foreach ($categories as $cat) {
-                        echo '<h1>'.$cat["categoryname"].'</h1>';
-                        echo '<table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th width="50%">Name</th>
-                                        <th width="10%">Size</th>
-                                        <th width="10%">Age</th>
-                                        <th width="10%">Seeds</th>
-                                        <th width="10%">Leech</th>
-                                        <th width="10%">Download</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>';
-                        foreach ($torrents as $key[] => $row) {
-                            $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
-                            if($row["categoryname"] == $cat["categoryname"]) {
-                                echo '<tr>
-                                    <td class="Name" data-label="Name"><a href="en/view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
-                                        <small>by '.$row["username"].'</small>
-                                    </td>
-                                    <td data-label="Size">'.$row["size"].'</td>
-                                    <td data-label="Age">'. $diff->format("%ad").'</td>
-                                    <td data-label="Seeds">'.$row["seeders"].'</td>
-                                    <td data-label="Leech">'.$row["leechers"].'</td>
-                                    <td data-label="Download">
-                                        <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
-                                    </td>
-                                </tr>';
-                            }
-                        }
-                        echo '</tbody></table>';
+                    echo '<table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="50%">Name</th>
+                                    <th width="10%">Size</th>
+                                    <th width="10%">Age</th>
+                                    <th width="10%">Seeds</th>
+                                    <th width="10%">Leech</th>
+                                    <th width="10%">Download</th>
+                                </tr>
+                              </thead>
+                              <tbody>';
+                    foreach ($torrents as $key[] => $row) {
+                        $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
+                        echo '<tr>
+                            <td class="Name" data-label="Name"><a href="../view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
+                                <small>by '.$row["username"].'</small>
+                            </td>
+                            <td data-label="Size">'.$row["size"].'</td>
+                            <td data-label="Age">'. $diff->format("%ad").'</td>
+                            <td data-label="Seeds">'.$row["seeders"].'</td>
+                            <td data-label="Leech">'.$row["leechers"].'</td>
+                            <td data-label="Download">
+                                <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
+                            </td>
+                        </tr>';
+                        
                     }
+                    echo '</tbody></table>';
                 ?>
             </div>
         </div>
@@ -205,13 +203,13 @@
     <!-- /.container -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="../../js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
 
     <!-- Torrent Card -->
-    <script src="js/torrentcard.js"></script>
+    <script src="../../js/torrentcard.js"></script>
 
     <script>
     $(document).ready(function(e){

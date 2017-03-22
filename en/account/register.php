@@ -1,14 +1,8 @@
 <?php
-    // Start the output buffer.
     ob_start();
+    session_start();
 
-    // Include plugin.
     include_once "../../plugins/private_signup_plugin.php";
-
-    // Start the session.
-    if (!isset($_SESSION)) {
-        session_start();
-    }
 
     // Redirect if the user is already logged in.
     if(isset($_SESSION["username"])) {
@@ -83,7 +77,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#"><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                            <a href="../view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                         </li>
                                         <li>
                                             <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
@@ -111,20 +105,22 @@
             <div class="col-md-8">
             <h1>Register</h1>
             <hr>
-                <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" data-toggle="validator" id="form">
                     <!-- (username) -->
                     <div class="form-group row">
                       <label for="inputUsername" class="col-sm-2 col-form-label">Username</label>
                       <div class="col-sm-10">
-                        <input name="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required>
+                        <input name="username" type="text" class="form-control" id="inputUsername" placeholder="Username" data-minlength="4" data-error="Username must be longer than 4 characters" required>
+                        <div class="help-block with-errors"></div>
                       </div>
                     </div>
 
                     <!-- (mail) -->
                     <div class="form-group row">
-                      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                      <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                       <div class="col-sm-10">
-                        <input name="email" type="email" class="form-control" id="inputEmail3" placeholder="Email" required>
+                        <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Invalid email address" required>
+                        <div class="help-block with-errors"></div>
                       </div>
                     </div>
 
@@ -132,15 +128,17 @@
                     <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
                       <div class="col-sm-10">
-                        <input name="password" type="password" class="form-control" id="inputPassword3" placeholder="Password" required>
+                        <input name="password" type="password" class="form-control" id="inputPassword3" placeholder="Password" data-minlength="8" required>
+                        <div class="help-block">Minimum of 8 characters</div>
                       </div>
                     </div>
 
-                    <!-- (password) -->
+                    <!-- (passwordToValidate) -->
                     <div class="form-group row">
                       <label for="inputPassword" class="col-sm-2 col-form-label">Confirm password</label>
                       <div class="col-sm-10">
-                        <input name="tovalidatepassword" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                        <input name="tovalidatepassword" type="password" class="form-control" id="inputPassword" placeholder="Password" data-match="#inputPassword3" data-match-error="Passwords don't match" data-minlength="8" required>
+                        <div class="help-block with-errors"></div>
                       </div>
                     </div>
 
@@ -150,8 +148,9 @@
                       <div class="col-sm-10">
                         <div class="form-check">
                           <label class="form-check-label">
-                            <input name="remember" class="form-check-input" type="checkbox" required> I accept the TOS
+                            <input name="remember" class="form-check-input" type="checkbox" data-error="Please accept our terms" required> I accept the TOS
                           </label>
+                          <div class="help-block with-errors"></div>
                         </div>
                       </div>
                     </div>
@@ -163,6 +162,7 @@
                         <button type="submit" class="btn btn-primary">Register</button>
                       </div>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -188,6 +188,9 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../../js/bootstrap.min.js"></script>
+
+    <!-- Validator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
 
     <!-- Login handling -->
     <?php

@@ -52,7 +52,9 @@
 	    	$seeders = $info[$hash[0]]['seeders'];
 	    	$leechers = $info[$hash[0]]['leechers'];
 
-	    	$result = $db -> query("INSERT INTO `torrents` (`userid`,`categoryid`,`description`,`name`,`uploaddate`,`size`,`seeders`,`leechers`,`hash`,`magnet`,`files`) VALUES (" . $db -> quote($userid) . "," .$categoryid . "," . $description.",".$name .",".$uploaddate .",".$size .",".$seeders .",".$leechers .",".$db -> quote($hash[0]) .",".$magnet .",".$files .")"); 
+	    	$sanitizedname = $db->quote(str_replace( array( '\'', '"', ',' , ';', '<', '_','.','>' ), ' ', $name));
+
+	    	$result = $db -> query("INSERT INTO `torrents` (`userid`,`categoryid`,`description`,`name`,`uploaddate`,`size`,`seeders`,`leechers`,`hash`,`magnet`,`files`) VALUES (" . $db -> quote($userid) . "," .$categoryid . "," . $description.",".$sanitizedname .",".$uploaddate .",".$size .",".$seeders .",".$leechers .",".$db -> quote($hash[0]) .",".$magnet .",".$files .")"); 
 
 	        unlink($target_file);
 
@@ -64,7 +66,7 @@
 	}
 
 	/**
-	 * Converts torrent-rw announcelist to compatible Scrapeer arraè.
+	 * Converts torrent-rw announcelist to compatible Scrapeer array.
 	 *
 	 * @param array|string of tracker.
 	 * @return array List of results.

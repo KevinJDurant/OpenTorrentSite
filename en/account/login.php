@@ -1,14 +1,9 @@
 <?php
-    // Start the output buffer.
     ob_start();
+    session_start();
 
     // Include plugin.
     include_once "../../plugins/private_signup_plugin.php";
-
-    // Start the session.
-    if (!isset($_SESSION)) {
-        session_start();
-    }
 
     // Redirect if the user is already logged in.
     if(isset($_SESSION["username"])) {
@@ -38,11 +33,6 @@
 
     <!-- Custom CSS -->
     <link href="../../css/custom.css" rel="stylesheet">
-
-    <!-- Alertify.js -->
-    <script src="../../js/alertify/alertify.min.js"></script>
-    <link rel="stylesheet" href="../../../js/alertify/alertify.core.css" />
-    <link rel="stylesheet" href="../../../js/alertify/alertify.default.css" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="../../css/favicon.png"/>
@@ -88,7 +78,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#"><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                            <a href="../view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                         </li>
                                         <li>
                                             <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
@@ -116,20 +106,22 @@
             <div class="col-md-8">
             <h1>Login</h1>
             <hr>
-                <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" data-toggle="validator">
+
                     <!-- (mail) -->
                     <div class="form-group row">
-                      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                      <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                       <div class="col-sm-10">
-                        <input name="email" type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                        <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Invalid email address" required>
+                        <div class="help-block with-errors"></div>
                       </div>
                     </div>
 
                     <!-- (password) -->
                     <div class="form-group row">
-                      <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                      <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                       <div class="col-sm-10">
-                        <input name="password" type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                        <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password" data-minlength="8" required>
                       </div>
                     </div>
 
@@ -152,6 +144,7 @@
                         <button type="submit" class="btn btn-primary">Sign in</button>
                       </div>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -178,15 +171,13 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="../../js/bootstrap.min.js"></script>
 
+    <!-- Validator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
+
     <!-- Login handling -->
     <?php
         include_once "../../php/user_login_handler.php";
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if(empty($_POST['mail']) || empty($_POST['password'])) {
-                echo '<script>alertify.error("There was something wrong with your data.");</script>';
-            }
-        }
 
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
             login();
