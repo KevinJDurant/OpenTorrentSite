@@ -46,7 +46,7 @@ For a full overview of available features and what's to come see [this gist](htt
   -  [Project: Bootstrap v3.3.7](http://getbootstrap.com)
   -  Code and documentation copyright 2011-2017 the Bootstrap Authors and Twitter, Inc.
   -  [License (MIT)](https://github.com/twbs/bootstrap/blob/master/LICENSE)
-* Alertify.js:
+* Validator:
   -  [Project: Validator, for Bootstrap 3 v0.11.9](https://github.com/1000hz/bootstrap-validator)
   -  Copyright ©, Cina Saffary
   -  [License (MIT)](https://github.com/1000hz/bootstrap-validator/blob/master/LICENSE)
