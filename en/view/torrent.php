@@ -1,6 +1,4 @@
 <?php
-    // TestLink: http://localhost:8080/en/view/torrent.php?hash=2f33274c1c0f09cb4f57217ac979b95f4d7310e4&id=15
-
     // Start the output buffer.
     ob_start();
 
@@ -132,7 +130,7 @@
                                             <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                         </li>
                                         <li>
-                                            <a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                                            <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                                         </li>
                                     </ul>
                                 </li>';

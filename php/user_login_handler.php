@@ -4,66 +4,171 @@
 
 	date_default_timezone_set('Europe/Brussels');
 
+	/**
+	 * Starts the register process.
+	 *
+	 */
 	function register() {
 		$db = new Db();
 
-		// Attributes
-		$password = $db -> quote($_POST['password']);
-		$toValidatePassword = $db -> quote($_POST['tovalidatepassword']);
-		$email = $db -> quote($_POST['email']);
-		$username = $db -> quote($_POST['username']);
+		$password = $db -> quote(htmlspecialchars($_POST['password']));
+		$toValidatePassword = $db -> quote(htmlspecialchars($_POST['tovalidatepassword']));
+		$email = $db -> quote(htmlspecialchars($_POST['email']));
+		$username = $db -> quote(htmlspecialchars($_POST['username']));
+		$mysql_date = $db -> quote(date('Y-m-d'));
 
-		// Log user join date.
-		$mysql_date = date('Y-m-d');
+		if(valid_register_postdata()) {
+			if(!is_temp_mail(htmlspecialchars($_POST['email']))) {
+				if(passwords_match($password,$toValidatePassword)) {
+					if(valid_password(htmlspecialchars($_POST['password']))) {
+						if(!already_registered($email,$username,$db)) {
+							$hashed_password = password_hash($password, PASSWORD_BCRYPT);
+							$key = md5(uniqid(rand(), true));
 
-		// Hash the password.
-		$hashed_password = password_hash($password, PASSWORD_BCRYPT);
+							$result = $db -> query("INSERT INTO `users` (`email`, `reg_date`, `username`, `password`, `tempkey`) VALUES (" . $email . "," .$mysql_date . "," . $username.",'".$hashed_password ."','".$key ."')"); 
+							$userid = $db -> select("SELECT `user_id` FROM `users` WHERE `email`=".$email."");
 
-		// Insert everything into the database if passwords match.
-		if($password == $toValidatePassword) {
-			$key = md5(uniqid(rand(), true));
+							$_SESSION["username"] = htmlspecialchars($_POST['username']);
+							$_SESSION["email"] = htmlspecialchars($_POST['email']);
+							$_SESSION["userid"] = $userid[0]['user_id'];
+							$_SESSION["key"] = $key;
 
-			$result = $db -> query("INSERT INTO `users` (`email`, `reg_date`, `username`, `password`, `tempkey`) VALUES (" . $email . ",'" .$mysql_date . "'," . $username.",'".$hashed_password ."','".$key ."')"); 
-
-			$userid = $db -> select("SELECT `user_id` FROM `users` WHERE `email`=".$email."");
-
-			$_SESSION["username"] = $_POST['email'];
-			$_SESSION["userid"] = $userid;
-			$_SESSION["key"] = $key;
-
-			header("Location: ../../index.php");
+							header("Location: ../../index.php");
+						} else {
+							exit(form_feedback("This email or username is already being used."));
+						}
+					} else {
+						exit(form_feedback("Password should be longer than 8 characters."));
+					}
+				} else {
+					exit(form_feedback("The provided passwords don't match."));
+				}
+			} else {
+				exit(form_feedback("Please use a valid email address."));
+			}
 		} else {
-			// GUI Feedback.
-
+			exit(form_feedback("Please fill out the form."));
 		}
 	}
 
+	/**
+	 * Starts the login process.
+	 *
+	 */
 	function login() {
-		$db = new Db();
-
-		// Attributes
-		$password = $db -> quote($_POST['password']);
-		$email = $db -> quote($_POST['email']);
-
-		// Get the required data to verify the users login attempt.
-		$result = $db -> select("SELECT `user_id`,`password`,`email` FROM `users` WHERE `email`=".$email."");
-
-		// Verify the password.
-		if (password_verify($password, $result[0]['password'])) {
-			$key = md5(uniqid(rand(), true));
-
-			$insertResult = $db -> query("UPDATE `users` SET `tempkey`='".$key."' WHERE `email`=".$email."");
-
-			// Set session data.
-			$_SESSION["username"] = $result[0]['email'];
-			$_SESSION["userid"] = $result[0]['user_id'];
-			$_SESSION["key"] = $key;
-
-			// Redirect the user.
-			header("Location: ../../index.php?welcome");
-		} else {
-			// GUI Feedback.
+		if(valid_login_postdata()) {
+			$db = new Db();
 			
+			$password = $db -> quote(htmlspecialchars($_POST['password']));
+			$email = $db -> quote(htmlspecialchars($_POST['email']));
+
+			if(valid_password(htmlspecialchars($_POST['password']))) {
+				$result = $db -> select("SELECT `user_id`,`username`,`password`,`email` FROM `users` WHERE `email`=".$email."");
+				if(count($result) != 0) {
+					if (password_verify($password, $result[0]['password'])) {
+						$key = md5(uniqid(rand(), true));
+						$db -> query("UPDATE `users` SET `tempkey`='".$key."' WHERE `email`=".$email."");
+
+						$_SESSION["username"] = $result[0]['username'];
+						$_SESSION["email"] = $result[0]['email'];
+						$_SESSION["userid"] = $result[0]['user_id'];
+						$_SESSION["key"] = $key;
+
+						header("Location: ../../index.php");
+					} else {
+						exit(form_feedback("Wrong email or password."));
+					}
+				} else {
+					exit(form_feedback("User not found."));
+				}
+			} else {
+				exit(form_feedback("The password you entered was shorter than 8 characters."));
+			}
+		} else {
+			exit(form_feedback("Please enter your credentials."));
 		}
+	}
+
+
+	/**
+	 * Checks if the provided email address is blacklisted.
+	 *
+	 * @param string of email.
+	 * @return boolean.
+	 */
+	function is_temp_mail($mail) {
+    	$mail_domains_ko = file('https://raw.githubusercontent.com/martenson/disposable-email-domains/master/disposable_email_blacklist.conf', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    	return in_array(explode('@', htmlspecialchars($mail))[1], $mail_domains_ko);
+	}
+
+	/**
+	 * Checks if the passwords match at register.
+	 *
+	 * @param string of password.
+	 * @param string of confirmed password.
+	 * @return boolean.
+	 */
+	function passwords_match($password,$confirm) {
+    	if($password == $confirm) return true;
+		return false;
+	}
+
+	/**
+	 * Checks if there is already a user registered using this mail address or username.
+	 *
+	 * @param string of mail.
+	 * @param string of username.
+	 * @param object of database.
+	 * @return boolean.
+	 */
+	function already_registered($mail, $username, $db) {
+		$mailresult = $db -> select("SELECT `email` FROM `users` WHERE `email`=".$mail."");
+		$userresult = $db -> select("SELECT `username` FROM `users` WHERE `username`=".$username."");
+		if(count($mailresult) == 0 && count($userresult) == 0) return false;
+		return true;
+	}
+
+	/**
+	 * Checks if the password is longer than 8 characters.
+	 *
+	 * @param string of password.
+	 * @return boolean.
+	 */
+	function valid_password($password) {
+		if(strlen($password) >= 8) return true;
+		return false;
+	}
+
+	/**
+	 * Checks if the login form post variables aren't empty.
+	 *
+	 * @return boolean.
+	 */
+	function valid_login_postdata() {
+		if(!empty($_POST['password']) && !empty($_POST['email'])) return true;
+		return false;
+	}
+
+	/**
+	 * Checks if the register form post variables aren't empty.
+	 *
+	 * @return boolean.
+	 */
+	function valid_register_postdata() {
+		if(!empty($_POST['password']) && !empty($_POST['email']) && !empty($_POST['tovalidatepassword']) && !empty($_POST['username'])) return true;
+		return false;
+	}
+
+	/**
+	 * Unhides the formfeedback and displays error text.
+	 *
+	 * @param string of error.
+	 * @return javascript.
+	 */
+	function form_feedback($error) {
+		echo '<script>';
+		echo 'var element = document.getElementById("feedback").removeAttribute("style");';
+		echo 'var element = document.getElementById("feedback").innerHTML ="'.$error.'";';
+		echo '</script>';
 	}
 ?>

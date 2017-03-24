@@ -6,7 +6,7 @@
     include_once "../../plugins/private_signup_plugin.php";
 
     // Redirect if the user is already logged in.
-    if(isset($_SESSION["username"])) {
+    if(!empty($_SESSION["username"])) {
         header("Location: ../../index.php");
         exit;
     }
@@ -107,7 +107,7 @@
             <h1>Login</h1>
             <hr>
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" data-toggle="validator">
-
+                    <div id="feedback" style="display: none;" class="alert alert-danger"></div>
                     <!-- (mail) -->
                     <div class="form-group row">
                       <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
@@ -181,9 +181,7 @@
 
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
             login();
-            unset($_POST);
         }
-
     ?>
 
 </body>

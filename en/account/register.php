@@ -106,6 +106,8 @@
             <h1>Register</h1>
             <hr>
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" data-toggle="validator" id="form">
+                    <div id="feedback" style="display: none;" class="alert alert-danger"></div>
+
                     <!-- (username) -->
                     <div class="form-group row">
                       <label for="inputUsername" class="col-sm-2 col-form-label">Username</label>
@@ -196,9 +198,8 @@
     <?php
         include_once "../../php/user_login_handler.php";
 
-        if (isset($_POST['password']) && isset($_POST['email']) && isset($_POST['tovalidatepassword']) && isset($_POST['username'])) {
+        if (!empty($_POST['password']) && !empty($_POST['email']) && !empty($_POST['tovalidatepassword']) && !empty($_POST['username'])) {
             register();
-            unset($_POST);
         }
     ?>
 

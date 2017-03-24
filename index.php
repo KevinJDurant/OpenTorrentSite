@@ -96,7 +96,7 @@
                                         <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                     </li>
                                     <li>
-                                        <a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                                        <a href="/en/account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                                     </li>
                                 </ul>
                             </li>';

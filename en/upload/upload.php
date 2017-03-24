@@ -1,17 +1,12 @@
 <?php
-    // Start the output buffer.
     ob_start();
-
-    // Start the session.
-    if (!isset($_SESSION)) {
-        session_start();
-    }
+    session_start();
 
     // Include plugin.
     include_once "../../plugins/private_signup_plugin.php";
 
     // Redirects if the user is not logged in.
-    if(!isset($_SESSION["username"])) {
+    if(empty($_SESSION["username"])) {
         header("Location: ../account/login.php");
         exit;
     }
@@ -113,7 +108,7 @@
                                             <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                         </li>
                                         <li>
-                                            <a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                                            <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                                         </li>
                                     </ul>
                                 </li>';
@@ -135,16 +130,9 @@
             <div class="col-md-8">
             <h1>Upload</h1>
             <hr>
-
-                <!--    Data to pass:
-                        UploaderId, CategoryId, Description, Name
-
-                        To be made dynamic:
-                        Categories, Torrent Name.
-                 -->
-
                 <!-- (start form) -->
-                <form action="../../php/torrent_upload_handler.php" method="post" enctype="multipart/form-data">
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" enctype="multipart/form-data">
+                    <div id="feedback" style="display: none;" class="alert alert-danger"></div>
                     <!-- (name) -->
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -203,5 +191,14 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../../js/bootstrap.min.js"></script>
+
+    <!-- Login handling -->
+    <?php
+        include_once "../../php/torrent_upload_handler.php";
+
+        if (!empty($_POST['categoryId']) && !empty($_FILES["fileToUpload"])) {
+            upload();
+        }
+    ?>
 </body>
 </html>

@@ -13,7 +13,6 @@
         $temp = $userid;
     }
 
-
     //Implement search by userdID, category
 
     $searchquery = $db->quote(htmlspecialchars($_GET['query']));
@@ -99,7 +98,7 @@
                                         <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                     </li>
                                     <li>
-                                        <a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                                        <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                                     </li>
                                 </ul>
                             </li>';

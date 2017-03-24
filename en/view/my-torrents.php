@@ -13,10 +13,10 @@
     }
 
     $db = new Db();
+    
     $userid = $_SESSION["userid"];
-    $temp = $userid;
 
-    $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE t.userid=".$temp."");
+    $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE t.userid=".$userid."");
 
     ?>
 
@@ -92,7 +92,7 @@
                                         <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                     </li>
                                     <li>
-                                        <a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                                        <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                                     </li>
                                 </ul>
                             </li>';
@@ -159,7 +159,8 @@
                                 </tr>
                               </thead>
                               <tbody>';
-                    foreach ($torrents as $key[] => $row) {
+                    if(count($torrents) != 0) {
+                        foreach ($torrents as $key[] => $row) {
                         $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
                         echo '<tr>
                             <td class="Name" data-label="Name"><a href="../view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
@@ -173,7 +174,7 @@
                                 <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
                             </td>
                         </tr>';
-                        
+                        }
                     }
                     echo '</tbody></table>';
                 ?>

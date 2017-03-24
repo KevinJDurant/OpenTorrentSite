@@ -1,6 +1,6 @@
 # OpenTorrentSite 
 
-_**Current version "0.1.2"**_ 
+_**Current version "0.1.3"**_ 
 
 A modern torrent search engine/website template that is easy to setup with an intuitive GUI. Engineered to be one of the easiest to use torrent websites out there. 
 
@@ -8,6 +8,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 ![Index](http://i.imgur.com/ovyRdj2.png)
 ![Detail](http://i.imgur.com/jly4Mch.png)
 ![Upload](http://i.imgur.com/YDtYYTt.png)
+![Mobile](http://i.imgur.com/PlQSPUr.png)
 
 ## Setup:
 1. Copy & Paste all files to your webspace.
