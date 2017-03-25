@@ -20,7 +20,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
-    <meta name="author" content="Kevin Durant">
+    <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Login | OpenTorrentSite</title>

@@ -22,8 +22,7 @@
     $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id");
     $categories = $db -> select("SELECT * from categories");
 
-    ?>
-
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +31,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
-    <meta name="author" content="Kevin Durant">
+    <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Browse | OpenTorrentSite</title>
@@ -61,7 +60,6 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -71,7 +69,6 @@
                 </button>
                 <a class="navbar-brand" href="index.php">OpenTorrentSite</a>
             </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 				    <li>
@@ -113,7 +110,6 @@
     <div class="container">
 
         <!-- Search -->
-        <!-- SELECT * FROM `torrents` WHERE MATCH (name) AGAINST ('arrival 1080 bluray') -->
         <div class="row">
             <div class="col-lg-12">
                 <form action="../en/search/search.php">
@@ -154,14 +150,14 @@
                 <?php
                     foreach ($categories as $cat) {
                         echo '<h1>'.$cat["categoryname"].'</h1>';
-                        echo '<table class="table table-striped">
+                        echo '<table class="table table-striped" id="'.$cat["id"].'">
                                 <thead>
                                     <tr>
-                                        <th width="50%">Name</th>
-                                        <th width="10%">Size</th>
-                                        <th width="10%">Age</th>
-                                        <th width="10%">Seeds</th>
-                                        <th width="10%">Leech</th>
+                                        <th width="50%"><small><span class="glyphicon glyphicon-sort"></span></small>Name</th>
+                                        <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Size</th>
+                                        <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Age</th>
+                                        <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Seeds</th>
+                                        <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Leech</th>
                                         <th width="10%">Download</th>
                                     </tr>
                                   </thead>
@@ -224,6 +220,16 @@
         });
     });
     </script>
+
+    <!-- Tablesort -->
+    <script src="js/jquery.tablesorter.js"></script>
     
+    <script>
+    $(document).ready(function() { 
+        <?php
+        foreach ($categories as $cat) {
+        echo '$("#'.$cat["id"].'").tablesorter();
+        ';}?>});
+    </script>
 </body>
 </html>

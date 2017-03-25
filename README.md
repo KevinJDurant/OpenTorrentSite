@@ -1,14 +1,14 @@
 # OpenTorrentSite 
 
-_**Current version "0.1.3"**_ 
+_**Current version "0.1.4"**_ 
 
-A modern torrent search engine/website template that is easy to setup with an intuitive GUI. Engineered to be one of the easiest to use torrent websites out there. 
+A modern torrent search engine/website template that is easy to setup with an intuitive GUI. Engineered to be one of the easiest to use torrent website out there. This site doesn't scrape torrents from any sources, it's only a template you can use to start hosting your own torrent site.
 
 ## Design
-![Index](http://i.imgur.com/ovyRdj2.png)
+![Index](http://i.imgur.com/bP7n07l.png)
 ![Detail](http://i.imgur.com/jly4Mch.png)
 ![Upload](http://i.imgur.com/YDtYYTt.png)
-![Mobile](http://i.imgur.com/PlQSPUr.png)
+![Mobile](http://i.imgur.com/0ZBW6JR.png)
 
 ## Setup:
 1. Copy & Paste all files to your webspace.
@@ -54,6 +54,11 @@ For a full overview of available features and what's to come see [this gist](htt
 * TinyMCE:
   -  [Project: TinyMCE v4.5.3](https://github.com/tinymce/tinymce)
   -  [License (LGPLv2.1)](https://github.com/tinymce/tinymce/blob/master/LICENSE.TXT)
+* Tablesorter:
+  -  [Project: Tablesorter v2.0.5b](https://github.com/christianbach/tablesorter)
+  -  Copyright ©, Christian Bach
+  -  [License (MIT)](http://www.opensource.org/licenses/mit-license.php)
+  -  [License (GPL)](http://www.gnu.org/licenses/gpl.html)
 
 ## License
 MIT © [Kevin Durant](https://github.com/KevinJDurant)

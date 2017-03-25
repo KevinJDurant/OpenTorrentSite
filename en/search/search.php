@@ -34,7 +34,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
-    <meta name="author" content="Kevin Durant">
+    <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Browse | OpenTorrentSite</title>
@@ -153,14 +153,14 @@
             <div class="col-lg-12">
             <h1>Search results</h1>
                 <?php
-                    echo '<table class="table table-striped">
+                    echo '<table class="table table-striped" id="results">
                             <thead>
                                 <tr>
-                                    <th width="50%">Name</th>
-                                    <th width="10%">Size</th>
-                                    <th width="10%">Age</th>
-                                    <th width="10%">Seeds</th>
-                                    <th width="10%">Leech</th>
+                                    <th width="50%"><small><span class="glyphicon glyphicon-sort"></span></small>Name</th>
+                                    <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Size</th>
+                                    <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Age</th>
+                                    <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Seeds</th>
+                                    <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Leech</th>
                                     <th width="10%">Download</th>
                                 </tr>
                               </thead>
@@ -222,5 +222,15 @@
     });
     </script>
     
+    <!-- Tablesort -->
+    <script src="../../js/jquery.tablesorter.js"></script>
+    
+    <script>
+    $(document).ready(function() 
+        { 
+            $("#results").tablesorter(); 
+        } 
+    ); 
+    </script>
 </body>
 </html>
