@@ -1,7 +1,7 @@
 <?php
-	require_once 'torrent_metadata_handler.php';
-	require_once 'torrent_scrapedata_handler.php';
-	require_once "dbaccess.php";
+	require_once 'libs/parser.php';
+	require_once 'libs/scraper.php';
+	require_once 'libs/database.php';
 
 	date_default_timezone_set('Europe/Brussels');
 	

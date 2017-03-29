@@ -3,7 +3,7 @@
     ob_start();
 
     // Include database accessor.
-    include_once "php/dbaccess.php";
+    include_once "php/libs/database.php";
 
     // Setting the default timezone. (change this setting)
     date_default_timezone_set('Europe/Brussels');
@@ -174,6 +174,7 @@
                                     <td data-label="Seeds">'.$row["seeders"].'</td>
                                     <td data-label="Leech">'.$row["leechers"].'</td>
                                     <td data-label="Download">
+                                        <a href="http://itorrents.org/torrent/'.$row["hash"].'.torrent"><span class="glyphicon glyphicon-download-alt link"></span></a>
                                         <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
                                     </td>
                                 </tr>';

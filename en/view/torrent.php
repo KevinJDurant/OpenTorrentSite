@@ -2,10 +2,7 @@
     // Start the output buffer.
     ob_start();
 
-    // Include database accessor.
-    include_once "../../php/dbaccess.php";
-
-    // Include plugin.
+    include_once "../../php/libs/database.php";
     include_once "../../plugins/private_signup_plugin.php";
 
     // Start the session.
@@ -188,7 +185,7 @@
 
                 <!-- Uploader -->
                 <p class="lead">
-                    by <a href="#"><?php echo $uploader[0]["username"]; ?></a>
+                    by <a href=""><?php echo $uploader[0]["username"]; ?></a>
                 </p>
 
                 <hr>
@@ -237,13 +234,13 @@
             <div class="col-md-4">
                 <!-- Blog Search Well -->
                 <div class="well">
-                    <h4>Stats & Download</h4>
+                    <h4>Stats &amp; Download</h4>
                         Size: <?php echo $torrent[0]["size"]; ?> <br/>
                         Seeders: <?php echo $torrent[0]["seeders"]; ?> <br/>
                         Leechers: <?php echo $torrent[0]["leechers"]; ?> <br/>
                         <br />
-                        <a href="<?php echo $torrent[0]["magnet"]; ?>"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-magnet"></span></button></a>
-                        <br/>
+                        <a href="http://itorrents.org/torrent/<?php echo $_GET["hash"];?>.torrent"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span></button></a>
+                        <a href="<?php echo $torrent[0]["magnet"]; ?>"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-magnet"></span></button></a>                        
                 </div>
             </div>
 
@@ -284,5 +281,6 @@
             return round($bytes, $precision) . ' ' . $units[$pow]; 
         } 
     ?>
+
 </body>
 </html>

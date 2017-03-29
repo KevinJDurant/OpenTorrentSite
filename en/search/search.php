@@ -3,7 +3,7 @@
     session_start();
     date_default_timezone_set('Europe/Brussels');
 
-    include_once "../../php/dbaccess.php";
+    include_once "../../php/libs/database.php";
     include_once "../../plugins/private_signup_plugin.php";
 
     $db = new Db();

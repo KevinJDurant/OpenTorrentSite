@@ -4,7 +4,7 @@
     session_start();
     date_default_timezone_set('Europe/Brussels');
 
-    include_once "../../php/dbaccess.php";
+    include_once "../../php/libs/database.php";
     include_once "../../plugins/private_signup_plugin.php";
 
     if(empty($_SESSION["userid"])) {
@@ -147,14 +147,14 @@
             <div class="col-lg-12">
             <h1>My torrents</h1>
                 <?php
-                    echo '<table class="table table-striped">
+                    echo '<table class="table table-striped" id="mytorrents">
                             <thead>
                                 <tr>
-                                    <th width="50%">Name</th>
-                                    <th width="10%">Size</th>
-                                    <th width="10%">Age</th>
-                                    <th width="10%">Seeds</th>
-                                    <th width="10%">Leech</th>
+                                    <th width="50%"><span class="glyphicon glyphicon-sort"></span></small>Name</th>
+                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Size</th>
+                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Age</th>
+                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Seeds</th>
+                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Leech</th>
                                     <th width="10%">Download</th>
                                 </tr>
                               </thead>
@@ -171,6 +171,7 @@
                             <td data-label="Seeds">'.$row["seeders"].'</td>
                             <td data-label="Leech">'.$row["leechers"].'</td>
                             <td data-label="Download">
+                                <a href="http://itorrents.org/torrent/'.$row["hash"].'.torrent"><span class="glyphicon glyphicon-download-alt link"></span></a>
                                 <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
                             </td>
                         </tr>';
@@ -217,5 +218,13 @@
     });
     </script>
     
+    <!-- Tablesort -->
+    <script src="../../js/jquery.tablesorter.js"></script>
+    
+    <script>
+        $(document).ready(function() { 
+            $("#mytorrents").tablesorter();
+        });
+    </script>
 </body>
 </html>

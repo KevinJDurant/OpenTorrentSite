@@ -177,7 +177,7 @@
 
     <!-- Login handling -->
     <?php
-        include_once "../../php/user_login_handler.php";
+        include_once "../../php/login.php";
 
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
             login();

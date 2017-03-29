@@ -194,7 +194,7 @@
 
     <!-- Login handling -->
     <?php
-        include_once "../../php/torrent_upload_handler.php";
+        include_once "../../php/upload.php";
 
         if (!empty($_POST['categoryId']) && !empty($_FILES["fileToUpload"])) {
             upload();

@@ -1,6 +1,6 @@
 # OpenTorrentSite 
 
-_**Current version "0.1.4"**_ 
+_**Current version "0.1.5"**_ 
 
 A modern torrent search engine/website template that is easy to setup with an intuitive GUI. Engineered to be one of the easiest to use torrent website out there. This site doesn't scrape torrents from any sources, it's only a template you can use to start hosting your own torrent site.
 
