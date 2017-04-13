@@ -1,5 +1,5 @@
 # OpenTorrentSite 
-[![GitHub version](https://img.shields.io/badge/version-0.1.5-brightgreen.svg)]()
+[![GitHub version](https://img.shields.io/badge/version-0.1.6-brightgreen.svg)]()
 [![GitHub issues](https://img.shields.io/github/issues/KevinJDurant/OpenTorrentSite.svg)](https://github.com/KevinJDurant/OpenTorrentSite/issues)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/KevinJDurant/OpenTorrentSite/master/LICENSE)
 
@@ -24,7 +24,9 @@ A modern torrent search engine/website template that is easy to setup with an in
 - [x] Crossbrowser compatibility.
 - [x] Mobile support.
 - [x] Torrent Search.
-- [ ] Correct popular overview.
+- [x] Popular overview.
+	- Currently gets the top 10 seeded torrents of the past 7 days for that category.
+- [ ] Category overview.
 
 For a full overview of available features and what's to come see [this gist](https://gist.github.com/KevinJDurant/690ff206779582a404d481ab0a165519). Note: a lot of parts will probably be insecure during the early stages of development.
 
