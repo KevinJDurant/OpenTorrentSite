@@ -18,7 +18,6 @@
 		$mysql_date = $db -> quote(date('Y-m-d'));
 
 		if(valid_register_postdata()) {
-			if(!is_temp_mail(htmlspecialchars($_POST['email']))) {
 				if(passwords_match($password,$toValidatePassword)) {
 					if(valid_password(htmlspecialchars($_POST['password']))) {
 						if(!already_registered($email,$username,$db)) {
@@ -43,9 +42,6 @@
 				} else {
 					exit(form_feedback("The provided passwords don't match."));
 				}
-			} else {
-				exit(form_feedback("Please use a valid email address."));
-			}
 		} else {
 			exit(form_feedback("Please fill out the form."));
 		}
@@ -61,16 +57,6 @@
 		return false;
 	}
 
-	/**
-	 * Checks if the provided email address is blacklisted.
-	 *
-	 * @param string of email.
-	 * @return boolean.
-	 */
-	function is_temp_mail($mail) {
-    	$mail_domains_ko = file('https://raw.githubusercontent.com/martenson/disposable-email-domains/master/disposable_email_blacklist.conf', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    	return in_array(explode('@', htmlspecialchars($mail))[1], $mail_domains_ko);
-	}
 
 	/**
 	 * Checks if the passwords match at register.

@@ -13,23 +13,23 @@
 			$db = new Db();
 			
 			$password = $db -> quote(htmlspecialchars($_POST['password']));
-			$email = $db -> quote(htmlspecialchars($_POST['email']));
+			$username = $db -> quote(htmlspecialchars($_POST['username']));
 
 			if(valid_password(htmlspecialchars($_POST['password']))) {
-				$result = $db -> select("SELECT `user_id`,`username`,`password`,`email` FROM `users` WHERE `email`=".$email."");
+				$result = $db -> select("SELECT `user_id`,`username`,`password`,`username` FROM `users` WHERE `username`=".$username."");
 				if(count($result) != 0) {
 					if (password_verify($password, $result[0]['password'])) {
 						$key = md5(uniqid(rand(), true));
-						$db -> query("UPDATE `users` SET `tempkey`='".$key."' WHERE `email`=".$email."");
+						$db -> query("UPDATE `users` SET `tempkey`='".$key."' WHERE `username`=".$username."");
 
 						$_SESSION["username"] = $result[0]['username'];
-						$_SESSION["email"] = $result[0]['email'];
+						$_SESSION["username"] = $result[0]['username'];
 						$_SESSION["userid"] = $result[0]['user_id'];
 						$_SESSION["key"] = $key;
 
 						header("Location: ../../index.php");
 					} else {
-						exit(form_feedback("Wrong email or password."));
+						exit(form_feedback("Wrong username or password."));
 					}
 				} else {
 					exit(form_feedback("User not found."));
@@ -59,7 +59,7 @@
 	 * @return boolean.
 	 */
 	function valid_login_postdata() {
-		if(!empty($_POST['password']) && !empty($_POST['email'])) return true;
+		if(!empty($_POST['password']) && !empty($_POST['username'])) return true;
 		return false;
 	}
 
