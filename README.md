@@ -31,7 +31,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 - [ ] Sort by seeders/leechers
 - [ ] User comment section
 - [ ] Remove torrent
-- [ ] Edit torrent descripion
+- [ ] Edit torrent description
 
 For a full overview of available features and what's to come see [this gist](https://gist.github.com/KevinJDurant/690ff206779582a404d481ab0a165519). Note: a lot of parts will probably be insecure during the early stages of development.
 
