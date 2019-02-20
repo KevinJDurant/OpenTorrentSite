@@ -27,6 +27,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 - [x] Popular overview.
 	- Currently gets the top 10 seeded torrents of the past 7 days for that category.
 - [ ] Category overview.
+- [ ] Sort by seeders/leechers
 
 For a full overview of available features and what's to come see [this gist](https://gist.github.com/KevinJDurant/690ff206779582a404d481ab0a165519). Note: a lot of parts will probably be insecure during the early stages of development.
 
