@@ -10,11 +10,11 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
+    <meta name="description" content="OpenTorrents: Free Software, Games and Music!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>404 | OpenTorrentSite</title>
+    <title>404 | OpenTorrents</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -54,13 +54,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../../index.php">OpenTorrentSite</a>
+                <a class="navbar-brand" href="../../index.php">OpenTorrents</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 				    <li>
-                        <a href="#">News</a>
+                        <a href="../../news.php">News</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -118,7 +118,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2017</p>
+                    <p>Sorry we couldn't find the page you were looking for.</p>
                 </div>
             </div>
             <!-- /.row -->

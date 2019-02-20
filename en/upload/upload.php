@@ -20,11 +20,11 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
+    <meta name="description" content="OpenTorrents: Free Software, Games and Music!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Upload | OpenTorrentSite</title>
+    <title>Upload | OpenTorrents</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -81,13 +81,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../../index.php">OpenTorrentSite</a>
+                <a class="navbar-brand" href="../../index.php">OpenTorrents</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 				    <li>
-                        <a href="#">News</a>
+                        <a href="../../news.php">News</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -149,9 +149,10 @@
                             <option value="4">Games</option>
                             <option value="5">Software</option>
                             <option value="6">Anime</option>
-                            <option value="7">Books</option>
-                            <option value="8">XXX</option>
-                            <option value="9">Other</option>
+                            <option value="7">3D Prints</a></li>
+							<option value="8">Books</a></li>
+                            <option value="9">XXX</a></li>
+                            <option value="10">Other</a></li>
                         </select>
                     </div>
                     <!-- (description) -->
@@ -177,7 +178,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2017</p>
+                    <p>Thank you for sharing :3</p>
                 </div>
             </div>
             <!-- /.row -->
