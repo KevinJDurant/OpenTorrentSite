@@ -13,9 +13,10 @@ A modern torrent search engine/website template that is easy to setup with an in
 
 ## Setup:
 1. Copy & Paste all files to your webspace.
-2. Setup a new MySQL database. For security purposes you should create a user with appropriate permissions.
-3. Change the database credentials inside 'config/config.ini.php'.
-4. Import all .sql files from the 'sql' folder.
+2. Create a folder called "torrents" in the root directory
+3. Setup a new MySQL database. For security purposes you should create a user with appropriate permissions.
+4. Change the database credentials inside 'config/config.ini.php'.
+5. Import all .sql files from the 'sql' folder.
 
 ## Current features:
 - [x] User Register and Login.
@@ -28,6 +29,9 @@ A modern torrent search engine/website template that is easy to setup with an in
 	- Currently gets the top 10 seeded torrents of the past 7 days for that category.
 - [ ] Category overview.
 - [ ] Sort by seeders/leechers
+- [ ] User comment section
+- [ ] Remove torrent
+- [ ] Edit torrent descripion
 
 For a full overview of available features and what's to come see [this gist](https://gist.github.com/KevinJDurant/690ff206779582a404d481ab0a165519). Note: a lot of parts will probably be insecure during the early stages of development.
 
