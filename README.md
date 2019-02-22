@@ -69,4 +69,4 @@ A modern torrent search engine/website template that is easy to setup with an in
   -  [License (GPL)](http://www.gnu.org/licenses/gpl.html)
 
 ## License
-MIT © [Kevin Durant](https://github.com/KevinJDurant)
+MIT © [AzukaChan](https://github.com/AzukaChan)
