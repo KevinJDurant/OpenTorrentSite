@@ -21,7 +21,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 ## Current features:
 - [x] User Register and Login.
 - [x] Torrent Uploading.
-- [ ] Torrent Seed & Peer data.
+- [X] Torrent Seed & Peer data (host must allow HTTP, HTTPS and UDP requests)
 - [x] Crossbrowser compatibility.
 - [x] Mobile support.
 - [x] Torrent Search.
@@ -33,7 +33,6 @@ A modern torrent search engine/website template that is easy to setup with an in
 - [ ] Remove torrent
 - [ ] Edit torrent description
 
-For a full overview of available features and what's to come see [this gist](https://gist.github.com/KevinJDurant/690ff206779582a404d481ab0a165519). Note: a lot of parts will probably be insecure during the early stages of development.
 
 ## Open Source Credits for OpenTorrentSite:
 * BCrypt compatibility library:
