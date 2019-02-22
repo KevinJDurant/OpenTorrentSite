@@ -21,7 +21,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 ## Current features:
 - [x] User Register and Login.
 - [x] Torrent Uploading.
-- [x] Torrent Seed & Peer data.
+- [ ] Torrent Seed & Peer data.
 - [x] Crossbrowser compatibility.
 - [x] Mobile support.
 - [x] Torrent Search.
