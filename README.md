@@ -1,5 +1,5 @@
 # OpenTorrentSite 
-[![GitHub version](https://img.shields.io/badge/version-0.1.6-brightgreen.svg)]()
+[![GitHub version](https://img.shields.io/badge/version-0.2.0-brightgreen.svg)]()
 [![GitHub issues](https://img.shields.io/github/issues/AzukaChan/OpenTorrentSite.svg)](https://github.com/AzukaChan/OpenTorrentSite/issues)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/AzukaChan/OpenTorrentSite/master/LICENSE)
 
