@@ -175,7 +175,6 @@
                                     <td data-label="Seeds">'.$row["seeders"].'</td>
                                     <td data-label="Leech">'.$row["leechers"].'</td>
                                     <td data-label="Download">
-                                        <a href="http://itorrents.org/torrent/'.$row["hash"].'.torrent"><span class="glyphicon glyphicon-download-alt link"></span></a>
                                         <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
                                     </td>
                                 </tr>';
