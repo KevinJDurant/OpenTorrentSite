@@ -16,7 +16,7 @@
     
     $userid = $_SESSION["userid"];
 
-    $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE t.userid=".$userid."");
+    $torrents = $db -> select("SELECT t.id as 'torrents_id', t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE t.userid=".$userid."");
 
     ?>
 
@@ -108,6 +108,22 @@
     <!-- Page Content -->
     <div class="container">
 
+         <?php 
+
+        if(isset($_GET['msg'])){
+
+        
+
+         ?>
+
+         <h3 class="alert alert-success text-center"><?php echo $_GET['msg']; ?></h3>
+
+         <?php 
+
+        }
+
+          ?>
+
         <!-- Search -->
         <div class="row">
             <div class="col-lg-12">
@@ -173,6 +189,7 @@
                             <td data-label="Leech">'.$row["leechers"].'</td>
                             <td data-label="Download">
                                 <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
+                                <a href="delete_torrent_file.php?delete_id='.$row["torrents_id"].'"  class="delete" data-confirm="Are you sure to delete this torrent file?"><span class="glyphicon glyphicon-trash link"></span></a>
                             </td>
                         </tr>';
                         }
@@ -225,6 +242,24 @@
         $(document).ready(function() { 
             $("#mytorrents").tablesorter();
         });
+
+
+
+
+// JS code for show Confirm alert
+    var deleteLinks = document.querySelectorAll('.delete');
+
+for (var i = 0; i < deleteLinks.length; i++) {
+  deleteLinks[i].addEventListener('click', function(event) {
+      event.preventDefault();
+
+      var choice = confirm(this.getAttribute('data-confirm'));
+
+      if (choice) {
+        window.location.href = this.getAttribute('href');
+      }
+  });
+}
     </script>
 </body>
 </html>
