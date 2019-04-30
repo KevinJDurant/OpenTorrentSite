@@ -30,7 +30,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 - [ ] Category overview.
 - [ ] Sort by seeders/leechers
 - [ ] User comment section
-- [ ] Remove torrent
+- [X] Remove torrent
 - [ ] Edit torrent description
 
 
