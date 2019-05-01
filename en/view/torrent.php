@@ -151,20 +151,18 @@
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                     <span id="search_concept">Category</span> <span class="caret"></span>
                                 </button>
-                                <ul class="dropdown-menu" role="menu">
-                                  <li><a href="1">Movies</a></li>
-                                  <li><a href="2">Television</a></li>
-                                  <li><a href="3">Music</a></li>
-                                  <li><a href="4">Games</a></li>
-                                  <li><a href="5">Software</a></li>
-                                  <li><a href="6">Anime</a></li>
-								  <li><a href="7">3D Prints</a></li>
-								  <li><a href="8">Books</a></li>
-								  <li><a href="9">XXX</a></li>
-								  <li><a href="10">Other</a></li>
-                                  <li class="divider"></li>
-                                  <li><a href="all">Anything</a></li>
-                                </ul>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a href="1">Movies</a></li>
+                              <li><a href="2">Television</a></li>
+                              <li><a href="3">Music</a></li>
+                              <li><a href="4">Games</a></li>
+                              <li><a href="5">Software</a></li>
+                              <li><a href="6">Anime</a></li>
+                              <li><a href="7">XXX</a></li>
+                              <li><a href="8">Other</a></li>
+                              <li class="divider"></li>
+                              <li><a href="all">Anything</a></li>
+                            </ul>
                             </div>
                             <input type="hidden" name="category" value="all" id="category">         
                             <input type="text" class="form-control" name="query" placeholder="Search term...">

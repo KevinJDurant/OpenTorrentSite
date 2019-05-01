@@ -43,10 +43,8 @@ INSERT INTO `categories` (`id`, `categoryname`) VALUES
 (4, 'Games'),
 (5, 'Software'),
 (6, 'Anime'),
-(7, '3D Prints'),
-(8, 'Books'),
-(9, 'XXX'),
-(10, 'Other');
+(7, 'XXX'),
+(8, 'Other');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

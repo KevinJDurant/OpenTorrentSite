@@ -149,10 +149,8 @@
                             <option value="4">Games</option>
                             <option value="5">Software</option>
                             <option value="6">Anime</option>
-                            <option value="7">3D Prints</a></li>
-							<option value="8">Books</a></li>
-                            <option value="9">XXX</a></li>
-                            <option value="10">Other</a></li>
+                            <option value="7">XXX</a></li>
+							<option value="8">Other</a></li>
                         </select>
                     </div>
                     <!-- (description) -->
