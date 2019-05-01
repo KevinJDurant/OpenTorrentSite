@@ -10,6 +10,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 ![Detail](http://i.imgur.com/jly4Mch.png)
 ![Upload](http://i.imgur.com/YDtYYTt.png)
 ![Mobile](http://i.imgur.com/0ZBW6JR.png)
+![Delete](http://i.imgur.com/hBL4GO5g.png)
 
 ## Setup:
 1. Copy & Paste all files to your webspace.
