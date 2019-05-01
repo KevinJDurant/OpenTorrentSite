@@ -125,10 +125,8 @@
                               <li><a href="4">Games</a></li>
                               <li><a href="5">Software</a></li>
                               <li><a href="6">Anime</a></li>
-                              <li><a href="7">3D Prints</a></li>
-							  <li><a href="8">Books</a></li>
-                              <li><a href="9">XXX</a></li>
-                              <li><a href="10">Other</a></li>
+                              <li><a href="7">XXX</a></li>
+                              <li><a href="8">Other</a></li>
                               <li class="divider"></li>
                               <li><a href="all">Anything</a></li>
                             </ul>
