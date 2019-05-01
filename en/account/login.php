@@ -112,7 +112,7 @@
                     <div class="form-group row">
                       <label for="inputusername" class="col-sm-2 col-form-label">username</label>
                       <div class="col-sm-10">
-                        <input name="username" type="username" class="form-control" id="inputusername" placeholder="username" data-error="Invalid username address" required>
+                        <input name="username" type="username" class="form-control" id="inputusername" placeholder="username" data-error="Invalid Username" required>
                         <div class="help-block with-errors"></div>
                       </div>
                     </div>
