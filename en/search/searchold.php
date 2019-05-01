@@ -1,5 +1,4 @@
 <?php
-    // Start the output buffer.
     ob_start();
     session_start();
     date_default_timezone_set('Europe/Brussels');
@@ -7,16 +6,23 @@
     include_once "../../php/libs/database.php";
     include_once "../../plugins/private_signup_plugin.php";
 
-    if(empty($_SESSION["userid"])) {
-        header("Location: ../../index.php");
-        exit;
+    $db = new Db();
+
+    if(!empty($_SESSION["userid"])) {
+        $userid = $_SESSION["userid"];
+        $temp = $userid;
     }
 
-    $db = new Db();
-    
-    $userid = $_SESSION["userid"];
+    //Implement search by userdID, category
 
-    $torrents = $db -> select("SELECT t.id as 'torrents_id', t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE t.userid=".$userid."");
+    $searchquery = $db->quote(htmlspecialchars($_GET['query']));
+    $category = $db->quote(htmlspecialchars($_GET['category']));
+
+    if($category != "'all'") {
+        $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE MATCH (t.name) AGAINST (".$searchquery." IN BOOLEAN MODE) AND c.id=".$category."");
+    } else {
+        $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE MATCH (t.name) AGAINST (".$searchquery." IN BOOLEAN MODE)");
+    }
 
     ?>
 
@@ -86,7 +92,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href=""><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                        <a href="../view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                     </li>
                                     <li>
                                         <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
@@ -107,22 +113,6 @@
 
     <!-- Page Content -->
     <div class="container">
-
-         <?php 
-
-        if(isset($_GET['msg'])){
-
-        
-
-         ?>
-
-         <h3 class="alert alert-success text-center"><?php echo $_GET['msg']; ?></h3>
-
-         <?php 
-
-        }
-
-          ?>
 
         <!-- Search -->
         <div class="row">
@@ -160,22 +150,21 @@
         <!-- Torrents -->
         <div class="row">
             <div class="col-lg-12">
-            <h1>My torrents</h1>
+            <h1>Search results</h1>
                 <?php
-                    echo '<table class="table table-striped" id="mytorrents">
+                    echo '<table class="table table-striped" id="results">
                             <thead>
                                 <tr>
-                                    <th width="50%"><span class="glyphicon glyphicon-sort"></span></small>Name</th>
-                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Size</th>
-                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Age</th>
-                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Seeds</th>
-                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Leech</th>
+                                    <th width="50%"><small><span class="glyphicon glyphicon-sort"></span></small>Name</th>
+                                    <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Size</th>
+                                    <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Age</th>
+                                    <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Seeds</th>
+                                    <th width="10%"><small><span class="glyphicon glyphicon-sort"></span></small>Leech</th>
                                     <th width="10%">Download</th>
                                 </tr>
                               </thead>
                               <tbody>';
-                    if(count($torrents) != 0) {
-                        foreach ($torrents as $key[] => $row) {
+                    foreach ($torrents as $key[] => $row) {
                         $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
                         echo '<tr>
                             <td class="Name" data-label="Name"><a href="../view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
@@ -187,10 +176,9 @@
                             <td data-label="Leech">'.$row["leechers"].'</td>
                             <td data-label="Download">
                                 <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
-                                <a href="delete_torrent_file.php?delete_id='.$row["torrents_id"].'"  class="delete" data-confirm="Are you sure to delete this torrent file?"><span class="glyphicon glyphicon-trash link"></span></a>
                             </td>
                         </tr>';
-                        }
+                        
                     }
                     echo '</tbody></table>';
                 ?>
@@ -237,27 +225,11 @@
     <script src="../../js/jquery.tablesorter.js"></script>
     
     <script>
-        $(document).ready(function() { 
-            $("#mytorrents").tablesorter();
-        });
-
-
-
-
-// JS code for show Confirm alert
-    var deleteLinks = document.querySelectorAll('.delete');
-
-for (var i = 0; i < deleteLinks.length; i++) {
-  deleteLinks[i].addEventListener('click', function(event) {
-      event.preventDefault();
-
-      var choice = confirm(this.getAttribute('data-confirm'));
-
-      if (choice) {
-        window.location.href = this.getAttribute('href');
-      }
-  });
-}
+    $(document).ready(function() 
+        { 
+            $("#results").tablesorter(); 
+        } 
+    ); 
     </script>
 </body>
 </html>
