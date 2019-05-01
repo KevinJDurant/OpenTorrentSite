@@ -1,5 +1,5 @@
 <?php
-	include_once "../../libs/database.php";
+	include_once "../../php/libs/database.php";
     
 	date_default_timezone_set('Europe/Brussels');
 
