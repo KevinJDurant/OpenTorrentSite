@@ -7,5 +7,5 @@
 
 	$db->query("DELETE FROM `torrents` WHERE `id`=".$_GET['delete_id']."");
 
-	header("Location: ../index.php?msg=File Deleted Successfully!!!");
+	header("Location: my-torrents.php?msg=File Deleted Successfully!!!");
 ?>
