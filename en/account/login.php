@@ -110,7 +110,7 @@
                     <div id="feedback" style="display: none;" class="alert alert-danger"></div>
                     <!-- (mail) -->
                     <div class="form-group row">
-                      <label for="inputusername" class="col-sm-2 col-form-label">username</label>
+                      <label for="inputusername" class="col-sm-2 col-form-label">Username</label>
                       <div class="col-sm-10">
                         <input name="username" type="username" class="form-control" id="inputusername" placeholder="username" data-error="Invalid Username" required>
                         <div class="help-block with-errors"></div>
