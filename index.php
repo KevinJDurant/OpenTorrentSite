@@ -125,9 +125,8 @@
                               <li><a href="4">Games</a></li>
                               <li><a href="5">Software</a></li>
                               <li><a href="6">Anime</a></li>
-                              <li><a href="7">Books</a></li>
-                              <li><a href="8">XXX</a></li>
-                              <li><a href="9">Other</a></li>
+                              <li><a href="7">XXX</a></li>
+                              <li><a href="8">Other</a></li>
                               <li class="divider"></li>
                               <li><a href="all">Anything</a></li>
                             </ul>
