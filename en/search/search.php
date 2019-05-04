@@ -135,7 +135,7 @@
                               <li><a href="9">Other</a></li>
                               <li class="divider"></li>
                               <li><a href="all">Anything</a></li>
-                            </ul>
+			     </ul>
                         </div>
                         <input type="hidden" name="category" value="all" id="category">         
                         <input type="text" class="form-control" name="query" placeholder="Search term...">

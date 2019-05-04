@@ -19,7 +19,7 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
+    <meta name="description" content="OpenTorrentSite: Free Software, Games and Music!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -63,7 +63,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 				    <li>
-                        <a href="#">News</a>
+                        <a href="../../news.php">News</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -110,9 +110,9 @@
                     <div id="feedback" style="display: none;" class="alert alert-danger"></div>
                     <!-- (mail) -->
                     <div class="form-group row">
-                      <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                      <label for="inputusername" class="col-sm-2 col-form-label">Username</label>
                       <div class="col-sm-10">
-                        <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Invalid email address" required>
+                        <input name="username" type="username" class="form-control" id="inputusername" placeholder="username" data-error="Invalid Username" required>
                         <div class="help-block with-errors"></div>
                       </div>
                     </div>
@@ -179,7 +179,7 @@
     <?php
         include_once "../../php/login.php";
 
-        if (!empty($_POST['email']) && !empty($_POST['password'])) {
+        if (!empty($_POST['username']) && !empty($_POST['password'])) {
             login();
         }
     ?>

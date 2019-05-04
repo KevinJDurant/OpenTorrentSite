@@ -1,6 +1,6 @@
 # OpenTorrentSite 
 [![GitHub version](https://img.shields.io/badge/version-0.1.6-brightgreen.svg)]()
-[![GitHub issues](https://img.shields.io/github/issues/KevinJDurant/OpenTorrentSite.svg)](https://github.com/KevinJDurant/OpenTorrentSite/issues)
+[![GitHub issues](https://img.shields.io/github/issues/AzukaChan/OpenTorrentSite.svg)](https://github.com/AzukaChan/OpenTorrentSite/issues)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/KevinJDurant/OpenTorrentSite/master/LICENSE)
 
 A modern torrent search engine/website template that is easy to setup with an intuitive GUI. Engineered to be one of the easiest to use torrent website out there. This site doesn't scrape torrents from any sources, it's only a template you can use to start hosting your own torrent site.
@@ -13,17 +13,19 @@ A modern torrent search engine/website template that is easy to setup with an in
 
 ## Setup:
 1. Copy & Paste all files to your webspace.
-2. Setup a new MySQL database. For security purposes you should create a user with appropriate permissions.
-3. Change the database credentials inside 'config/config.ini.php'.
-4. Import all .sql files from the 'sql' folder.
+2. Create a folder called "torrents" in the root directory
+3. Setup a new MySQL database. For security purposes you should create a user with appropriate permissions.
+4. Change the database credentials inside 'config/config.ini.php'.
+5. Import all .sql files from the 'sql' folder.
 
 ## Current features:
 - [x] User Register and Login.
 - [x] Torrent Uploading.
-- [x] Torrent Seed & Peer data.
+- [x] Torrent Seed & Peer data. (Host must allow HTTP/UDP requests)
 - [x] Crossbrowser compatibility.
 - [x] Mobile support.
 - [x] Torrent Search.
+- [X] Remove Torrent (Users can remove torrents from my-torrent.php)
 - [x] Popular overview.
 	- Currently gets the top 10 seeded torrents of the past 7 days for that category.
 - [ ] Category overview.
@@ -65,4 +67,4 @@ For a full overview of available features and what's to come see [this gist](htt
   -  [License (GPL)](http://www.gnu.org/licenses/gpl.html)
 
 ## License
-MIT © [Kevin Durant](https://github.com/KevinJDurant)
+MIT © [Kevin Durant](https://github.com/KevinJDurant) | [AzukaChan](https://github.com/AzukaChan)
