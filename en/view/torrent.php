@@ -27,7 +27,7 @@
         if(count($torrent) == 0) { 
             header("Location: ../../en/status/404.php"); exit;
         }
-        $uploader = $db -> select("SELECT `username` FROM `users` WHERE `user_id`=".$id."");
+        $uploader = $db -> select("SELECT `username`,`uploaderstatus` FROM `users` WHERE `user_id`=".$id."");
     }
 ?>
 
@@ -185,7 +185,15 @@
 
                 <!-- Uploader -->
                 <p class="lead">
-                    by <a href=""><?php echo $uploader[0]["username"]; ?></a>
+                    by <a href=""><?php echo $uploader[0]["username"]; ?></a><?php
+			{
+				if($uploader[0]["uploaderstatus"]==3)
+					{echo '<img src="/css/vip.png" alt="VIP User">'; } 
+			else
+				if($uploader[0]["uploaderstatus"]==2)
+					{echo '<img src="/css/trusted.png" alt="Trusted User">'; } 
+			} ?>
+			
                 </p>
 
                 <hr>
