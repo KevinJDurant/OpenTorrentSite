@@ -185,7 +185,7 @@
 
                 <!-- Uploader -->
                 <p class="lead">
-                    by <a href=""><?php echo $uploader[0]["username"]; ?></a><?php
+                    by <a href=""><?php echo $uploader[0]["username"]; ?></a>  <?php
 			{
 				if($uploader[0]["uploaderstatus"]==3)
 					{echo '<img src="/css/vip.png" alt="VIP User">'; } 
