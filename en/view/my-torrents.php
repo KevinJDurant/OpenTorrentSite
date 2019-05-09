@@ -188,6 +188,7 @@
                             <td data-label="Leech">'.$row["leechers"].'</td>
                             <td data-label="Download">
                                 <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
+								<a href="http://itorrents.org/torrent/'.$row["hash"].'.torrent"><span class="glyphicon glyphicon-download-alt link"></span></a>
                                 <a href="delete_torrent_file.php?delete_id='.$row["torrents_id"].'"  class="delete" data-confirm="Are you sure you want to permanently remove this torrent from the database?"><span class="glyphicon glyphicon-trash link"></span></a>
                             </td>
                         </tr>';
