@@ -77,7 +77,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 				    <li>
-                        <a href="#">News</a>
+                        <a href="../../news.php">News</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -177,6 +177,7 @@
                             <td data-label="Leech">'.$row["leechers"].'</td>
                             <td data-label="Download">
                                 <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
+								<a href="http://itorrents.org/torrent/'.$row["hash"].'.torrent"><span class="glyphicon glyphicon-download-alt link"></span></a>
                             </td>
                         </tr>';
                         
