@@ -18,6 +18,10 @@ A modern torrent search engine/website template that is easy to setup with an in
 4. Change the database credentials inside 'config/config.ini.php'.
 5. Import all .sql files from the 'sql' folder.
 
+## FAQ
+1. My seeders/leechers are always 0? Your hosting provider is blocking UDP requests.
+2. I can't upload .torrent files? Create a torrents folder in the root directory. Also make sure you have adequate MySQL and Disk rights.
+
 ## Current features:
 - [x] User Register and Login.
 - [x] Torrent Uploading.

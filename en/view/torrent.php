@@ -249,6 +249,43 @@
                         <br />
                         <a href="http://itorrents.org/torrent/<?php echo $_GET["hash"];?>.torrent"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span></button></a>
                         <a href="<?php echo $torrent[0]["magnet"]; ?>"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-magnet"></span></button></a>                        
+                        <button type="button" class="btn btn-primary" id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button>
+
+                    <script>
+                        let refreshButton = document.getElementById('refresh-torrent');
+
+                        let calling = false;
+
+                        refreshButton.addEventListener('click', function ()
+                        {
+                            if (!calling)
+                            {
+                                calling = true;
+
+                                let xhttp;
+
+                                if (window.XMLHttpRequest) xhttp = new XMLHttpRequest();
+                                else xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+
+                                xhttp.onreadystatechange = function()
+                                {
+                                    if (this.readyState == 4 && this.status == 200)
+                                    {
+                                        calling = false;
+
+                                        // console.info(this.responseText);
+                                    }
+                                };
+
+                                let magnet = this.getAttribute('data-magnet');
+
+                                xhttp.open("POST", "/php/seeders.php", true);
+                                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                xhttp.send("magnet=" + btoa(magnet) + "&id=<?php echo $_GET['id']; ?>");
+                            }
+                        });
+                    </script>
+
                 </div>
             </div>
 
