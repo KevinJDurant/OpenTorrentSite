@@ -38,11 +38,11 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
+    <meta name="description" content="OpenTorrents: Free Software, Games and Music!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Torrent | OpenTorrentSite</title>
+    <title>Torrent | OpenTorrents</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -100,7 +100,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../../index.php">OpenTorrentSite</a>
+                <a class="navbar-brand" href="../../index.php">OpenTorrents</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -158,9 +158,8 @@
                                   <li><a href="4">Games</a></li>
                                   <li><a href="5">Software</a></li>
                                   <li><a href="6">Anime</a></li>
-                                  <li><a href="7">Books</a></li>
-                                  <li><a href="8">XXX</a></li>
-                                  <li><a href="9">Other</a></li>
+                                  <li><a href="7">XXX</a></li>
+                                  <li><a href="8">Other</a></li>
                                   <li class="divider"></li>
                                   <li><a href="all">Anything</a></li>
                                 </ul>
@@ -247,9 +246,8 @@
                         Seeders: <?php echo $torrent[0]["seeders"]; ?> <br/>
                         Leechers: <?php echo $torrent[0]["leechers"]; ?> <br/>
                         <br />
-                        <a href="http://itorrents.org/torrent/<?php echo $_GET["hash"];?>.torrent"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span></button></a>
                         <a href="<?php echo $torrent[0]["magnet"]; ?>"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-magnet"></span></button></a>                        
-                        <button type="button" class="btn btn-primary" id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button>
+                        <button type="button" class="btn btn-primary"  id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button>
 
                     <script>
                         let refreshButton = document.getElementById('refresh-torrent');
@@ -257,8 +255,8 @@
                         let calling = false;
 
                         refreshButton.addEventListener('click', function ()
-                        {
-                            if (!calling)
+                        {var tmp= confirm('This will refresh the torrents seed/peer data. Are you sure you want to do this?');
+                            if (tmp==true && !calling)
                             {
                                 calling = true;
 
@@ -279,9 +277,11 @@
 
                                 let magnet = this.getAttribute('data-magnet');
 
-                                xhttp.open("POST", "/php/seeders.php", true);
+                                xhttp.open("POST", "../../php/seeders.php", true);
                                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 xhttp.send("magnet=" + btoa(magnet) + "&id=<?php echo $_GET['id']; ?>");
+								setTimeout(function(){
+								window.location=window.location.href;},1500);
                             }
                         });
                     </script>
@@ -298,7 +298,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2017</p>
+                    <p>Happy Downloading~</p>
                 </div>
             </div>
             <!-- /.row -->
