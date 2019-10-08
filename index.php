@@ -30,7 +30,7 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
+    <meta name="description" content="OpenTorrentSite: Free Software, Games, Music and More!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -174,8 +174,7 @@
                                     <td data-label="Age">'. $diff->format("%ad").'</td>
                                     <td data-label="Seeds">'.$row["seeders"].'</td>
                                     <td data-label="Leech">'.$row["leechers"].'</td>
-                                    <td data-label="Download">
-                                        <a href="http://itorrents.org/torrent/'.$row["hash"].'.torrent"><span class="glyphicon glyphicon-download-alt link"></span></a>
+                                    <td data-label="Download">                                        
                                         <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
                                     </td>
                                 </tr>';
@@ -193,7 +192,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2017</p>
+                    <p>OpenTorrentSite | <a href="https://github.com/KevinJDurant/OpenTorrentSite">KevinJDurant</a> | <a href="https://torrents.azukachan.com">AzukaChan</a></p>
                 </div>
             </div>
             <!-- /.row -->

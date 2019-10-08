@@ -38,11 +38,11 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrents: Free Software, Games and Music!">
+    <meta name="description" content="OpenTorrentSite: Free Software, Games and Music!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Torrent | OpenTorrents</title>
+    <title>Torrent | OpenTorrentSite</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -100,7 +100,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../../index.php">OpenTorrents</a>
+                <a class="navbar-brand" href="../../index.php">OpenTorrentSite</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -158,8 +158,9 @@
                                   <li><a href="4">Games</a></li>
                                   <li><a href="5">Software</a></li>
                                   <li><a href="6">Anime</a></li>
-                                  <li><a href="7">XXX</a></li>
-                                  <li><a href="8">Other</a></li>
+								  <li><a href="7">Books</a></li>
+                                  <li><a href="8">XXX</a></li>
+                                  <li><a href="9">Other</a></li>
                                   <li class="divider"></li>
                                   <li><a href="all">Anything</a></li>
                                 </ul>

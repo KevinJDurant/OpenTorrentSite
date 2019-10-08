@@ -30,11 +30,11 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrents: Free Software, Games and Music!">
+    <meta name="description" content="OpenTorrentSite: Free Software, Games and Music!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>News | OpenTorrents</title>
+    <title>News | OpenTorrentSite</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -125,8 +125,9 @@
                               <li><a href="4">Games</a></li>
                               <li><a href="5">Software</a></li>
                               <li><a href="6">Anime</a></li>
-                              <li><a href="7">XXX</a></li>
-                              <li><a href="8">Other</a></li>
+							  <li><a href="7">Books</a></li>
+                              <li><a href="8">XXX</a></li>
+                              <li><a href="9">Other</a></li>
                               <li class="divider"></li>
                               <li><a href="all">Anything</a></li>
                             </ul>
@@ -147,7 +148,7 @@
         <!-- News -->
 
 <center><h1>OpenTorrents is now live!</h1></center></br>
-There is still a bit of work to be done before the site is completely functional; the major issue being torrent information isn't updated. Once the torrent has been uploaded it will only display the amount of seeds/peers the torrent had at the time of upload. We're aware of this and currently in the middle of fixing it. We're also in the process of adding a catagory view for a more comfortable browsing experience.
+Torrent leech/seed data can now be manually refreshed by pressing the blue button on the torrent page.</br>We're now working on a category view for a better browsing experience.</br>
 
         <!-- /News -->
 
@@ -158,7 +159,7 @@ There is still a bit of work to be done before the site is completely functional
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Happy Downloading ~</p>
+                    <p>OpenTorrentSite | <a href="https://github.com/KevinJDurant/OpenTorrentSite">KevinJDurant</a> | <a href="https://torrents.azukachan.com">AzukaChan</a></p>
                 </div>
             </div>
             <!-- /.row -->
