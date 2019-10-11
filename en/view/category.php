@@ -254,6 +254,21 @@ $cat_id=$db->escape(intval($_GET['id']));
 
     <!-- jQuery -->
     <script src="../../js/jquery.js"></script>
+	
+    <!-- Torrent Card -->
+    <script src="../../js/torrentcard.js"></script>
+
+    <script>
+    $(document).ready(function(e){
+        $('.search-panel .dropdown-menu').find('a').click(function(e) {
+            e.preventDefault();
+            var param = $(this).attr("href").replace("#","");
+            var concept = $(this).text();
+            $('.search-panel span#search_concept').text(concept);
+            $('.input-group #category').val(param);
+        });
+    });
+    </script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../../js/bootstrap.min.js"></script>
