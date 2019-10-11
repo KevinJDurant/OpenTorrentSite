@@ -158,7 +158,7 @@
                                   <li><a href="4">Games</a></li>
                                   <li><a href="5">Software</a></li>
                                   <li><a href="6">Anime</a></li>
-								  <li><a href="7">Books</a></li>
+				  <li><a href="7">Books</a></li>
                                   <li><a href="8">XXX</a></li>
                                   <li><a href="9">Other</a></li>
                                   <li class="divider"></li>
@@ -247,8 +247,9 @@
                         Seeders: <?php echo $torrent[0]["seeders"]; ?> <br/>
                         Leechers: <?php echo $torrent[0]["leechers"]; ?> <br/>
                         <br />
+			<a href="http://itorrents.org/torrent/<?php echo $_GET["hash"];?>.torrent"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span></button></a>
                         <a href="<?php echo $torrent[0]["magnet"]; ?>"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-magnet"></span></button></a>                        
-                        <button type="button" class="btn btn-primary"  id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button>
+                        <button type="button" class="btn btn-primary" id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button>
 
                     <script>
                         let refreshButton = document.getElementById('refresh-torrent');
@@ -281,8 +282,8 @@
                                 xhttp.open("POST", "../../php/seeders.php", true);
                                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 xhttp.send("magnet=" + btoa(magnet) + "&id=<?php echo $_GET['id']; ?>");
-								setTimeout(function(){
-								window.location=window.location.href;},1500);
+				setTimeout(function(){
+				window.location=window.location.href;},1500);
                             }
                         });
                     </script>
@@ -313,6 +314,22 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../../js/bootstrap.min.js"></script>
+	
+    <!-- Torrent Card -->
+    <script src="../../js/torrentcard.js"></script>
+
+    <script>
+    $(document).ready(function(e){
+        $('.search-panel .dropdown-menu').find('a').click(function(e) {
+            e.preventDefault();
+            var param = $(this).attr("href").replace("#","");
+            var concept = $(this).text();
+            $('.search-panel span#search_concept').text(concept);
+            $('.input-group #category').val(param);
+        });
+    });
+    </script>
+
 
     <?php
         function formatBytes($bytes, $precision = 2) { 
