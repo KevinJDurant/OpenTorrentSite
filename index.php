@@ -30,7 +30,7 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrentSite: Free Software, Games, Music and More!">
+    <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -73,7 +73,7 @@ color: rgb(51, 51, 51);;}</style>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 				    <li>
-                        <a href="/news.php">News</a>					
+                        <a href="/news.php">News</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -175,7 +175,8 @@ color: rgb(51, 51, 51);;}</style>
                                     <td data-label="Age">'. $diff->format("%ad").'</td>
                                     <td data-label="Seeds">'.$row["seeders"].'</td>
                                     <td data-label="Leech">'.$row["leechers"].'</td>
-                                    <td data-label="Download">                                        
+                                    <td data-label="Download">
+				    	<a href="http://itorrents.org/torrent/'.$row["hash"].'.torrent"><span class="glyphicon glyphicon-download-alt link"></span></a>
                                         <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>
                                     </td>
                                 </tr>';
