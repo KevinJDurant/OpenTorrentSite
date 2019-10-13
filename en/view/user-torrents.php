@@ -186,7 +186,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Happy Downloading~</p>
+                    <p>Copyright &copy; Your Website 2019</p>
                 </div>
             </div>
             <!-- /.row -->
