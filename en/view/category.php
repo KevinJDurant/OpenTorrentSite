@@ -243,7 +243,7 @@ $cat_id=$db->escape(intval($_GET['id']));
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Happy Downloading~</p>
+                    <p>Copyright © Your Website 2019</p>
                 </div>
             </div>
             <!-- /.row -->
