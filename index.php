@@ -91,7 +91,7 @@ color: rgb(51, 51, 51);;}</style>
                                         <a href="en/view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                     </li>
                                     <li>
-                                        <a href="https://torrents.azukachan.com/en/view/preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
+                                        <a href="en/view/preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                     </li>
                                     <li>
                                         <a href="/en/account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
