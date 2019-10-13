@@ -1,28 +1,38 @@
 <?php
+
+$total_result_per_page=10;
     // Start the output buffer.
     ob_start();
 
-    // Include database accessor.
-    include_once "php/libs/database.php";
-
-    // Setting the default timezone. (change this setting)
-    date_default_timezone_set('Europe/Brussels');
+    include_once "../../php/libs/database.php";
+    include_once "../../php/popular.php";
+    include_once "../../plugins/private_signup_plugin.php";
 
     // Start the session.
     if (!isset($_SESSION)) {
         session_start();
     }
-
-    // Include plugin.
-    include_once "plugins/private_signup_plugin.php";
-    include_once "php/popular.php";
-
+    if( empty($_GET["id"])) {
+        header("Location: ../../index.php");
+        exit;
+    }
     // Fetch data.
     $db = new Db();
-
-    $categories = $db -> select("SELECT * from categories");
-
+$cat_id=$db->escape(intval($_GET['id']));
+    $categories = $db -> select("SELECT * from categories where id=".$cat_id);
+    if(count($categories) == 0) { 
+            header("Location: ../../en/status/404.php"); exit;
+     }
+	 $total_torent=count(get_popular_per_cat_count($cat_id,$db));
+	 $total_torent_page=ceil($total_torent/$total_result_per_page);
+	$current_page=1;
+	 if(isset($_GET['page'])){
+		 if($_GET['page']>0){
+		 $current_page= intval($_GET['page']);}
+	 }
+   $start_result=$total_result_per_page*($current_page-1);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,24 +40,50 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrentSite: Free Software, Games, Music and More!">
+    <meta name="description" content="OpenTorrentSite: Free Software, Games and Music!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Browse | OpenTorrentSite</title>
+    <title>Torrent | OpenTorrentSite</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Bootstrap CSS -->
-    <link href="css/1-col-portfolio.css" rel="stylesheet">
+    <link href="../../css/1-col-portfolio.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/custom.css" rel="stylesheet">
-<style>.aa {
-color: rgb(51, 51, 51);;}</style>
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    <!-- Editor TinyMCE -->
+    <script src="../../js/tinymce/tinymce.min.js"></script>
+
+    <script>
+        tinymce.init({
+          selector: 'textarea',
+          theme: 'modern',
+          readonly : 1,
+          toolbar: false,
+          menubar: false,
+          statusbar: false,
+          plugins: "autoresize",
+          content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i'
+          ]
+         });
+    </script>
+
+    <style>h1{
+    text-align: center;}
+        .mce-panel {
+            border: none !important;
+        }.pagination {
+		display: block;
+    height: 35px;}
+    </style>
+
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/png" href="css/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="../../css/favicon.png"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -61,6 +97,7 @@ color: rgb(51, 51, 51);;}</style>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
@@ -68,38 +105,39 @@ color: rgb(51, 51, 51);;}</style>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">OpenTorrentSite</a>
+                <a class="navbar-brand" href="../../index.php">OpenTorrentSite</a>
             </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
 				    <li>
-                        <a href="/news.php">News</a>					
+                        <a href="../../news.php">News</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                <?php
-                    if(!isset($_SESSION["username"])) {
-                        echo '<li><a href="en/account/register.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>';
-                        echo '<li><a href="en/account/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>';
-                    } else {
-                        echo '<li><a href="en/upload/upload.php"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>';
-                        echo '
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="en/view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://torrents.azukachan.com/en/view/preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
-                                    </li>
-                                    <li>
-                                        <a href="/en/account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
-                                    </li>
-                                </ul>
-                            </li>';
-                    }
-                ?>
+                    <?php
+                        if(!isset($_SESSION["username"])) {
+                            echo '<li><a href="../account/register.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>';
+                            echo '<li><a href="../account/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>';
+                        } else {
+                            echo '<li><a href="../upload/upload.php"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>';
+                            echo '
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://torrents.azukachan.com/en/view/preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
+                                        </li>
+                                        <li>
+                                            <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                                        </li>
+                                    </ul>
+                                </li>';
+                        }
+                    ?>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -109,11 +147,12 @@ color: rgb(51, 51, 51);;}</style>
 
     <!-- Page Content -->
     <div class="container">
+        <!-- /.row -->
 
         <!-- Search -->
         <div class="row">
             <div class="col-lg-12">
-                <form action="../en/search/search.php">
+                <form action="../search/search.php">
                     <div class="input-group">
                         <div class="input-group-btn search-panel">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -150,8 +189,8 @@ color: rgb(51, 51, 51);;}</style>
                 <!-- Categories starts-->
                 <?php
                     foreach ($categories as $cat) {
-                        $torrents = get_popular_per_cat($cat['id'],$db);
-                        echo '<h1><a class="aa" href="en/view/category.php?id='.$cat["id"].'">'.$cat["categoryname"].'</a></h1>';
+                        $torrents = get_popular_per_cat($cat['id'],$db,$start_result,$total_result_per_page);
+                        echo '<h1>'.$cat["categoryname"].'</h1>';
                         echo '<table class="table table-striped" id="'.$cat["id"].'">
                                 <thead>
                                     <tr>
@@ -168,8 +207,8 @@ color: rgb(51, 51, 51);;}</style>
                             $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
                             if($row["categoryname"] == $cat["categoryname"]) {
                                 echo '<tr>
-                                    <td class="Name" data-label="Name"><a href="en/view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
-                                        <small>by <a href="/en/view/user-torrents.php?userid='.$row["userid"].'">'.$row["username"].'</a></small>
+                                    <td class="Name" data-label="Name"><a href="torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
+                                        <small>by <a href="user-torrents.php?userid='.$row["userid"].'">'.$row["username"].'</a></small>
                                     </td>
                                     <td data-label="Size">'.$row["size"].'</td>
                                     <td data-label="Age">'. $diff->format("%ad").'</td>
@@ -187,13 +226,24 @@ color: rgb(51, 51, 51);;}</style>
             </div>
         </div>
             <!-- /.row -->
+			<?php if($total_torent_page>0){ ?>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+			<?php if($current_page>1){ ?>
+    <li class="page-item"><a class="page-link" style="float: left;" href="?id=<?=$cat_id?>&page=<?=$current_page-1?>">Previous</a></li>
+   
+			<?php } if($current_page<$total_torent_page){ ?> <li class="page-item"><a class="page-link" style="    float: right;" href="?id=<?=$cat_id?>&page=<?=$current_page+1?>">Next</a></li>
+  
+			<?php } ?></ul>
+</nav>
+			<?php } ?>
         <hr>
 
         <!-- Footer -->
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>OpenTorrentSite | <a href="https://github.com/KevinJDurant/OpenTorrentSite">KevinJDurant</a> | <a href="https://torrents.azukachan.com">AzukaChan</a></p>
+                    <p>Happy Downloading~</p>
                 </div>
             </div>
             <!-- /.row -->
@@ -203,13 +253,10 @@ color: rgb(51, 51, 51);;}</style>
     <!-- /.container -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
+    <script src="../../js/jquery.js"></script>
+	
     <!-- Torrent Card -->
-    <script src="js/torrentcard.js"></script>
+    <script src="../../js/torrentcard.js"></script>
 
     <script>
     $(document).ready(function(e){
@@ -223,15 +270,9 @@ color: rgb(51, 51, 51);;}</style>
     });
     </script>
 
-    <!-- Tablesort -->
-    <script src="js/jquery.tablesorter.js"></script>
-    
-    <script>
-    $(document).ready(function() { 
-        <?php
-        foreach ($categories as $cat) {
-        echo '$("#'.$cat["id"].'").tablesorter();
-        ';}?>});
-    </script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../js/bootstrap.min.js"></script>
+
+
 </body>
 </html>

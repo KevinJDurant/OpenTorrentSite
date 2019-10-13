@@ -78,5 +78,9 @@
             $connection = $this -> connect();
             return "'" . $connection -> real_escape_string($value) . "'";
         }
+        public function escape($value) {
+            $connection = $this -> connect();
+            return $connection -> real_escape_string($value);
+        }
     }
 ?>
