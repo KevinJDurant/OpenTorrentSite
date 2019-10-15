@@ -206,11 +206,14 @@
 			<?php
 			{
 				if($uploaderstatus[0]["vipstatus"]==99)
-					{echo '  |  <b>Total Uploads: </b>' ;}
-						{echo $totaluploads[0]["Total Uploads"];}
-							{echo '  |  <b>Total Users: </b>' ;}
-								{echo $usercount[0]["Total Users"];}
-									{echo "</br>";}
+					{echo '  |  <b>Total Uploads: </b>' ;
+					echo $totaluploads[0]["Total Uploads"];
+					echo '  |  <b>Total Users: </b>' ;
+					echo $usercount[0]["Total Users"];
+					echo "</br>";}
+				elseif($uploaderstatus[0]["vipstatus"]<99){
+					echo '</br>';
+				}				
 			}
 			
 			?>
