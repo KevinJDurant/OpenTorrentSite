@@ -16,19 +16,30 @@
     
     $userid = $_SESSION["userid"];
 	
-	// Total number of user uploads
-	$totaluploads = $db -> select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents WHERE userid=".$userid."");
+	// User Upload Count
+	$totaluseruploads = $db -> select("SELECT COUNT(id) AS 'Total User Uploads' FROM torrents WHERE userid=".$userid."");
 	
 	// Check user uploaderstatus
 	$uploaderstatus = $db -> select("SELECT uploaderstatus AS 'vipstatus' FROM users WHERE user_id=".$userid."");
 	
-	// Checks for adminstatus - activating moderator mode
+	// Get User Count
 	{
 		IF ($uploaderstatus[0]["vipstatus"]==99)
-			{$torrents = $db -> select("SELECT t.id as 'torrents_id', t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id");}
-	ELSE
-		 {$torrents = $db -> select("SELECT t.id as 'torrents_id', t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE t.userid=".$userid."");}
+			{$usercount = $db -> select("SELECT COUNT(user_id) AS 'Total Users' FROM users");}
 	}
+	
+	// Total Website Upload Count
+	{
+		IF ($uploaderstatus[0]["vipstatus"]==99)
+			{$totaluploads = $db -> select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents");}
+	}
+	
+	// Get user list
+	{
+		IF ($uploaderstatus[0]["vipstatus"]==99)
+			{$userlist = $db -> select("SELECT user_id,reg_date,username,uploaderstatus FROM users WHERE uploaderstatus < 99");}
+	}
+
     ?>
 
 <!DOCTYPE html>
@@ -97,7 +108,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="https://torrents.azukachan.com/en/view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                        <a href="my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                     </li>
                                     <li>
                                         <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
@@ -169,7 +180,7 @@
         </div>
         <!-- /.row -->
 
-        <!-- Torrents -->
+		<!-- Account Control Panel -->
         <div class="row">
             <div class="col-lg-12">
             <?php
@@ -180,12 +191,35 @@
 					{echo '<h1>User Control Panel</h1>'; }
 			}
 			?></br>		
-			<b>Total Uploads:</b> <?php echo $totaluploads[0]["Total Uploads"];?></br>
-			<b>Account Status: </b>
+			
+		<!-- User Account Information -->	
+			<?php 
+			
+			{
+			{echo '<b>Account Uploads: </b>' ;}
+				{echo $totaluseruploads[0]["Total User Uploads"];}
+			}	
+			?>
+			
+			
+		<!-- User and Torrent Stats -->
+			<?php
+			{
+				if($uploaderstatus[0]["vipstatus"]==99)
+					{echo '  |  <b>Total Uploads: </b>' ;}
+						{echo $totaluploads[0]["Total Uploads"];}
+							{echo '  |  <b>Total Users: </b>' ;}
+								{echo $usercount[0]["Total Users"];}
+									{echo "</br>";}
+			}
+			
+			?>
+			
 
 			<!--Show UserStatus-->
 			<?php
 			{
+					{echo '<b>Account Status: </b>';}
 				if($uploaderstatus[0]["vipstatus"]==99)
 					{echo ' Administrator <img src="../../css/vip.png" alt="VIP User">'; } 				
 			else	
@@ -199,40 +233,39 @@
 					{echo 'User'; } 
 			} 
 			?></br></br>
-
 			
-			<!-- Torrent Table -->
+
+			<!-- User Table -->
 			<?php
 			{
 				if($uploaderstatus[0]["vipstatus"]==99)
-					{echo '<table class="table table-striped" id="mytorrents">
+					{echo '<table class="table table-striped" id="User List">
                             <thead>
                                 <tr>
-                                    <th width="50%"><span class="glyphicon glyphicon-sort"></span></small>Name</th>
-                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Size</th>
-                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Age</th>
-                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Seeds</th>
-                                    <th width="10%"><span class="glyphicon glyphicon-sort"></span></small>Leech</th>
-                                    <th width="10%">Options</th>
+                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Username</th>
+                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Register Date</th>
+                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>User ID</th>
+                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Access Level</th>
+                                    <th width="20%">Options</th>
                                 </tr>
                               </thead>
                               <tbody>';
-                    if(count($torrents) != 0) {
-                        foreach ($torrents as $key[] => $row) {
-                        $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
+                    if(count($userlist) != 0) {
+                        foreach ($userlist as $key[] => $row) {
                         echo '<tr>
-                            <td class="Name" data-label="Name"><a href="../view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
-                                <small>by '.$row["username"].'</small>
-                            </td>
-                            <td data-label="Size">'.$row["size"].'</td>
-                            <td data-label="Age">'. $diff->format("%ad").'</td>
-                            <td data-label="Seeds">'.$row["seeders"].'</td>
-                            <td data-label="Leech">'.$row["leechers"].'</td>
+                            <td class="Name" data-label="Username"><a href="user-torrents.php?userid='.$row["user_id"].'"> '.$row["username"].'</span></a></td>
+                            <td data-label="Register Date">'.$row["reg_date"].'</td>
+                            <td data-label="User ID">'.$row["user_id"].'</td>
+                            <td data-label="Access Level">'.$row["uploaderstatus"].'</td>
                             <td data-label="Options">
-                                <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>							
-                                <a href="acp_delete_file.php?delete_id='.$row["torrents_id"].'"  class="delete" data-confirm="Are you sure you want to permanently remove this torrent from the database?"><span class="glyphicon glyphicon-trash link"></span></a>
+                                <a href="#"></span></a>							
+								<a href="setstatus_vip.php?user_id='.$row["user_id"].'" alt="VIP Status"  class="delete" data-confirm="Give user VIP status?"><span class="glyphicon glyphicon-heart"></span></a>
+								<a href="setstatus_trusted.php?user_id='.$row["user_id"].'" alt="StatusDown"  class="delete" data-confirm="Give user Trusted status?"><span class="glyphicon glyphicon-star"></span></a>
+								<a href="setstatus_user.php?user_id='.$row["user_id"].'" alt="StatusDown"  class="delete" data-confirm="Set regular user status?"><span class="glyphicon glyphicon-star-empty"></span></a>
+                                <a href="setstatus_banned.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Ban User?"><span class="glyphicon glyphicon-ban-circle"></span></a>
+								<a href="setstatus_burnt.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Remove all users torrents?"><span class="glyphicon glyphicon-trash"></span></a>
                             </td>
-                        </tr>';
+							</tr>';
                         }
                     }
                     echo '</tbody></table>';;}				
@@ -248,7 +281,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Thanks for sharing~</p>
+                    <p>Copyright © Your Website 2019</p>
                 </div>
             </div>
             <!-- /.row -->
