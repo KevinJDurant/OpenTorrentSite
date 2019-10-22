@@ -38,7 +38,7 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
+    <meta name="description" content="OpenTorrentSite: Free Software, Games and Music!">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -124,7 +124,7 @@
                                             <a href="my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                         </li>
                                         <li>
-                                            <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
+                                            <a href="preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                         </li>
                                         <li>
                                             <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
@@ -158,7 +158,7 @@
                                   <li><a href="4">Games</a></li>
                                   <li><a href="5">Software</a></li>
                                   <li><a href="6">Anime</a></li>
-                                  <li><a href="7">Books</a></li>
+								  <li><a href="7">Books</a></li>
                                   <li><a href="8">XXX</a></li>
                                   <li><a href="9">Other</a></li>
                                   <li class="divider"></li>
@@ -175,6 +175,7 @@
                     <hr>
                 </div>
             </div>
+
             <!-- /.row -->
 
             <div class="row">
@@ -185,14 +186,19 @@
 
                 <!-- Uploader -->
                 <p class="lead">
-                    by <a href=""><?php echo $uploader[0]["username"]; ?></a>  <?php
+                    by <a href="#"><?php echo $uploader[0]["username"]; ?></a>  
+			<?php
 			{
+				if($uploader[0]["uploaderstatus"]==99)
+					{echo '<img src="/css/vip.png" alt="VIP User">'; } 				
+			else	
 				if($uploader[0]["uploaderstatus"]==3)
 					{echo '<img src="/css/vip.png" alt="VIP User">'; } 
 			else
 				if($uploader[0]["uploaderstatus"]==2)
 					{echo '<img src="/css/trusted.png" alt="Trusted User">'; } 
-			} ?>
+			} 
+			?>
 			
                 </p>
 
@@ -247,9 +253,8 @@
                         Seeders: <?php echo $torrent[0]["seeders"]; ?> <br/>
                         Leechers: <?php echo $torrent[0]["leechers"]; ?> <br/>
                         <br />
-                        <a href="http://itorrents.org/torrent/<?php echo $_GET["hash"];?>.torrent"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-download-alt"></span></button></a>
                         <a href="<?php echo $torrent[0]["magnet"]; ?>"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-magnet"></span></button></a>                        
-                        <button type="button" class="btn btn-primary" id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button>
+                        <button type="button" class="btn btn-primary"  id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button>
 
                     <script>
                         let refreshButton = document.getElementById('refresh-torrent');
@@ -257,8 +262,8 @@
                         let calling = false;
 
                         refreshButton.addEventListener('click', function ()
-                        {
-                            if (!calling)
+                        {var tmp= confirm('This will refresh the torrents seed/peer data. Are you sure you want to do this?');
+                            if (tmp==true && !calling)
                             {
                                 calling = true;
 
@@ -279,9 +284,11 @@
 
                                 let magnet = this.getAttribute('data-magnet');
 
-                                xhttp.open("POST", "/php/seeders.php", true);
+                                xhttp.open("POST", "../../php/seeders.php", true);
                                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 xhttp.send("magnet=" + btoa(magnet) + "&id=<?php echo $_GET['id']; ?>");
+								setTimeout(function(){
+								window.location=window.location.href;},1500);
                             }
                         });
                     </script>
@@ -298,7 +305,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2017</p>
+                    <p>Happy Downloading~</p>
                 </div>
             </div>
             <!-- /.row -->
@@ -309,6 +316,22 @@
 
     <!-- jQuery -->
     <script src="../../js/jquery.js"></script>
+	
+    <!-- Torrent Card -->
+    <script src="../../js/torrentcard.js"></script>
+
+    <script>
+    $(document).ready(function(e){
+        $('.search-panel .dropdown-menu').find('a').click(function(e) {
+            e.preventDefault();
+            var param = $(this).attr("href").replace("#","");
+            var concept = $(this).text();
+            $('.search-panel span#search_concept').text(concept);
+            $('.input-group #category').val(param);
+        });
+    });
+    </script>
+
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../../js/bootstrap.min.js"></script>

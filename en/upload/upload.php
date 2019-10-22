@@ -105,7 +105,7 @@
                                             <a href="../view/my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                         </li>
                                         <li>
-                                            <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
+                                            <a href="../view/preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                         </li>
                                         <li>
                                             <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
@@ -177,7 +177,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2017</p>
+                    <p>OpenTorrentSite | <a href="https://github.com/KevinJDurant/OpenTorrentSite">KevinJDurant</a> | <a href="https://torrents.azukachan.com">AzukaChan</a></p>
                 </div>
             </div>
             <!-- /.row -->
