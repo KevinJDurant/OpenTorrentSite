@@ -3,7 +3,7 @@
 ;/*
 [database]
 username = root
-password = usbw
+password = mysql
 dbname = opentorrentsite
 ;*/
 

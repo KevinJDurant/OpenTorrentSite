@@ -4,6 +4,7 @@
 
     include_once "../../php/libs/database.php";
     include_once "../../plugins/private_signup_plugin.php";
+    include_once "../../php/libs/UserHelper.php";
 
     // Start the session.
     if (!isset($_SESSION)) {
@@ -18,16 +19,18 @@
         $db = new Db();
 
         // Quote and escape values.
-        $hash =  $db -> quote($_GET["hash"]);
-        $id =  $db -> quote($_GET["id"]);
+        $hash =  $db->quote($_GET["hash"]);
+        $id =  $db->quote($_GET["id"]);
 
         // Get the corresponding values.
-        $torrent = $db -> select("SELECT * FROM `torrents` WHERE `hash`=".$hash." AND `userid`=".$id."");
+        $torrent = $db->select("SELECT * FROM `torrents` WHERE `hash`=".$hash." AND `userid`=".$id."");
+
         // Change this to the torrent 404 page.
-        if(count($torrent) == 0) { 
+        if(count($torrent) === 0) {
             header("Location: ../../en/status/404.php"); exit;
         }
-        $uploader = $db -> select("SELECT `username`,`uploaderstatus` FROM `users` WHERE `user_id`=".$id."");
+
+        $uploader = $db -> select("SELECT `username`,`uploaderstatus`,`user_id`  FROM `users` WHERE `user_id`=".$id."");
     }
 ?>
 
@@ -165,7 +168,7 @@
                                   <li><a href="all">Anything</a></li>
                                 </ul>
                             </div>
-                            <input type="hidden" name="category" value="all" id="category">         
+                            <input type="hidden" name="category" value="all" id="category">
                             <input type="text" class="form-control" name="query" placeholder="Search term...">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
@@ -186,20 +189,7 @@
 
                 <!-- Uploader -->
                 <p class="lead">
-                    by <a href="#"><?php echo $uploader[0]["username"]; ?></a>  
-			<?php
-			{
-				if($uploader[0]["uploaderstatus"]==99)
-					{echo '<img src="/css/vip.png" alt="VIP User">'; } 				
-			else	
-				if($uploader[0]["uploaderstatus"]==3)
-					{echo '<img src="/css/vip.png" alt="VIP User">'; } 
-			else
-				if($uploader[0]["uploaderstatus"]==2)
-					{echo '<img src="/css/trusted.png" alt="Trusted User">'; } 
-			} 
-			?>
-			
+                    by <a href="user-torrents.php?userid=<?php echo $uploader[0]["user_id"]; ?>"><?php echo $uploader[0]["username"]; echo UserHelper::displayUserIcon($uploader[0]["uploaderstatus"]);?></a>
                 </p>
 
                 <hr>
@@ -250,8 +240,8 @@
                 <div class="well">
                     <h4>Stats &amp; Download</h4>
                         Size: <?php echo $torrent[0]["size"]; ?> <br/>
-                        Seeders: <?php echo $torrent[0]["seeders"]; ?> <br/>
-                        Leechers: <?php echo $torrent[0]["leechers"]; ?> <br/>
+                        Seeders: <span id="seederCount"><?php echo $torrent[0]["seeders"]; ?></span> <br/>
+                        Leechers: <span id="leecherCount"><?php echo $torrent[0]["leechers"]; ?></span> <br/>
                         <br />
                         <a href="<?php echo $torrent[0]["magnet"]; ?>"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-magnet"></span></button></a>                        
                         <button type="button" class="btn btn-primary"  id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button>
@@ -262,8 +252,10 @@
                         let calling = false;
 
                         refreshButton.addEventListener('click', function ()
-                        {var tmp= confirm('This will refresh the torrents seed/peer data. Are you sure you want to do this?');
-                            if (tmp==true && !calling)
+                        {
+                            let clientConfirms = confirm('This will refresh the torrents seed/peer data. Are you sure you want to do this?');
+
+                            if (clientConfirms && !calling)
                             {
                                 calling = true;
 
@@ -274,11 +266,14 @@
 
                                 xhttp.onreadystatechange = function()
                                 {
-                                    if (this.readyState == 4 && this.status == 200)
+                                    if (this.readyState === 4 && this.status === 200)
                                     {
                                         calling = false;
 
-                                        // console.info(this.responseText);
+                                        let response = JSON.parse(this.responseText);
+
+                                        document.getElementById('leecherCount').innerText = response.leechers;
+                                        document.getElementById('seederCount').innerText = response.seeders;
                                     }
                                 };
 
@@ -287,15 +282,11 @@
                                 xhttp.open("POST", "../../php/seeders.php", true);
                                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 xhttp.send("magnet=" + btoa(magnet) + "&id=<?php echo $_GET['id']; ?>");
-								setTimeout(function(){
-								window.location=window.location.href;},1500);
                             }
                         });
                     </script>
-
                 </div>
             </div>
-
         </div>
         <!-- /.row -->
 
@@ -305,7 +296,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Happy Downloading~</p>
+                    <p>Copyright &copy; Your Website 2019</p>
                 </div>
             </div>
             <!-- /.row -->
@@ -324,8 +315,8 @@
     $(document).ready(function(e){
         $('.search-panel .dropdown-menu').find('a').click(function(e) {
             e.preventDefault();
-            var param = $(this).attr("href").replace("#","");
-            var concept = $(this).text();
+            let param = $(this).attr("href").replace("#","");
+            let concept = $(this).text();
             $('.search-panel span#search_concept').text(concept);
             $('.input-group #category').val(param);
         });
@@ -349,6 +340,5 @@
             return round($bytes, $precision) . ' ' . $units[$pow]; 
         } 
     ?>
-
 </body>
 </html>

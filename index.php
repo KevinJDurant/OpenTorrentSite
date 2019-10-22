@@ -4,6 +4,7 @@
 
     // Include database accessor.
     include_once "php/libs/database.php";
+    include_once "php/libs/UserHelper.php";
 
     // Setting the default timezone. (change this setting)
     date_default_timezone_set('Europe/Brussels');
@@ -44,8 +45,7 @@
 
     <!-- Custom CSS -->
     <link href="css/custom.css" rel="stylesheet">
-<style>.aa {
-color: rgb(51, 51, 51);;}</style>
+    <style>.aa { color: rgb(51, 51, 51);}</style>
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="css/favicon.png"/>
 
@@ -164,12 +164,12 @@ color: rgb(51, 51, 51);;}</style>
                                     </tr>
                                   </thead>
                                   <tbody>';
-                        foreach ($torrents as $key[] => $row) {
+                        foreach ($torrents as $key => $row) {
                             $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
                             if($row["categoryname"] == $cat["categoryname"]) {
                                 echo '<tr>
                                     <td class="Name" data-label="Name"><a href="en/view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
-                                        <small>by <a href="/en/view/user-torrents.php?userid='.$row["userid"].'">'.$row["username"].'</a></small>
+                                        <small>by <a href="/en/view/user-torrents.php?userid='.$row["userid"].'">'.$row["username"] . UserHelper::displayUserIcon($row['uploaderstatus']) .'</a></small>
                                     </td>
                                     <td data-label="Size">'.$row["size"].'</td>
                                     <td data-label="Age">'. $diff->format("%ad").'</td>

@@ -5,6 +5,7 @@
     date_default_timezone_set('Europe/Brussels');
 
     include_once "../../php/libs/database.php";
+    include_once "../../php/libs/UserHelper.php";
     include_once "../../plugins/private_signup_plugin.php";
 
     if(empty($_SESSION["userid"])) {
@@ -17,29 +18,22 @@
     $userid = $_SESSION["userid"];
 	
 	// User Upload Count
-	$totaluseruploads = $db -> select("SELECT COUNT(id) AS 'Total User Uploads' FROM torrents WHERE userid=".$userid."");
+	$totaluseruploads = $db->select("SELECT COUNT(id) AS 'Total User Uploads' FROM torrents WHERE userid=".$userid."");
 	
 	// Check user uploaderstatus
-	$uploaderstatus = $db -> select("SELECT uploaderstatus AS 'vipstatus' FROM users WHERE user_id=".$userid."");
+	$uploaderstatus = $db->select("SELECT uploaderstatus AS 'vipstatus' FROM users WHERE user_id=".$userid."");
 	
-	// Get User Count
+	if ($uploaderstatus[0]["vipstatus"] === '99')
 	{
-		IF ($uploaderstatus[0]["vipstatus"]==99)
-			{$usercount = $db -> select("SELECT COUNT(user_id) AS 'Total Users' FROM users");}
-	}
-	
-	// Total Website Upload Count
-	{
-		IF ($uploaderstatus[0]["vipstatus"]==99)
-			{$totaluploads = $db -> select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents");}
-	}
-	
-	// Get user list
-	{
-		IF ($uploaderstatus[0]["vipstatus"]==99)
-			{$userlist = $db -> select("SELECT user_id,reg_date,username,uploaderstatus FROM users WHERE uploaderstatus < 99");}
-	}
+	    // Get User Count
+        $usercount = $db->select("SELECT COUNT(user_id) AS 'Total Users' FROM users");
 
+        // Total Website Upload Count
+        $totaluploads = $db->select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents");
+
+        // Get user list
+        $userlist = $db->select("SELECT user_id,reg_date,username,uploaderstatus FROM users WHERE uploaderstatus < 99");
+	}
     ?>
 
 <!DOCTYPE html>
@@ -53,7 +47,7 @@
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Browse | OpenTorrents</title>
+    <title>Browse | OpenTorrentSite</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -130,21 +124,11 @@
     <!-- Page Content -->
     <div class="container">
 
-         <?php 
-
-        if(isset($_GET['msg'])){
-
-        
-
+         <?php
+            if (isset($_GET['msg']) && !empty($_GET['msg'])) {
+                echo '<h3 class="alert alert-success text-center">' . $_GET['msg'] . '</h3>';
+            }
          ?>
-
-         <h3 class="alert alert-success text-center"><?php echo $_GET['msg']; ?></h3>
-
-         <?php 
-
-        }
-
-          ?>
 
         <!-- Search -->
         <div class="row">
@@ -184,65 +168,59 @@
         <div class="row">
             <div class="col-lg-12">
             <?php
-			{
-				if($uploaderstatus[0]["vipstatus"]==99)
-					{echo '<h1>Admin Control Panel</h1>'; }
-			else				
-					{echo '<h1>User Control Panel</h1>'; }
-			}
-			?></br>		
+                if ($uploaderstatus[0]["vipstatus"] === '99')
+                {
+                    echo '<h1>Admin Control Panel</h1>';
+                }
+                else
+                {
+                    echo '<h1>User Control Panel</h1>';
+                }
+			?>
+            <br />
 			
 		<!-- User Account Information -->	
-			<?php 
-			
-			{
-			{echo '<b>Account Uploads: </b>' ;}
-				{echo $totaluseruploads[0]["Total User Uploads"];}
-			}	
-			?>
-			
-			
-		<!-- User and Torrent Stats -->
 			<?php
-			{
-				if($uploaderstatus[0]["vipstatus"]==99)
-					{echo '  |  <b>Total Uploads: </b>' ;
-					echo $totaluploads[0]["Total Uploads"];
-					echo '  |  <b>Total Users: </b>' ;
-					echo $usercount[0]["Total Users"];
-					echo "</br>";}
-				elseif($uploaderstatus[0]["vipstatus"]<99){
-					echo '</br>';
-				}				
-			}
-			
+                echo '<b>Account Uploads: </b>' ;
+                echo $totaluseruploads[0]["Total User Uploads"];
+
+                // User and Torrent Stats
+                if ($uploaderstatus[0]["vipstatus"] === '99')
+                {
+                    echo '  |  <b>Total Uploads: </b>' ;
+                    echo $totaluploads[0]["Total Uploads"];
+                    echo '  |  <b>Total Users: </b>' ;
+                    echo $usercount[0]["Total Users"];
+                }
+
+                echo "</br>";
+
+                // Show user status
+                echo '<b>Account Status: </b>';
+                switch ($uploaderstatus[0]["vipstatus"]) {
+                    case 99:
+                        echo ' Administrator <img src="../../css/vip.png" alt="VIP User">';
+                        break;
+                    case 3:
+                        echo ' VIP User <img src="../../css/vip.png" alt="VIP User">';
+                        break;
+                    case 2:
+                        echo ' Trusted User <img src="../../css/trusted.png" alt="Trusted User">';
+                        break;
+                    case -1:
+                        echo 'Banned User';
+                        break;
+                    default:
+                        echo ' User';
+                }
 			?>
-			
-
-			<!--Show UserStatus-->
-			<?php
-			{
-					{echo '<b>Account Status: </b>';}
-				if($uploaderstatus[0]["vipstatus"]==99)
-					{echo ' Administrator <img src="../../css/vip.png" alt="VIP User">'; } 				
-			else	
-				if($uploaderstatus[0]["vipstatus"]==3)
-					{echo ' VIP User <img src="../../css/vip.png" alt="VIP User">'; } 
-			else
-				if($uploaderstatus[0]["vipstatus"]==2)
-					{echo ' Trusted User<img src="../../css/trusted.png" alt="Trusted User">'; } 
-			else
-				if($uploaderstatus[0]["vipstatus"]==0)
-					{echo 'User'; } 
-			} 
-			?></br></br>
-			
-
+            <br />
+            <br />
 			<!-- User Table -->
 			<?php
-			{
-				if($uploaderstatus[0]["vipstatus"]==99)
-					{echo '<table class="table table-striped" id="User List">
+				if ($uploaderstatus[0]["vipstatus"] === '99')
+					{
+					    echo '<table class="table table-striped" id="User List">
                             <thead>
                                 <tr>
                                     <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Username</th>
@@ -253,28 +231,29 @@
                                 </tr>
                               </thead>
                               <tbody>';
-                    if(count($userlist) != 0) {
-                        foreach ($userlist as $key[] => $row) {
-                        echo '<tr>
-                            <td class="Name" data-label="Username"><a href="user-torrents.php?userid='.$row["user_id"].'"> '.$row["username"].'</span></a></td>
-                            <td data-label="Register Date">'.$row["reg_date"].'</td>
-                            <td data-label="User ID">'.$row["user_id"].'</td>
-                            <td data-label="Access Level">'.$row["uploaderstatus"].'</td>
-                            <td data-label="Options">
-                                <a href="#"></span></a>							
-								<a href="setstatus_vip.php?user_id='.$row["user_id"].'" alt="VIP Status"  class="delete" data-confirm="Give user VIP status?"><span class="glyphicon glyphicon-heart"></span></a>
-								<a href="setstatus_trusted.php?user_id='.$row["user_id"].'" alt="StatusDown"  class="delete" data-confirm="Give user Trusted status?"><span class="glyphicon glyphicon-star"></span></a>
-								<a href="setstatus_user.php?user_id='.$row["user_id"].'" alt="StatusDown"  class="delete" data-confirm="Set regular user status?"><span class="glyphicon glyphicon-star-empty"></span></a>
-                                <a href="setstatus_banned.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Ban User?"><span class="glyphicon glyphicon-ban-circle"></span></a>
-								<a href="setstatus_burnt.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Remove all users torrents?"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-							</tr>';
-                        }
-                    }
-                    echo '</tbody></table>';;}				
-			}
-                ?>
 
+                        if(count($userlist) !== 0) {
+                            foreach ($userlist as $key => $row) {
+                            echo '<tr>
+                                <td class="Name" data-label="Username"><a href="user-torrents.php?userid='.$row["user_id"].'"> '.$row["username"]. UserHelper::displayUserIcon($row['uploaderstatus']) . '</span></a></td>
+                                <td data-label="Register Date">'.$row["reg_date"].'</td>
+                                <td data-label="User ID">'.$row["user_id"].'</td>
+                                <td data-label="Access Level">'.UserHelper::translateUserStatus($row["uploaderstatus"]).'</td>
+                                <td data-label="Options">
+                                    <a href="#"></span></a>							
+                                    <a href="setstatus_vip.php?user_id='.$row["user_id"].'" alt="VIP Status"  class="delete" data-confirm="Give user VIP status?"><span class="glyphicon glyphicon-heart"></span></a>
+                                    <a href="setstatus_trusted.php?user_id='.$row["user_id"].'" alt="StatusDown"  class="delete" data-confirm="Give user Trusted status?"><span class="glyphicon glyphicon-star"></span></a>
+                                    <a href="setstatus_user.php?user_id='.$row["user_id"].'" alt="StatusDown"  class="delete" data-confirm="Set regular user status?"><span class="glyphicon glyphicon-star-empty"></span></a>
+                                    <a href="setstatus_banned.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Ban User?"><span class="glyphicon glyphicon-ban-circle"></span></a>
+                                    <a href="setstatus_burnt.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Remove all users torrents?"><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                                </tr>';
+                            }
+                        }
+
+                        echo '</tbody></table>';
+					}
+                ?>
             </div>
         </div>
             <!-- /.row -->
@@ -318,27 +297,24 @@
     <script src="../../js/jquery.tablesorter.js"></script>
     
     <script>
-        $(document).ready(function() { 
-            $("#mytorrents").tablesorter();
-        });
+    $(document).ready(function() {
+        $("#mytorrents").tablesorter();
+    });
 
+    // JS code for show Confirm alert
+    let deleteLinks = document.querySelectorAll('.delete');
 
+    for (let i = 0, l = deleteLinks.length; i < l; i++) {
+      deleteLinks[i].addEventListener('click', function(event) {
+          event.preventDefault();
 
+          let choice = confirm(this.getAttribute('data-confirm'));
 
-// JS code for show Confirm alert
-    var deleteLinks = document.querySelectorAll('.delete');
-
-for (var i = 0; i < deleteLinks.length; i++) {
-  deleteLinks[i].addEventListener('click', function(event) {
-      event.preventDefault();
-
-      var choice = confirm(this.getAttribute('data-confirm'));
-
-      if (choice) {
-        window.location.href = this.getAttribute('href');
-      }
-  });
-}
+          if (choice) {
+            window.location.href = this.getAttribute('href');
+          }
+      });
+    }
     </script>
 </body>
 </html>

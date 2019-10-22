@@ -1,5 +1,5 @@
 # OpenTorrentSite 
-[![GitHub version](https://img.shields.io/badge/version-0.1.6-brightgreen.svg)]()
+[![GitHub version](https://img.shields.io/badge/version-0.2.8-brightgreen.svg)]()
 [![GitHub issues](https://img.shields.io/github/issues/AzukaChan/OpenTorrentSite.svg)](https://github.com/AzukaChan/OpenTorrentSite/issues)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/KevinJDurant/OpenTorrentSite/master/LICENSE)
 
@@ -10,6 +10,8 @@ A modern torrent search engine/website template that is easy to setup with an in
 ![Detail](http://i.imgur.com/jly4Mch.png)
 ![Upload](http://i.imgur.com/YDtYYTt.png)
 ![Mobile](http://i.imgur.com/0ZBW6JR.png)
+![Admin Panel](https://i.imgur.com/lnIuLBS.png)
+![Category View](https://i.imgur.com/VTHQOx2.png)
 
 ## Setup:
 1. Copy & Paste all files to your webspace.
@@ -31,8 +33,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 - [x] Torrent Search.
 - [X] Remove Torrent (Users can remove torrents from my-torrent.php)
 - [x] Popular overview.
-	- Currently gets the top 10 seeded torrents of the past 7 days for that category.
-- [ ] Category overview.
+- [x] Category overview.
 
 For a full overview of available features and what's to come see [this gist](https://gist.github.com/KevinJDurant/690ff206779582a404d481ab0a165519). Note: a lot of parts will probably be insecure during the early stages of development.
 

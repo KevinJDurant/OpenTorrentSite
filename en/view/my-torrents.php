@@ -31,7 +31,7 @@
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Browse | OpenTorrents</title>
+    <title>Browse | OpenTorrentSite</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">

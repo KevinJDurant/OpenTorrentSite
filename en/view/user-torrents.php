@@ -5,6 +5,7 @@
     date_default_timezone_set('Europe/Brussels');
 
     include_once "../../php/libs/database.php";
+    include_once "../../php/libs/UserHelper.php";
     include_once "../../plugins/private_signup_plugin.php";
 
     $db = new Db();
@@ -161,8 +162,8 @@
                         foreach ($torrents as $key[] => $row) {
                         $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
                         echo '<tr>
-                            <td class="Name" data-label="Name"><a href="../view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
-                                <small>by '.$row["username"].'</small>
+                            <td class="Name" data-label="Name"><a href="../view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"] . '</a>
+                                <small>by '.$row["username"]. UserHelper::displayUserIcon($row['uploaderstatus']) . '</small>
                             </td>
                             <td data-label="Size">'.$row["size"].'</td>
                             <td data-label="Age">'. $diff->format("%ad").'</td>

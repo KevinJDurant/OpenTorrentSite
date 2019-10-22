@@ -1,10 +1,9 @@
 <?php
-
-$total_result_per_page=10;
     // Start the output buffer.
     ob_start();
 
     include_once "../../php/libs/database.php";
+    include_once "../../php/libs/UserHelper.php";
     include_once "../../php/popular.php";
     include_once "../../plugins/private_signup_plugin.php";
 
@@ -12,25 +11,35 @@ $total_result_per_page=10;
     if (!isset($_SESSION)) {
         session_start();
     }
-    if( empty($_GET["id"])) {
+
+    if(empty($_GET["id"])) {
         header("Location: ../../index.php");
         exit;
     }
-    // Fetch data.
+
+    $total_result_per_page = 10;
+
     $db = new Db();
-$cat_id=$db->escape(intval($_GET['id']));
-    $categories = $db -> select("SELECT * from categories where id=".$cat_id);
-    if(count($categories) == 0) { 
-            header("Location: ../../en/status/404.php"); exit;
-     }
-	 $total_torent=count(get_popular_per_cat_count($cat_id,$db));
-	 $total_torent_page=ceil($total_torent/$total_result_per_page);
-	$current_page=1;
-	 if(isset($_GET['page'])){
-		 if($_GET['page']>0){
-		 $current_page= intval($_GET['page']);}
-	 }
-   $start_result=$total_result_per_page*($current_page-1);
+
+    $cat_id= $db->escape(intval($_GET['id']));
+
+    $categories = $db->select("SELECT * from categories where id=".$cat_id);
+
+    if(count($categories) === 0) {
+        header("Location: ../../en/status/404.php"); exit;
+    }
+
+    $total_torrent = count(get_popular_per_cat_count($cat_id,$db));
+    $total_torrent_page = ceil($total_torrent / $total_result_per_page);
+
+    $current_page = 1;
+
+    if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0))
+    {
+        $current_page = intval($_GET['page']);
+    }
+
+    $start_result = $total_result_per_page * ($current_page - 1);
 ?>
 
 <!DOCTYPE html>
@@ -203,12 +212,12 @@ $cat_id=$db->escape(intval($_GET['id']));
                                     </tr>
                                   </thead>
                                   <tbody>';
-                        foreach ($torrents as $key[] => $row) {
+                        foreach ($torrents as $key => $row) {
                             $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
                             if($row["categoryname"] == $cat["categoryname"]) {
                                 echo '<tr>
                                     <td class="Name" data-label="Name"><a href="torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
-                                        <small>by <a href="user-torrents.php?userid='.$row["userid"].'">'.$row["username"].'</a></small>
+                                        <small>by <a href="user-torrents.php?userid='.$row["userid"].'">'.$row["username"]. UserHelper::displayUserIcon($row['uploaderstatus']) .'</a></small>
                                     </td>
                                     <td data-label="Size">'.$row["size"].'</td>
                                     <td data-label="Age">'. $diff->format("%ad").'</td>
@@ -226,16 +235,19 @@ $cat_id=$db->escape(intval($_GET['id']));
             </div>
         </div>
             <!-- /.row -->
-			<?php if($total_torent_page>0){ ?>
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-			<?php if($current_page>1){ ?>
-    <li class="page-item"><a class="page-link" style="float: left;" href="?id=<?=$cat_id?>&page=<?=$current_page-1?>">Previous</a></li>
-   
-			<?php } if($current_page<$total_torent_page){ ?> <li class="page-item"><a class="page-link" style="    float: right;" href="?id=<?=$cat_id?>&page=<?=$current_page+1?>">Next</a></li>
-  
-			<?php } ?></ul>
-</nav>
+			<?php if ($total_torrent_page > 0){ ?>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+			            <?php if ($current_page>1) { ?>
+                            <li class="page-item"><a class="page-link" style="float: left;" href="?id=<?=$cat_id?>&page=<?=$current_page-1?>">Previous</a></li>
+                        <?php }
+                        if ($current_page<$total_torrent_page) { ?>
+                            <li class="page-item">
+                                <a class="page-link" style="    float: right;" href="?id=<?=$cat_id?>&page=<?=$current_page+1?>">Next</a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </nav>
 			<?php } ?>
         <hr>
 
@@ -262,8 +274,8 @@ $cat_id=$db->escape(intval($_GET['id']));
     $(document).ready(function(e){
         $('.search-panel .dropdown-menu').find('a').click(function(e) {
             e.preventDefault();
-            var param = $(this).attr("href").replace("#","");
-            var concept = $(this).text();
+            let param = $(this).attr("href").replace("#","");
+            let concept = $(this).text();
             $('.search-panel span#search_concept').text(concept);
             $('.input-group #category').val(param);
         });
@@ -272,7 +284,5 @@ $cat_id=$db->escape(intval($_GET['id']));
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../../js/bootstrap.min.js"></script>
-
-
 </body>
 </html>
