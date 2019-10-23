@@ -107,7 +107,7 @@
                 </div>
                 <div class="error-actions">
                 <a href="../../index.php" class="btn btn-primary">
-                    <i class="icon-home icon-white"></i> Take Me Home </a>
+                <i class="icon-home icon-white"></i> Take Me Home </a>
             </div>
         </div>
         <!-- /.row -->
@@ -118,7 +118,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>OpenTorrentSite | <a href="https://github.com/KevinJDurant/OpenTorrentSite">KevinJDurant</a> | <a href="https://torrents.azukachan.com">AzukaChan</a></p>
+                    <p>Copyright © Your Website 2019</p>
                 </div>
             </div>
             <!-- /.row -->

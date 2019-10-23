@@ -159,7 +159,7 @@
                               </thead>
                               <tbody>';
                     if(count($torrents) != 0) {
-                        foreach ($torrents as $key[] => $row) {
+                        foreach ($torrents as $key => $row) {
                         $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
                         echo '<tr>
                             <td class="Name" data-label="Name"><a href="../view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"] . '</a>

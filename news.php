@@ -141,17 +141,14 @@
                 </form>
             </div>
         </div>
-		</br>
-		</br>
+
         <!-- /search -->
 
         <!-- News -->
-
-<center><h1>OpenTorrents is now live!</h1></center></br>
-Torrent leech/seed data can now be manually refreshed by pressing the blue button on the torrent page.</br>We're now working on a category view for a better browsing experience.</br>
-
-        <!-- /News -->
-
+        <h1>News</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
 
         <hr>
 
@@ -159,7 +156,7 @@ Torrent leech/seed data can now be manually refreshed by pressing the blue butto
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>OpenTorrentSite | <a href="https://github.com/KevinJDurant/OpenTorrentSite">KevinJDurant</a> | <a href="https://torrents.azukachan.com">AzukaChan</a></p>
+                    <p>Copyright © Your Website 2019</p>
                 </div>
             </div>
             <!-- /.row -->

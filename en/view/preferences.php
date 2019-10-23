@@ -241,11 +241,11 @@
                                 <td data-label="Access Level">'.UserHelper::translateUserStatus($row["uploaderstatus"]).'</td>
                                 <td data-label="Options">
                                     <a href="#"></span></a>							
-                                    <a href="setstatus_vip.php?user_id='.$row["user_id"].'" alt="VIP Status"  class="delete" data-confirm="Give user VIP status?"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a href="setstatus_trusted.php?user_id='.$row["user_id"].'" alt="StatusDown"  class="delete" data-confirm="Give user Trusted status?"><span class="glyphicon glyphicon-star"></span></a>
-                                    <a href="setstatus_user.php?user_id='.$row["user_id"].'" alt="StatusDown"  class="delete" data-confirm="Set regular user status?"><span class="glyphicon glyphicon-star-empty"></span></a>
-                                    <a href="setstatus_banned.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Ban User?"><span class="glyphicon glyphicon-ban-circle"></span></a>
-                                    <a href="setstatus_burnt.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Remove all users torrents?"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=3" alt="VIP Status"  class="delete" data-confirm="Give user VIP status?"><span class="glyphicon glyphicon-heart"></span></a>
+                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=2" alt="StatusDown"  class="delete" data-confirm="Give user Trusted status?"><span class="glyphicon glyphicon-star"></span></a>
+                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=0" alt="StatusDown"  class="delete" data-confirm="Set regular user status?"><span class="glyphicon glyphicon-star-empty"></span></a>
+                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=-1" alt="Ban"  class="delete" data-confirm="Ban User?"><span class="glyphicon glyphicon-ban-circle"></span></a>
+                                    <a href="/api/delete-all-torrents.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Remove all users torrents?"><span class="glyphicon glyphicon-trash"></span></a>
                                 </td>
                                 </tr>';
                             }

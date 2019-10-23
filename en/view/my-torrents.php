@@ -109,20 +109,10 @@
     <div class="container">
 
          <?php 
-
-        if(isset($_GET['msg'])){
-
-        
-
+            if (isset($_GET['msg']) && !empty($_GET['msg'])) {
+                echo '<h3 class="alert alert-success text-center">' . $_GET['msg'] . '</h3>';
+            }
          ?>
-
-         <h3 class="alert alert-success text-center"><?php echo $_GET['msg']; ?></h3>
-
-         <?php 
-
-        }
-
-          ?>
 
         <!-- Search -->
         <div class="row">
@@ -176,7 +166,7 @@
                               </thead>
                               <tbody>';
                     if(count($torrents) != 0) {
-                        foreach ($torrents as $key[] => $row) {
+                        foreach ($torrents as $key => $row) {
                         $ymd = new DateTime($row["uploaddate"]); $today = new DateTime(); $diff=date_diff($ymd,$today);
                         echo '<tr>
                             <td class="Name" data-label="Name"><a href="../view/torrent.php?hash='.$row["hash"].'&id='.$row["userid"].'">'.$row["name"].'</a>
@@ -188,7 +178,7 @@
                             <td data-label="Leech">'.$row["leechers"].'</td>
                             <td data-label="Download">
                                 <a href="'.$row["magnet"].'"><span class="glyphicon glyphicon-magnet link"></span></a>							
-                                <a href="delete_torrent_file.php?delete_id='.$row["torrents_id"].'"  class="delete" data-confirm="Are you sure you want to permanently remove this torrent from the database?"><span class="glyphicon glyphicon-trash link"></span></a>
+                                <a href="/api/delete-single-torrent.php?delete_id='.$row["torrents_id"].'"  class="delete" data-confirm="Are you sure you want to permanently remove this torrent from the database?"><span class="glyphicon glyphicon-trash link"></span></a>
                             </td>
                         </tr>';
                         }
@@ -204,7 +194,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Thanks for sharing~</p>
+                    <p>Copyright © Your Website 2019</p>
                 </div>
             </div>
             <!-- /.row -->
@@ -226,8 +216,8 @@
     $(document).ready(function(e){
         $('.search-panel .dropdown-menu').find('a').click(function(e) {
             e.preventDefault();
-            var param = $(this).attr("href").replace("#","");
-            var concept = $(this).text();
+            let param = $(this).attr("href").replace("#","");
+            let concept = $(this).text();
             $('.search-panel span#search_concept').text(concept);
             $('.input-group #category').val(param);
         });
@@ -242,23 +232,20 @@
             $("#mytorrents").tablesorter();
         });
 
+        // JS code for show Confirm alert
+        let deleteLinks = document.querySelectorAll('.delete');
 
+        for (let i = 0, l = deleteLinks.length; i < l; i++) {
+          deleteLinks[i].addEventListener('click', function(event) {
+              event.preventDefault();
 
+              let choice = confirm(this.getAttribute('data-confirm'));
 
-// JS code for show Confirm alert
-    var deleteLinks = document.querySelectorAll('.delete');
-
-for (var i = 0; i < deleteLinks.length; i++) {
-  deleteLinks[i].addEventListener('click', function(event) {
-      event.preventDefault();
-
-      var choice = confirm(this.getAttribute('data-confirm'));
-
-      if (choice) {
-        window.location.href = this.getAttribute('href');
-      }
-  });
-}
+              if (choice) {
+                window.location.href = this.getAttribute('href');
+              }
+          });
+        }
     </script>
 </body>
 </html>

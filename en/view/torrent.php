@@ -279,7 +279,7 @@
 
                                 let magnet = this.getAttribute('data-magnet');
 
-                                xhttp.open("POST", "../../php/seeders.php", true);
+                                xhttp.open("POST", "/api/update-seeders.php", true);
                                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 xhttp.send("magnet=" + btoa(magnet) + "&id=<?php echo $_GET['id']; ?>");
                             }

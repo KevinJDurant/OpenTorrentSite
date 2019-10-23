@@ -20,9 +20,9 @@
     $category = $db->quote(htmlspecialchars($_GET['category']));
 
     if($category != "'all'") {
-        $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE MATCH (t.name) AGAINST (".$searchquery." IN BOOLEAN MODE) AND c.id=".$category."");
+        $torrents = $db->select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE MATCH (t.name) AGAINST (".$searchquery." IN BOOLEAN MODE) AND c.id=".$category."");
     } else {
-        $torrents = $db -> select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE MATCH (t.name) AGAINST (".$searchquery." IN BOOLEAN MODE)");
+        $torrents = $db->select("SELECT t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE MATCH (t.name) AGAINST (".$searchquery." IN BOOLEAN MODE)");
     }
 
     ?>
@@ -194,7 +194,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>OpenTorrentSite | <a href="https://github.com/KevinJDurant/OpenTorrentSite">KevinJDurant</a> | <a href="https://torrents.azukachan.com">AzukaChan</a></p>
+                    <p>Copyright © Your Website 2019</p>
                 </div>
             </div>
             <!-- /.row -->

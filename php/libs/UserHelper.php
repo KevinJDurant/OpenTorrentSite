@@ -58,7 +58,7 @@ class UserHelper
                 return 'Banned User (-1)';
                 break;
             default:
-                return 'Basic User';
+                return 'Basic User (0)';
         }
     }
 
