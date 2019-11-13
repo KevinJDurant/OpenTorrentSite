@@ -1,5 +1,5 @@
 # OpenTorrentSite 
-[![GitHub version](https://img.shields.io/badge/version-0.2.9-brightgreen.svg)]()
+[![GitHub version](https://img.shields.io/badge/version-0.3.0-brightgreen.svg)]()
 [![GitHub issues](https://img.shields.io/github/issues/AzukaChan/OpenTorrentSite.svg)](https://github.com/AzukaChan/OpenTorrentSite/issues)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/KevinJDurant/OpenTorrentSite/master/LICENSE)
 
@@ -17,7 +17,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 1. Copy & Paste all files to your webspace.
 2. Create a folder called "torrents" in the root directory
 3. Setup a new MySQL database. For security purposes you should create a user with appropriate permissions.
-4. Change the database credentials inside 'config/config.ini.php'.
+4. Change the database credentials and website identification inside 'config/config.ini.php'.
 5. Import all .sql files from the 'sql' folder.
 
 ## FAQ

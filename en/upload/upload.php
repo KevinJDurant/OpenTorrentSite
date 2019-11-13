@@ -5,6 +5,9 @@
     // Include plugin.
     include_once "../../plugins/private_signup_plugin.php";
 
+    // Include constants.
+    include_once "./../../php/constants.php";
+
     // Redirects if the user is not logged in.
     if(empty($_SESSION["username"])) {
         header("Location: ../account/login.php");
@@ -20,11 +23,11 @@
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="OpenTorrentSite: an easy to setup torrent website!">
+    <meta name="description" content="<?php echo META_DESCRIPTION;?>">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Upload | OpenTorrentSite</title>
+    <title>Upload | <?php echo SITE_NAME;?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -81,7 +84,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../../index.php">OpenTorrentSite</a>
+                <a class="navbar-brand" href="../../index.php"><?php echo SITE_NAME;?></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -177,7 +180,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright © Your Website 2019</p>
+                    <p><?php echo FOOTER_TEXT;?></p>
                 </div>
             </div>
             <!-- /.row -->
