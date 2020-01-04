@@ -3,3 +3,4 @@
     defined('FOOTER_TEXT') || define('FOOTER_TEXT', $config['footer']);
     defined('META_DESCRIPTION') || define('META_DESCRIPTION', $config['meta_description']);
     defined('SITE_NAME') || define('SITE_NAME', $config['name']);
+	defined('GOOGLE_ID') || define('GOOGLE_ID', $config['google_id']);
