@@ -72,7 +72,7 @@ For a full overview of available features and what's to come see [this gist](htt
   -  [License (GPL)](http://www.gnu.org/licenses/gpl.html)
 * Easy Torrent Tracker:
   -  [Easy Torrent Tracker](https://github.com/skipperbent/easy-torrent-tracker#readme)
-  -  [License (GNUv3](http://www.gnu.org/licenses/)
+  -  [License (GNUv3)](http://www.gnu.org/licenses/)
 
 ## License
 MIT © [Kevin Durant](https://github.com/KevinJDurant) | [AzukaChan](https://github.com/AzukaChan)
