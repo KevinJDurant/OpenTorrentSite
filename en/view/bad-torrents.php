@@ -15,7 +15,7 @@
         header("Location: ../../index.php");
         exit;
     }
-
+	
     $db = new Db();
     
     $userid = $_SESSION["userid"];
@@ -25,7 +25,6 @@
 	
 	// Check user uploaderstatus
 	$uploaderstatus = $db->select("SELECT uploaderstatus AS 'vipstatus' FROM users WHERE user_id=".$userid."");
-
 	if ($uploaderstatus[0]["vipstatus"] === '99')
 	{
 	    // Get User Count
@@ -35,25 +34,23 @@
         $totaluploads = $db->select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents");
 
         // Get user list
-        $total_user = $db->select("SELECT count(user_id) as total FROM users WHERE uploaderstatus < 99");
+        $total_torrent = $db->select("SELECT count(t.id) as total FROM torrents t LEFT JOIN users u ON t.userid=u.user_id where t.votes < 0");
 		
-		// Results Per Page
 		$total_result_per_page = 5;
-		$total_user_page = ceil($total_user[0]['total'] / $total_result_per_page);
+		$total_torrent_page = ceil($total_torrent[0]['total'] / $total_result_per_page);
 
 		$current_page = 1;
 
+		if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0))
+		{
+			$current_page = intval($_GET['page']);
+		}
+
 		$start_result = $total_result_per_page * ($current_page - 1);
-		
-        // Get user list
-        $userlist = $db->select("SELECT user_id,reg_date,username,uploaderstatus FROM users WHERE uploaderstatus < 99 limit $start_result,$total_result_per_page");
-	
-	}
-	
-	// Get Current Page
-	if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0))
-	{
-		$current_page = intval($_GET['page']);
+        $badtorrents = $db->select("SELECT t.votes,t.name,t.id as 'torrent_id',u.user_id,u.username,u.uploaderstatus FROM torrents t LEFT JOIN users u ON t.userid=u.user_id where t.votes < 0 limit $start_result,$total_result_per_page");
+	} else {
+		header("Location: ../../index.php");
+		exit;
 	}
     ?>
 
@@ -126,7 +123,7 @@
                                         <a href="my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                     </li>
                                     <li>
-                                        <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
+                                        <a href="preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                     </li>
                                     <li>
                                         <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
@@ -191,7 +188,7 @@
             <?php
                 if ($uploaderstatus[0]["vipstatus"] === '99')
                 {
-                    echo '<h1>Admin Control Panel</h1>';
+                    echo '<h1>Reported Torrents</h1>';
                 }
                 else
                 {
@@ -247,48 +244,48 @@
                             <thead>
                                 <tr>
                                     <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Username</th>
-                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Register Date</th>
-                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>User ID</th>
-                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Access Level</th>
+                                    <th width="40%"><span class="glyphicon glyphicon-sort"></span></small>Torrent Name</th>
+                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Vote Count</th>
                                     <th width="20%">Options</th>
                                 </tr>
                               </thead>
                               <tbody>';
 
-                        if(count($userlist) !== 0) {
-                            foreach ($userlist as $key => $row) {
-                            echo '<tr>
-                                <td class="Name" data-label="Username"><a href="user-torrents.php?userid='.$row["user_id"].'"> '.$row["username"]. UserHelper::displayUserIcon($row['uploaderstatus']) . '</span></a></td>
-                                <td data-label="Register Date">'.$row["reg_date"].'</td>
-                                <td data-label="User ID">'.$row["user_id"].'</td>
-                                <td data-label="Access Level">'.UserHelper::translateUserStatus($row["uploaderstatus"]).'</td>
-                                <td data-label="Options">
-                                    <a href="#"></span></a>							
-                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=3" alt="VIP Status"  class="delete" data-confirm="Give user VIP status?"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=2" alt="StatusDown"  class="delete" data-confirm="Give user Trusted status?"><span class="glyphicon glyphicon-star"></span></a>
-                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=0" alt="StatusDown"  class="delete" data-confirm="Set regular user status?"><span class="glyphicon glyphicon-star-empty"></span></a>
-                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=-1" alt="Ban"  class="delete" data-confirm="Ban User?"><span class="glyphicon glyphicon-ban-circle"></span></a>
-                                    <a href="/api/delete-all-torrents.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Remove all users torrents?"><span class="glyphicon glyphicon-trash"></span></a>
-                                </td>
-                                </tr>';
-                            }
+                        if(count($badtorrents) !== 0) {
+                            foreach ($badtorrents as $key => $row) {
+									
+									echo '<tr>
+										<td class="Name" data-label="Username"><a href="user-torrents.php?userid='.$row["user_id"].'"> '.$row["username"]. UserHelper::displayUserIcon($row['uploaderstatus']) . '</span></a></td>
+										<td data-label="Torrent Name">'.$row["name"].'</td>
+										<td data-label="Vote Count">'.$row['votes'].'</td>
+										<td data-label="Options">
+											<a href="#"></span></a>							
+											<a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=3" alt="VIP Status"  class="delete" data-confirm="Give user VIP status?"><span class="glyphicon glyphicon-heart"></span></a>
+											<a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=2" alt="StatusDown"  class="delete" data-confirm="Give user Trusted status?"><span class="glyphicon glyphicon-star"></span></a>
+											<a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=0" alt="StatusDown"  class="delete" data-confirm="Set regular user status?"><span class="glyphicon glyphicon-star-empty"></span></a>
+											<a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=-1" alt="Ban"  class="delete" data-confirm="Ban User?"><span class="glyphicon glyphicon-ban-circle"></span></a>
+											<a href="/api/delete-all-torrents.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Remove all users torrents?"><span class="glyphicon glyphicon-trash"></span></a>
+										</td>
+										</tr>';
+							}
                         }
 
                         echo '</tbody></table>';
 					}
                 ?>
             </div>
-        </div><?php 
+        </div>
+			<?php 
                 if ($uploaderstatus[0]["vipstatus"] === '99')
                 { 
-					if ($total_user_page > 0){ ?>
+					if ($total_torrent_page > 0){ ?>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination" style="
     width: 100%;">
 			            <?php if ($current_page>1) { ?>
                             <li class="page-item"><a class="page-link" style="float: left;" href="?page=<?=$current_page-1?>">Previous</a></li>
                         <?php }
-                        if ($current_page<$total_user_page) { ?>
+                        if ($current_page<$total_torrent_page) { ?>
                             <li class="page-item">
                                 <a class="page-link" style="float: right;" href="?page=<?=$current_page+1?>">Next</a>
                             </li>

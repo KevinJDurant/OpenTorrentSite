@@ -1,20 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.2
--- http://www.phpmyadmin.net
+-- version 4.9.5
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 19, 2017 at 07:03 PM
--- Server version: 5.6.13
--- PHP Version: 5.4.17
+-- Host: localhost:3306
+-- Generation Time: Jul 27, 2020 at 04:37 AM
+-- Server version: 5.7.31
+-- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `opentorrentsite`
@@ -26,26 +28,31 @@ SET time_zone = "+00:00";
 -- Table structure for table `categories`
 --
 
-CREATE TABLE IF NOT EXISTS `categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `categoryname` varchar(15) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `categoryname` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `categories`
+-- Indexes for dumped tables
 --
 
-INSERT INTO `categories` (`id`, `categoryname`) VALUES
-(1, 'Movies'),
-(2, 'Television'),
-(3, 'Music'),
-(4, 'Games'),
-(5, 'Software'),
-(6, 'Anime'),
-(7, 'Books'),
-(8, 'XXX'),
-(9, 'Other');
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

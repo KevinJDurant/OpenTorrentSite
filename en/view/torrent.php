@@ -27,6 +27,13 @@
 
         // Get the corresponding values.
         $torrent = $db->select("SELECT * FROM `torrents` WHERE `hash`=".$hash." AND `userid`=".$id."");
+		
+		$torrent_id=$torrent[0]["id"];
+		// Count torrent votes
+		$votes = $db->select("SELECT SUM(hasvoted) AS `Total Votes` FROM `votes` WHERE `torrentid`=".$torrent_id."");
+		if ($votes[0]["Total Votes"] === NULL) {
+        $votes = 0;
+		}
 
         // Change this to the torrent 404 page.
         if(count($torrent) === 0) {
@@ -41,6 +48,7 @@
 <html lang="en">
 
 <head>
+
     <!-- Standard Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -234,6 +242,7 @@
                       ?>
                     </tbody>
                   </table>
+				</hr>
 
             </div>
 
@@ -245,14 +254,20 @@
                         Size: <?php echo $torrent[0]["size"]; ?> <br/>
                         Seeders: <span id="seederCount"><?php echo $torrent[0]["seeders"]; ?></span> <br/>
                         Leechers: <span id="leecherCount"><?php echo $torrent[0]["leechers"]; ?></span> <br/>
+						Rating: <span id="voteCount"><?php echo $votes[0]["Total Votes"]; ?></span> <br/>
                         <br />
                         <a href="<?php echo $torrent[0]["magnet"]; ?>"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-magnet"></span></button></a>                        
-                        <button type="button" class="btn btn-primary"  id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button>
+                        <?php $time = $torrent[0]["LastRefresh"]; 
+						if(time()>$time){ ?><button type="button" class="btn btn-primary"  id="refresh-torrent" data-magnet="<?php echo $torrent[0]["magnet"]; ?>"><span class="glyphicon glyphicon-refresh"></span></button><?php } ?>
+						<a href="javascript:;" onclick="vote_('1');"><button type="button" class="btn btn-primary"  id="vote-up"><span class="glyphicon glyphicon-thumbs-up"></span></button></a>
+						<a href="javascript:;" onclick="vote_('-1');"><button type="button" class="btn btn-primary" id="vote-down"><span class="glyphicon glyphicon-thumbs-down"></span></button></a>
+						
+						
 
                     <script>
                         let refreshButton = document.getElementById('refresh-torrent');
 
-                        let calling = false;
+                        var calling = false;
 
                         refreshButton.addEventListener('click', function ()
                         {
@@ -261,30 +276,23 @@
                             if (clientConfirms && !calling)
                             {
                                 calling = true;
-
-                                let xhttp;
-
-                                if (window.XMLHttpRequest) xhttp = new XMLHttpRequest();
-                                else xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-
-                                xhttp.onreadystatechange = function()
-                                {
-                                    if (this.readyState === 4 && this.status === 200)
-                                    {
-                                        calling = false;
-
-                                        let response = JSON.parse(this.responseText);
-
-                                        document.getElementById('leecherCount').innerText = response.leechers;
-                                        document.getElementById('seederCount').innerText = response.seeders;
-                                    }
-                                };
-
                                 let magnet = this.getAttribute('data-magnet');
-
-                                xhttp.open("POST", "/api/update-seeders.php", true);
-                                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                xhttp.send("magnet=" + btoa(magnet) + "&id=<?php echo $_GET['id']; ?>");
+								$.ajax({
+									 method: "POST",
+									url: "/api/update-seeders.php",
+									data: { magnet: btoa(magnet), id:<?php echo $_GET['id']; ?> }
+								   })
+								  .done(function( response ) {
+									    calling = false;
+										$('#refresh-torrent').hide();
+                                        response = JSON.parse(response);
+										if(response.leechers!=null){
+											$('#leecherCount').text(response.leechers);
+										}
+										if(response.seeders!=null){
+											$('#seederCount').text(response.seeders);
+										}
+								  });
                             }
                         });
                     </script>
@@ -315,6 +323,21 @@
     <script src="../../js/torrentcard.js"></script>
 
     <script>
+	function vote_(i){
+		<?php 
+    if(!empty($_SESSION["username"])) { ?>
+		$.ajax({
+     method: "POST",
+    url: "/api/votes.php",
+    data: { d: i, userid: <?=$_SESSION["userid"]?>,torrent:<?=$torrent_id?> }
+   })
+  .done(function( msg ) {
+	  $('#voteCount').html(msg);
+  });
+	<?php }else{ ?>
+	alert("You must be logged in to use this feature.");
+	<?php } ?>
+	}
     $(document).ready(function(e){
         $('.search-panel .dropdown-menu').find('a').click(function(e) {
             e.preventDefault();
