@@ -38,14 +38,14 @@ CREATE TABLE `categories` (
 --	--
 
 INSERT INTO `categories` (`id`, `categoryname`) VALUES
-(1, 'Movies'),	-- Indexes for table `categories`
-(2, 'Television'),	--
-(3, 'Music'),	ALTER TABLE `categories`
-(4, 'Games'),	  ADD PRIMARY KEY (`id`);
-(5, 'Software'),	
-(6, 'Anime'),	--
-(7, 'Books'),	-- AUTO_INCREMENT for dumped tables
-(8, 'XXX'),	--
+(1, 'Movies'),
+(2, 'Television'),
+(3, 'Music'),
+(4, 'Games'),
+(5, 'Software'),
+(6, 'Anime'),
+(7, 'Books'),
+(8, 'XXX'),
 (9, 'Other');
 
 --
