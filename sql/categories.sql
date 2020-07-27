@@ -33,9 +33,9 @@ CREATE TABLE `categories` (
   `categoryname` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---	--
+--
 -- Dumping data for table `categories`
---	--
+--
 
 INSERT INTO `categories` (`id`, `categoryname`) VALUES
 (1, 'Movies'),
