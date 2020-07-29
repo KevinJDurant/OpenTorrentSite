@@ -13,6 +13,7 @@ if (isset($_POST['magnet']) && !empty($_POST['magnet']) && isset($_POST['id']) &
 
     $trackers = [];
 
+    $db = new Db();
     if (count($magnet) > 0)
     {
         $hash = str_replace('magnet:?xt=urn:btih:','', $magnet[0]);
@@ -40,9 +41,9 @@ if (isset($_POST['magnet']) && !empty($_POST['magnet']) && isset($_POST['id']) &
             $seeders = $info[$hash]['seeders'];
             $leechers = $info[$hash]['leechers'];
 
-            $db = new Db();
             $result = $db->query('UPDATE torrents SET leechers = ' .  $db->escape($leechers) . ', seeders = ' . $db->escape($seeders) . ' WHERE userid = ' . $db->escape($_POST['id']) . ' AND hash = ' . $db->quote($hash));
         }
+		    $db->query('UPDATE torrents SET LastRefresh='.strtotime('+24 Hours').' WHERE userid = ' . $db->escape($_POST['id']) . ' AND hash = ' . $db->quote($hash));
     }
 
     header('Content-Type: application/json');
