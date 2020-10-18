@@ -39,7 +39,6 @@
         if(count($torrent) === 0) {
             header("Location: ../../en/status/404.php"); exit;
         }
-
         $uploader = $db -> select("SELECT `username`,`uploaderstatus`,`user_id`  FROM `users` WHERE `user_id`=".$id."");
     }
 ?>
@@ -72,7 +71,7 @@
 
     <script>
         tinymce.init({
-          selector: 'textarea',
+          selector: '#list_to_convert',
           theme: 'modern',
           readonly : 1,
           toolbar: false,
@@ -192,7 +191,7 @@
 
             <!-- /.row -->
 
-            <div class="row">
+        <div class="row">
             <!-- Blog Post Content Column -->
             <div class="col-lg-8">
                 <!-- Torrent name -->
@@ -207,42 +206,6 @@
 
                 <!-- Date/Time -->
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $torrent[0]["uploaddate"]; ?></p>
-
-                <hr>
-
-                <?php
-                    if($torrent[0]["imdb"] != null) {
-                        echo '<!-- Preview Image -->';
-                        echo '<img class="img-responsive" src="http://placehold.it/900x300" alt=""><hr>';
-                    }
-                ?>                
-
-                <!-- Torrent description + files tree -->
-                <textarea>
-                    <?php echo $torrent[0]["description"]; ?>
-                </textarea>
-
-                <hr>      
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>Filename</th>
-                        <th>Size</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                        $i = 0;
-                        foreach (unserialize($torrent[0]["files"]) as $f[] => $key) {
-                            echo '<tr>';
-                            echo '<td>'. $f[$i] . '</td><td>'. formatBytes($key) .'</td>';
-                            echo '</tr>';
-                            $i++;
-                        }
-                      ?>
-                    </tbody>
-                  </table>
-				</hr>
 
             </div>
 
@@ -301,6 +264,150 @@
         </div>
         <!-- /.row -->
 
+        <div class="row">
+            <!-- Blog Post Content Column -->
+            <div class="col-lg-8">
+			
+			
+                <hr>
+
+                <?php
+                    if($torrent[0]["imdb"] != null) {
+                        echo '<!-- Preview Image -->';
+                        echo '<img class="img-responsive" src="http://placehold.it/900x300" alt=""><hr>';
+                    }
+                ?>                
+
+                <!-- Torrent description + files tree -->
+                <textarea id="list_to_convert">
+                    <?php echo $torrent[0]["description"]; ?>
+                </textarea>
+
+				<div class="row">
+					<!-- Blog Post Content Column -->
+					<div class="col-lg-12">
+					<?php   if(isset($_SESSION["username"])) {	 ?>
+						<form method="POST" id="comment_form">
+							<div class="form-group">
+							 <textarea name="comment_content" id="comment_content" class="form-control" placeholder="Enter Comment" rows="5"></textarea>
+							</div>
+							<div class="form-group">
+							 <input type="hidden" name="comment_id" id="comment_id" value="0" />
+							 <input type="hidden" name="torrent_id" value="<?=$torrent_id?>" />
+							 <input type="submit" name="submit" id="submit" class="btn btn-info" value="Submit" />
+							</div>
+						</form>
+					   <span id="comment_message"></span>
+					   <br />
+					   <?php } ?>
+					   <div id="display_comment"></div>
+					</div>
+				</div>
+			</div>
+			
+			
+    <!-- jQuery -->
+    <script src="../../js/jquery.js"></script>
+							
+				<script>
+				var torrent_id = <?=$torrent_id?>;
+				$(document).ready(function(){
+				 
+				 $('#comment_form').on('submit', function(event){
+				  event.preventDefault();
+				  var form_data = $(this).serialize();
+				  $.ajax({
+				   url:"../../api/add_comment.php",
+				   method:"POST",
+				   data:form_data,
+				   dataType:"JSON",
+				   success:function(data)
+				   {
+					if(data.error != '')
+					{
+					 $('#comment_form')[0].reset();
+					 $('#comment_message').html(data.error);
+					 $('#comment_id').val('0');
+					 load_comment();
+					}
+				   }
+				  })
+				 });
+
+				 load_comment();
+
+				 function load_comment()
+				 {
+				  $.ajax({
+				   url:"../../api/fetch_comment.php",
+				   method:"POST",
+				   data:{torrent_id:torrent_id},
+				   success:function(data)
+				   {
+					$('#display_comment').html(data);
+				   }
+				  })
+				 }
+
+				 $(document).on('click', '.reply', function(){
+				  var comment_id = $(this).attr("id");
+				  $('#comment_id').val(comment_id);
+				 });
+				 
+				 $(document).on('click', '.EDIT', function(){
+				  var comment_id = $(this).attr("id");
+				  $('#comment_content').val($.trim($(this).parent().parent().find('.panel-body').text()));
+				  $('#comment_id').val(comment_id);
+				  
+					$('html, body').animate({
+						scrollTop: $("#comment_content").offset().top - 100
+					}, 200);
+					$("#comment_content").focus();
+				 });
+				 
+				 $(document).on('click', '.delete', function(){
+				  var comment_id = $(this).attr("id");
+					  
+					  $.ajax({
+					   url:"../../api/delete_comment.php",
+					   method:"POST",
+					   data:{comment_id: comment_id,torrent_id:torrent_id},
+					   dataType:"JSON",
+					   success:function(data)
+					   {
+						$('#comment_message').html(data.error);
+						load_comment();
+					   }
+					  })
+				 });
+				 
+				});
+				</script>
+
+            <div class="col-lg-4">
+                <hr/>      
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Filename</th>
+                        <th>Size</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                        $i = 0;
+                        foreach (unserialize($torrent[0]["files"]) as $f[] => $key) {
+                            echo '<tr>';
+                            echo '<td>'. $f[$i] . '</td><td>'. formatBytes($key) .'</td>';
+                            echo '</tr>';
+                            $i++;
+                        }
+                      ?>
+                    </tbody>
+                  </table>
+
+			</div>
+		</div>
         <hr>
 
         <!-- Footer -->
@@ -316,8 +423,6 @@
     </div>
     <!-- /.container -->
 
-    <!-- jQuery -->
-    <script src="../../js/jquery.js"></script>
 	
     <!-- Torrent Card -->
     <script src="../../js/torrentcard.js"></script>

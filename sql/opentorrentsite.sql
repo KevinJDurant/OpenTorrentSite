@@ -3,8 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 29, 2020 at 10:09 AM
--- Server version: 5.7.31
+-- Generation Time: Oct 18, 2020 at 05:42 PM
 -- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,10 +17,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `opentorrentsite`
---
-
 -- --------------------------------------------------------
 
 --
@@ -33,20 +28,21 @@ CREATE TABLE `categories` (
   `categoryname` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `categories`
+-- Table structure for table `comments`
 --
 
-INSERT INTO `categories` (`id`, `categoryname`) VALUES
-(1, 'Movies'),
-(2, 'Television'),
-(3, 'Music'),
-(4, 'Games'),
-(5, 'Software'),
-(6, 'Anime'),
-(7, 'Books'),
-(8, 'XXX'),
-(9, 'Other');
+CREATE TABLE `comments` (
+  `comment_id` int(11) NOT NULL,
+  `parent_comment_id` int(11) NOT NULL,
+  `comment` varchar(200) NOT NULL,
+  `comment_sender_name` varchar(40) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `userid` mediumint(8) UNSIGNED DEFAULT NULL,
+  `torrent_id` int(22) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -68,8 +64,8 @@ CREATE TABLE `torrents` (
   `magnet` varchar(800) NOT NULL,
   `files` varchar(5000) NOT NULL,
   `imdb` varchar(10) DEFAULT NULL,
-  `votes` int(23) DEFAULT '0',
-  `LastRefresh` int(23) DEFAULT '0'
+  `votes` int(23) DEFAULT 0,
+  `LastRefresh` int(23) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -84,7 +80,7 @@ CREATE TABLE `users` (
   `reg_date` varchar(10) NOT NULL,
   `username` varchar(20) DEFAULT NULL,
   `password` char(60) NOT NULL,
-  `uploaderstatus` int(11) NOT NULL DEFAULT '0',
+  `uploaderstatus` int(11) NOT NULL DEFAULT 0,
   `tempkey` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -101,12 +97,22 @@ CREATE TABLE `votes` (
   `hasvoted` tinyint(1) NOT NULL COMMENT 'votes increment of upcrement'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Indexes for dumped tables
+--
 
 --
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`comment_id`),
+  ADD KEY `userid` (`userid`);
 
 --
 -- Indexes for table `torrents`
@@ -137,25 +143,41 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `torrents`
 --
 ALTER TABLE `torrents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
