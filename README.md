@@ -23,6 +23,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 ## FAQ
 1. My seeders/leechers are always 0? Your hosting provider is blocking UDP requests.
 2. I can't upload .torrent files? Create a torrents folder in the root directory. Also make sure you have adequate MySQL and Disk rights.
+3. How do I make myself Administrator? Navigate to the `users` table in MySQL and set your `uploaderstatus` to `99`
 
 ## Current features:
 - [x] User Register and Login.
@@ -34,6 +35,8 @@ A modern torrent search engine/website template that is easy to setup with an in
 - [X] Remove Torrent (Users can remove torrents from my-torrent.php)
 - [x] Popular overview.
 - [x] Category overview.
+- [x] Comment Section
+- [x] Admin Control Panel
 
 For a full overview of available features and what's to come see [this gist](https://gist.github.com/KevinJDurant/690ff206779582a404d481ab0a165519). Note: a lot of parts will probably be insecure during the early stages of development.
 
