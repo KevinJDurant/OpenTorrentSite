@@ -21,7 +21,7 @@ A modern torrent search engine/website template that is easy to setup with an in
 5. Import all .sql files from the 'sql' folder.
 
 ## FAQ
-1. My seeders/leechers are always 0? Your hosting provider is blocking UDP requests.
+1. My seeders/leechers are always 0? Your hosting provider is blocking UDP requests or your torrent file has no trackers. (HTTP, HTTPS and UDP are supported; DHT is not supported)
 2. I can't upload .torrent files? Create a torrents folder in the root directory. Also make sure you have adequate MySQL and Disk rights.
 3. How do I make myself Administrator? Navigate to the `users` table in MySQL and set your `uploaderstatus` to `99`
 
