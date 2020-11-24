@@ -217,7 +217,14 @@
                         Size: <?php echo $torrent[0]["size"]; ?> <br/>
                         Seeders: <span id="seederCount"><?php echo $torrent[0]["seeders"]; ?></span> <br/>
                         Leechers: <span id="leecherCount"><?php echo $torrent[0]["leechers"]; ?></span> <br/>
-						Rating: <span id="voteCount"><?php echo $votes[0]["Total Votes"]; ?></span> <br/>
+						Rating: <span id="voteCount"<?php 
+						$total_vote = intval($votes[0]["Total Votes"]);
+						if($total_vote>0){
+							echo ' style="color:green;"';
+						}elseif($total_vote<1){
+							echo ' style="color:red;"';
+						}
+						?>><?php echo $votes[0]["Total Votes"]; ?></span> <br/>
                         <br />
                         <a href="<?php echo $torrent[0]["magnet"]; ?>"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-magnet"></span></button></a>                        
                         <?php $time = $torrent[0]["LastRefresh"]; 
@@ -310,7 +317,31 @@
     <script src="../../js/jquery.js"></script>
 							
 				<script>
+				var comment_page = 1;
 				var torrent_id = <?=$torrent_id?>;
+				
+				 function load_comment_page(page, that)
+				 {
+					 comment_page = page;
+					 load_comment(function(){
+						$('html, body').animate({
+							scrollTop: $("#comment_content").offset().top - 100
+						}, 200);
+					 });
+				 }
+				 function load_comment(f=false)
+				 {
+				  $.ajax({
+				   url:"../../api/fetch_comment.php",
+				   method:"POST",
+				   data:{torrent_id:torrent_id,page:comment_page},
+				   success:function(data)
+				   {
+					$('#display_comment').html(data);
+					if(f!=false){f();}
+				   }
+				  })
+				 }
 				$(document).ready(function(){
 				 
 				 $('#comment_form').on('submit', function(event){
@@ -328,6 +359,7 @@
 					 $('#comment_form')[0].reset();
 					 $('#comment_message').html(data.error);
 					 $('#comment_id').val('0');
+					 comment_page = 1;
 					 load_comment();
 					}
 				   }
@@ -335,19 +367,6 @@
 				 });
 
 				 load_comment();
-
-				 function load_comment()
-				 {
-				  $.ajax({
-				   url:"../../api/fetch_comment.php",
-				   method:"POST",
-				   data:{torrent_id:torrent_id},
-				   success:function(data)
-				   {
-					$('#display_comment').html(data);
-				   }
-				  })
-				 }
 
 				 $(document).on('click', '.reply', function(){
 				  var comment_id = $(this).attr("id");
@@ -385,7 +404,11 @@
 				</script>
 
             <div class="col-lg-4">
-                <hr/>      
+				<hr/>  
+			  <button class="btn btn-info btn-md" style="width:100%" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+				<i class="glyphicon glyphicon-eye-open"></i> Files
+			  </button>
+				<div class="collapse" id="collapseExample">    
                   <table class="table table-striped">
                     <thead>
                       <tr>
@@ -406,6 +429,7 @@
                     </tbody>
                   </table>
 
+			</div>
 			</div>
 		</div>
         <hr>
@@ -437,7 +461,14 @@
     data: { d: i, userid: <?=$_SESSION["userid"]?>,torrent:<?=$torrent_id?> }
    })
   .done(function( msg ) {
+	  var i = parseInt(msg);
+	  
 	  $('#voteCount').html(msg);
+	if(i>0){
+		$('#voteCount').css("color","green");
+	}else if(i<1){
+		$('#voteCount').css("color","red");
+	}
   });
 	<?php }else{ ?>
 	alert("You must be logged in to use this feature.");
