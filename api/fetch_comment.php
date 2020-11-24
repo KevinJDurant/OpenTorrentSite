@@ -3,13 +3,32 @@
 if (!isset($_SESSION)) {
 	session_start();
 }
+if (isset($_POST['page'])) {
+	$pageno = intval($_POST['page']);
+	if($pageno<1){
+		$pageno = 1;
+	}
+} else {
+	$pageno = 1;
+}
+$no_of_records_per_page = 10;
+$offset = ($pageno-1) * $no_of_records_per_page;
 
 $config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config/config.ini.php');
 //fetch_comment.php
 
 $connect = new PDO('mysql:host=localhost;dbname='.$config['dbname'], $config['username'], $config['password']);
+
+$total_pages_sql = "SELECT COUNT(*) as total FROM comments";
+$resultQ = $connect->prepare($total_pages_sql);
+$resultQ->execute();
+$resultQ = $resultQ->fetchAll();
+$total_rows = $resultQ[0]['total'];
+$total_pages = ceil($total_rows / $no_of_records_per_page);
+
+		
 //parent_comment_id = '0' 
-$query = "SELECT * FROM comments where torrent_id='".intval($_POST['torrent_id'])."' ORDER BY comment_id DESC";
+$query = "SELECT * FROM comments where torrent_id='".intval($_POST['torrent_id'])."' ORDER BY comment_id DESC LIMIT $offset, $no_of_records_per_page";
 
 $statement = $connect->prepare($query);
 
@@ -45,6 +64,18 @@ foreach($result as $row)
 
 echo $output;
 
+?>
+    <ul class="pagination">
+        <li><a href="javascript:;"<?php echo " onclick=\"load_comment_page(".(1).',this);"'; ?>>First</a></li>
+        <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
+            <a href="javascript:;"<?php if($pageno <= 1){ } else { echo " onclick=\"load_comment_page(".($pageno - 1).',this);"'; } ?>>Prev</a>
+        </li>
+        <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
+            <a href="javascript:;"<?php if($pageno >= $total_pages){  } else { echo " onclick=\"load_comment_page(".($pageno + 1).',this);"'; } ?>>Next</a>
+        </li>
+        <li><a href="javascript:;"<?php echo " onclick=\"load_comment_page(".($total_pages).',this);"'; ?>>Last</a></li>
+    </ul>
+<?php
 
 function get_reply_comment($connect, $parent_id = 0, $marginleft = 0)
 {
