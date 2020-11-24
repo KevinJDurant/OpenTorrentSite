@@ -3,7 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 18, 2020 at 05:42 PM
+-- Generation Time: Nov 24, 2020 at 06:18 AM
+-- Server version: 5.7.32-cll-lve
 -- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -16,6 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `OpenTorrentSite`
+--
 
 -- --------------------------------------------------------
 
@@ -39,7 +44,7 @@ CREATE TABLE `comments` (
   `parent_comment_id` int(11) NOT NULL,
   `comment` varchar(200) NOT NULL,
   `comment_sender_name` varchar(40) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `userid` mediumint(8) UNSIGNED DEFAULT NULL,
   `torrent_id` int(22) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -64,8 +69,8 @@ CREATE TABLE `torrents` (
   `magnet` varchar(800) NOT NULL,
   `files` varchar(5000) NOT NULL,
   `imdb` varchar(10) DEFAULT NULL,
-  `votes` int(23) DEFAULT 0,
-  `LastRefresh` int(23) DEFAULT 0
+  `votes` int(23) DEFAULT '0',
+  `LastRefresh` int(23) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -80,7 +85,7 @@ CREATE TABLE `users` (
   `reg_date` varchar(10) NOT NULL,
   `username` varchar(20) DEFAULT NULL,
   `password` char(60) NOT NULL,
-  `uploaderstatus` int(11) NOT NULL DEFAULT 0,
+  `uploaderstatus` int(11) NOT NULL DEFAULT '0',
   `tempkey` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -168,16 +173,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `votes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `comments`
---
-ALTER TABLE `comments`
-  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
