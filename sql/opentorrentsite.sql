@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 24, 2020 at 06:18 AM
+-- Generation Time: Nov 30, 2020 at 10:53 AM
 -- Server version: 5.7.32-cll-lve
 -- PHP Version: 7.3.6
 
@@ -67,7 +67,7 @@ CREATE TABLE `torrents` (
   `leechers` int(11) NOT NULL,
   `hash` varchar(100) NOT NULL,
   `magnet` varchar(800) NOT NULL,
-  `files` varchar(5000) NOT NULL,
+  `files` mediumtext NOT NULL,
   `imdb` varchar(10) DEFAULT NULL,
   `votes` int(23) DEFAULT '0',
   `LastRefresh` int(23) DEFAULT '0'
