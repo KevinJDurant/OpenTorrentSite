@@ -66,7 +66,7 @@ CREATE TABLE `torrents` (
   `seeders` int(11) NOT NULL,
   `leechers` int(11) NOT NULL,
   `hash` varchar(100) NOT NULL,
-  `magnet` varchar(800) NOT NULL,
+  `magnet` mediumtext NOT NULL,
   `files` mediumtext NOT NULL,
   `imdb` varchar(10) DEFAULT NULL,
   `votes` int(23) DEFAULT '0',
