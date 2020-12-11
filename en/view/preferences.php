@@ -34,7 +34,7 @@
         // Total Website Upload Count
         $totaluploads = $db->select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents");
 
-        // Get user list
+        // Total Users
         $total_user = $db->select("SELECT count(user_id) as total FROM users WHERE uploaderstatus < 99");
 		
 		// Results Per Page
@@ -43,18 +43,17 @@
 
 		$current_page = 1;
 
+		// Get Current Page
+		if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0)){
+			$current_page = intval($_GET['page']);
+		}
 		$start_result = $total_result_per_page * ($current_page - 1);
 		
-        // Get user list
+        // User List
         $userlist = $db->select("SELECT user_id,reg_date,username,uploaderstatus FROM users WHERE uploaderstatus < 99 limit $start_result,$total_result_per_page");
 	
 	}
 	
-	// Get Current Page
-	if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0))
-	{
-		$current_page = intval($_GET['page']);
-	}
     ?>
 
 <!DOCTYPE html>
