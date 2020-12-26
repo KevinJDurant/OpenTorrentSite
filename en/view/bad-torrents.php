@@ -23,26 +23,25 @@
 	// User Upload Count
 	$totaluseruploads = $db->select("SELECT COUNT(id) AS 'Total User Uploads' FROM torrents WHERE userid=".$userid."");
 	
-	// Check user uploaderstatus
+	// Administrator Check
 	$uploaderstatus = $db->select("SELECT uploaderstatus AS 'vipstatus' FROM users WHERE user_id=".$userid."");
-	if ($uploaderstatus[0]["vipstatus"] === '99')
-	{
-	    // Get User Count
-        $usercount = $db->select("SELECT COUNT(user_id) AS 'Total Users' FROM users");
+	if ($uploaderstatus[0]["vipstatus"] === '99'){
+		// Get User Count
+        $usercount = $db->select("SELECT COUNT(user_id) AS 'Total Users' FROM users WHERE uploaderstatus < 99");
 
         // Total Website Upload Count
         $totaluploads = $db->select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents");
 
-        // Get user list
+        // Get Disliked Torrents
         $total_torrent = $db->select("SELECT count(t.id) as total FROM torrents t LEFT JOIN users u ON t.userid=u.user_id where t.votes < 0");
-		
+
+		// Results Per Page
 		$total_result_per_page = 5;
 		$total_torrent_page = ceil($total_torrent[0]['total'] / $total_result_per_page);
-
 		$current_page = 1;
 
-		if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0))
-		{
+		// Get Current Page
+		if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0)){
 			$current_page = intval($_GET['page']);
 		}
 

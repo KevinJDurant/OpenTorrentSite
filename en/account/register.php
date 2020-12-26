@@ -3,6 +3,8 @@
     session_start();
 
     include_once "../../plugins/private_signup_plugin.php";
+	
+    include_once "../../plugins/private_invite_plugin.php";
 
     // Include constants.
     include_once "./../../php/constants.php";
@@ -12,6 +14,26 @@
         header("Location: ../../index.php");
         exit;
     }
+	
+	include_once "../../php/register.php";
+	
+	if (!empty($_POST['password']) && !empty($_POST['email']) && !empty($_POST['tovalidatepassword']) && !empty($_POST['username'])) {
+		
+		if($configPlugin['inviteonly']){
+			if(!empty($_POST['inviteCode'])){
+				$db = new Db();
+				$inviteCode = $db->quote($_POST['inviteCode']);
+				if(NotUsedInviteCode($inviteCode, $db)){
+					$form_feedback = register($inviteCode);
+				}
+			}
+			if(!isset($form_feedback)){
+				$form_feedback = form_feedback('Please use a valid invite code');
+			}
+		}else{
+			$form_feedback = register();
+		}
+	}
 ?>
 
 <!DOCTYPE html>
@@ -146,7 +168,16 @@
                         <div class="help-block with-errors"></div>
                       </div>
                     </div>
-
+<?php if($configPlugin['inviteonly']){ ?>
+                    <!-- (invite) -->
+                    <div class="form-group row">
+                      <label for="inputInvitation" class="col-sm-2 col-form-label">Invite Code</label>
+                      <div class="col-sm-10">
+                        <input name="inviteCode" type="text" class="form-control" id="inputInvitation" placeholder="Invite Code" data-error="Input Invitation Code" required>
+                        <div class="help-block with-errors"></div>
+                      </div>
+                    </div>
+<?php } ?>
                     <!-- (checkbox) -->
                     <div class="form-group row">
                       <label class="col-sm-2"></label>
@@ -196,15 +227,6 @@
 
     <!-- Validator -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
-
-    <!-- Login handling -->
-    <?php
-        include_once "../../php/register.php";
-
-        if (!empty($_POST['password']) && !empty($_POST['email']) && !empty($_POST['tovalidatepassword']) && !empty($_POST['username'])) {
-            register();
-        }
-    ?>
-
+<?php if(isset($form_feedback)){ echo $form_feedback; } ?>
 </body>
 </html>

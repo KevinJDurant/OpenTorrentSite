@@ -17,7 +17,6 @@
     }
 
     $db = new Db();
-    
     $userid = $_SESSION["userid"];
 	
 	// User Upload Count
@@ -26,21 +25,18 @@
 	// Check user uploaderstatus
 	$uploaderstatus = $db->select("SELECT uploaderstatus AS 'vipstatus' FROM users WHERE user_id=".$userid."");
 
-	if ($uploaderstatus[0]["vipstatus"] === '99')
-	{
-	    // Get User Count
-        $usercount = $db->select("SELECT COUNT(user_id) AS 'Total Users' FROM users");
-
-        // Total Website Upload Count
-        $totaluploads = $db->select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents");
-
-        // Total Users
-        $total_user = $db->select("SELECT count(user_id) as total FROM users WHERE uploaderstatus < 99");
+	// Administrator Section
+	if ($uploaderstatus[0]["vipstatus"] === '99'){
 		
+		// Total Upload Count
+		$totaluploads = $db->select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents");
+
+		// Total User Count
+		$total_user = $db->select("SELECT count(user_id) as 'Total Users' FROM users WHERE uploaderstatus < 99");
+
 		// Results Per Page
 		$total_result_per_page = 5;
-		$total_user_page = ceil($total_user[0]['total'] / $total_result_per_page);
-
+		$total_user_page = ceil($total_user[0]['Total Users'] / $total_result_per_page);
 		$current_page = 1;
 
 		// Get Current Page
@@ -48,9 +44,9 @@
 			$current_page = intval($_GET['page']);
 		}
 		$start_result = $total_result_per_page * ($current_page - 1);
-		
-        // User List
-        $userlist = $db->select("SELECT user_id,reg_date,username,uploaderstatus FROM users WHERE uploaderstatus < 99 limit $start_result,$total_result_per_page");
+
+		// User List
+		$userlist = $db->select("SELECT user_id,reg_date,username,uploaderstatus FROM users WHERE uploaderstatus < 99 limit $start_result,$total_result_per_page");
 	
 	}
 	
@@ -128,6 +124,9 @@
                                         <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                     </li>
                                     <li>
+                                        <a href="invitations.php"><span class="glyphicon glyphicon-cog"></span> Invites</a>
+                                    </li>
+                                    <li>
                                         <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                                     </li>
                                 </ul>
@@ -188,12 +187,9 @@
         <div class="row">
             <div class="col-lg-12">
             <?php
-                if ($uploaderstatus[0]["vipstatus"] === '99')
-                {
+                if ($uploaderstatus[0]["vipstatus"] === '99'){
                     echo '<h1>Admin Control Panel</h1>';
-                }
-                else
-                {
+                } else {
                     echo '<h1>User Control Panel</h1>';
                 }
 			?>
@@ -204,13 +200,12 @@
                 echo '<b>Account Uploads: </b>' ;
                 echo $totaluseruploads[0]["Total User Uploads"];
 
-                // User and Torrent Stats
-                if ($uploaderstatus[0]["vipstatus"] === '99')
-                {
+                // Admin Control Panel
+                if ($uploaderstatus[0]["vipstatus"] === '99'){
                     echo '  |  <b>Total Uploads: </b>' ;
                     echo $totaluploads[0]["Total Uploads"];
                     echo '  |  <b>Total Users: </b>' ;
-                    echo $usercount[0]["Total Users"];
+                    echo $total_user[0]["Total Users"];
 					echo '  |  <b><a href="preferences.php">User Management</a></b>';
 					echo '  |  <b><a href="bad-torrents.php">Reported Torrents</a></b>';
                 }
@@ -278,8 +273,7 @@
                 ?>
             </div>
         </div><?php 
-                if ($uploaderstatus[0]["vipstatus"] === '99')
-                { 
+                if ($uploaderstatus[0]["vipstatus"] === '99'){ 
 					if ($total_user_page > 0){ ?>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination" style="

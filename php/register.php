@@ -8,7 +8,7 @@
 	 * Starts the register process.
 	 *
 	 */
-	function register() {
+	function register($inviteCode=null) {
 		$db = new Db();
 
 		$password = $db -> quote(htmlspecialchars($_POST['password']));
@@ -24,30 +24,33 @@
 						if(!already_registered($email,$username,$db)) {
 							$hashed_password = password_hash($password, PASSWORD_BCRYPT);
 							$key = md5(uniqid(rand(), true));
-
-							$result = $db -> query("INSERT INTO `users` (`email`, `reg_date`, `username`, `password`, `tempkey`) VALUES (" . $email . "," .$mysql_date . "," . $username.",'".$hashed_password ."','".$key ."')"); 
+							if($inviteCode==null){
+								$inviteCode = "''";
+							}
+							$result = $db -> query("INSERT INTO `users` (`email`, `reg_date`, `username`, `password`, `tempkey`, `invitecode`) VALUES (" . $email . "," .$mysql_date . "," . $username.",'".$hashed_password ."','".$key ."', $inviteCode)"); 
 							$userid = $db -> select("SELECT `user_id` FROM `users` WHERE `email`=".$email."");
-
+							update_inviteCode($db, $inviteCode);
 							$_SESSION["username"] = htmlspecialchars($_POST['username']);
 							$_SESSION["email"] = htmlspecialchars($_POST['email']);
 							$_SESSION["userid"] = $userid[0]['user_id'];
 							$_SESSION["key"] = $key;
 
 							header("Location: ../../index.php");
+							exit;
 						} else {
-							exit(form_feedback("This email or username is already being used."));
+							return form_feedback("This email or username is already being used.");
 						}
 					} else {
-						exit(form_feedback("Password should be longer than 8 characters."));
+						return (form_feedback("Password should be longer than 8 characters."));
 					}
 				} else {
-					exit(form_feedback("The provided passwords don't match."));
+					return (form_feedback("The provided passwords don't match."));
 				}
 			} else {
-				exit(form_feedback("Please use a valid email address."));
+				return (form_feedback("Please use a valid email address."));
 			}
 		} else {
-			exit(form_feedback("Please fill out the form."));
+			return (form_feedback("Please fill out the form."));
 		}
 	}
 
@@ -68,7 +71,7 @@
 	 * @return boolean.
 	 */
 	function is_temp_mail($mail) {
-    	$mail_domains_ko = file('https://raw.githubusercontent.com/martenson/disposable-email-domains/master/disposable_email_blacklist.conf', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    	$mail_domains_ko = file('https://raw.githubusercontent.com/pypa/pypi-legacy/master/disposable_email_blacklist.conf', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     	return in_array(explode('@', htmlspecialchars($mail))[1], $mail_domains_ko);
 	}
 
@@ -117,9 +120,10 @@
 	 * @return javascript.
 	 */
 	function form_feedback($error) {
-		echo '<script>';
-		echo 'var element = document.getElementById("feedback").removeAttribute("style");';
-		echo 'var element = document.getElementById("feedback").innerHTML ="'.$error.'";';
-		echo '</script>';
+		$text = '<script>';
+		$text .= 'var element = document.getElementById("feedback").removeAttribute("style");';
+		$text .= 'var element = document.getElementById("feedback").innerHTML ="'.$error.'";';
+		$text .= '</script>';
+		return $text;
 	}
 ?>

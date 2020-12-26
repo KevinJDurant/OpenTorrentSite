@@ -21,7 +21,7 @@
 			exit(form_feedback("Sorry your file is already in use by another process, please try again later."));
 		}
 
-		if ($_FILES["fileToUpload"]["size"] > 500000) {
+		if ($_FILES["fileToUpload"]["size"] > 1000000) {
 			exit(form_feedback("Your file is too large."));
 		}
 

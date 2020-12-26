@@ -20,27 +20,24 @@
         exit;
     }
 
-    $total_result_per_page = 10;
-
+	// Get Category Information
     $db = new Db();
-
     $cat_id= $db->escape(intval($_GET['id']));
-
     $categories = $db->select("SELECT * from categories where id=".$cat_id);
 
     if(count($categories) === 0) {
         header("Location: ../../en/status/404.php"); exit;
     }
 
+	// Page Count
+	$total_result_per_page = 10;
     $total_torrent = count(get_popular_per_cat_count($cat_id,$db));
     $total_torrent_page = ceil($total_torrent / $total_result_per_page);
-
     $current_page = 1;
 
-    if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0))
-    {
-        $current_page = intval($_GET['page']);
-    }
+    if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0)){
+		$current_page = intval($_GET['page']);
+	}
 
     $start_result = $total_result_per_page * ($current_page - 1);
 ?>
