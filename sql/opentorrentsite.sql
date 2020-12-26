@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 30, 2020 at 10:53 AM
+-- Generation Time: Dec 26, 2020 at 04:08 AM
 -- Server version: 5.7.32-cll-lve
 -- PHP Version: 7.3.6
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `OpenTorrentSite`
+-- Database: `azukach1_opentorrentsite`
 --
 
 -- --------------------------------------------------------
@@ -48,6 +48,19 @@ CREATE TABLE `comments` (
   `userid` mediumint(8) UNSIGNED DEFAULT NULL,
   `torrent_id` int(22) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invitations`
+--
+
+CREATE TABLE `invitations` (
+  `id` int(22) NOT NULL,
+  `code` varchar(100) DEFAULT NULL,
+  `used` int(11) NOT NULL DEFAULT '0',
+  `userid` int(22) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -86,7 +99,8 @@ CREATE TABLE `users` (
   `username` varchar(20) DEFAULT NULL,
   `password` char(60) NOT NULL,
   `uploaderstatus` int(11) NOT NULL DEFAULT '0',
-  `tempkey` varchar(120) NOT NULL
+  `tempkey` varchar(120) NOT NULL,
+  `invitecode` varchar(100) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -118,6 +132,12 @@ ALTER TABLE `categories`
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`comment_id`),
   ADD KEY `userid` (`userid`);
+
+--
+-- Indexes for table `invitations`
+--
+ALTER TABLE `invitations`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `torrents`
@@ -155,6 +175,12 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `comments`
   MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `invitations`
+--
+ALTER TABLE `invitations`
+  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `torrents`
