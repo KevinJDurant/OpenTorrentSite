@@ -100,7 +100,7 @@ CREATE TABLE `users` (
   `password` char(60) NOT NULL,
   `uploaderstatus` int(11) NOT NULL DEFAULT '0',
   `tempkey` varchar(120) NOT NULL,
-  `invitecode` varchar(100) DEFAULT '0'
+  `invitecode` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
