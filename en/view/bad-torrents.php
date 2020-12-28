@@ -122,7 +122,10 @@
                                         <a href="my-torrents.php"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                     </li>
                                     <li>
-                                        <a href="preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
+                                        <a href="en/view/preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
+                                    </li>
+                                    <li>
+                                        <a href="en/view/invitations.php"><span class="glyphicon glyphicon-pencil"></span> Invites</a>
                                     </li>
                                     <li>
                                         <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
