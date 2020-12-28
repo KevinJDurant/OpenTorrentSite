@@ -89,10 +89,13 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$_SESSION["username"].' <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href=""><span class="glyphicon glyphicon-book"></span> Torrents</a>
+                                        <a href="#"><span class="glyphicon glyphicon-book"></span> Torrents</a>
                                     </li>
                                     <li>
                                         <a href="preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
+                                    </li>
+				    <li>
+                                        <a href="invitations.php"><span class="glyphicon glyphicon-pencil"></span> Invites</a>
                                     </li>
                                     <li>
                                         <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
