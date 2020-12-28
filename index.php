@@ -97,6 +97,9 @@
                                         <a href="en/view/preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                     </li>
                                     <li>
+                                        <a href="en/view/invitations.php"><span class="glyphicon glyphicon-pencil"></span> Invites</a>
+                                    </li>
+                                    <li>
                                         <a href="/en/account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                                     </li>
                                 </ul>
