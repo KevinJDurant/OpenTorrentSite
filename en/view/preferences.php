@@ -124,7 +124,7 @@
                                         <a href="#"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                     </li>
                                     <li>
-                                        <a href="invitations.php"><span class="glyphicon glyphicon-cog"></span> Invites</a>
+                                        <a href="invitations.php"><span class="glyphicon glyphicon-pencil"></span> Invites</a>
                                     </li>
                                     <li>
                                         <a href="../account/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
