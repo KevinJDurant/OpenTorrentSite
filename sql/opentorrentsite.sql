@@ -25,13 +25,24 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Table structure and data for table `categories`
 --
 
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `categoryname` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `categories` (`id`, `categoryname`) VALUES
+(1, 'Movies'),
+(2, 'Television'),
+(3, 'Music'),
+(4, 'Games'),
+(5, 'Software'),
+(6, 'Anime'),
+(7, 'Books'),
+(8, 'XXX'),
+(9, 'Other');
 
 -- --------------------------------------------------------
 
