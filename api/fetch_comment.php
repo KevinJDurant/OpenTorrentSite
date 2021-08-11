@@ -11,15 +11,16 @@ if (isset($_POST['page'])) {
 } else {
 	$pageno = 1;
 }
-$no_of_records_per_page = 10;
+$config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config/config.ini.php');
+$configPlugin = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config/plugins.ini');
+$no_of_records_per_page = intval($configPlugin['Comments_Per_Page']);
 $offset = ($pageno-1) * $no_of_records_per_page;
 
-$config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config/config.ini.php');
 //fetch_comment.php
 
 $connect = new PDO('mysql:host=localhost;dbname='.$config['dbname'], $config['username'], $config['password']);
 
-$total_pages_sql = "SELECT COUNT(*) as total FROM comments";
+$total_pages_sql = "SELECT COUNT(*) as total FROM comments where torrent_id='".intval($_POST['torrent_id'])."'";
 $resultQ = $connect->prepare($total_pages_sql);
 $resultQ->execute();
 $resultQ = $resultQ->fetchAll();
