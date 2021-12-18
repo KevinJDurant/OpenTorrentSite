@@ -16,10 +16,11 @@ A modern torrent search engine/website template that is easy to setup with an in
 
 ## Setup:
 1. Copy & Paste all files to your webspace.
-2. Create a folder called "torrents" in the root directory
-3. Setup a new MySQL database. For security purposes you should create a user with appropriate permissions.
-4. Change the database credentials and website identification inside 'config/config.ini.php'.
-5. Import all .sql files from the 'sql' folder.
+2. Set your webspace to PHP Version 7.0.
+3. Create a folder called "torrents" in the root directory.
+4. Setup a new MySQL database. For security purposes you should create a user with appropriate permissions.
+5. Change the database credentials and website identification inside 'config/config.ini.php'.
+6. Import "opentorrentsite.sql" from the 'sql' folder.
 
 ## FAQ:
 1. My seeders/leechers are always 0? Your hosting provider is blocking UDP requests or your torrent file has no trackers. (HTTP, HTTPS and UDP are supported; DHT is not supported)

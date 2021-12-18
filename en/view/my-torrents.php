@@ -19,7 +19,23 @@
     
     $userid = $_SESSION["userid"];
 
-    $torrents = $db -> select("SELECT t.id as 'torrents_id', t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE t.userid=".$userid."");
+	$configPlugin = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config/plugins.ini');
+	// Page Count
+	$total_result_per_page = intval($configPlugin['Torrents_Per_Page']);
+	
+    $total_torrentq = $db->select("SELECT count(t.id) as Total FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE t.userid=".$userid."");
+    $total_torrent = $total_torrentq[0]['Total'];
+	$total_torrent_page = ceil($total_torrent / $total_result_per_page);
+    $current_page = 1;
+
+    if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0)){
+		$current_page = intval($_GET['page']);
+	}
+
+    $start_result = $total_result_per_page * ($current_page - 1);
+	
+	
+    $torrents = $db->select("SELECT t.id as 'torrents_id', t.userid,t.categoryid,t.name,t.uploaddate,t.size,t.seeders,t.leechers,t.hash,t.magnet,u.username,u.uploaderstatus,c.id,c.categoryname FROM `torrents` t INNER JOIN `users` u ON t.userid=u.user_id INNER JOIN `categories` c ON t.categoryid=c.id WHERE t.userid=".$userid." limit $start_result,$total_result_per_page");
 
     ?>
 
@@ -47,6 +63,21 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="../../css/favicon.png"/>
+	
+	<!-- Theme Changer -->
+	<script>
+	function event_switch_theme_mode(){
+		var mode = localStorage.getItem('theme_mode');
+		if(mode==null || mode=='light'){return true;}
+		var link = document.createElement("link");
+		link.type = "text/css";
+		link.rel = "stylesheet";
+		link.id = "theme_mode_css";
+		link.href = '../../css/themes/'+mode+'.css';
+		document.head.appendChild(link);
+	}
+	event_switch_theme_mode();
+	</script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -194,6 +225,20 @@
             </div>
         </div>
             <!-- /.row -->
+			<?php if ($total_torrent_page > 0){ ?>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+			            <?php if ($current_page>1) { ?>
+                            <li class="page-item"><a class="page-link" style="float: left;" href="?page=<?=$current_page-1?>">Previous</a></li>
+                        <?php }
+                        if ($current_page<$total_torrent_page) { ?>
+                            <li class="page-item">
+                                <a class="page-link" style="float: right;" href="?page=<?=$current_page+1?>">Next</a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </nav>
+			<?php } ?>
         <hr>
 
         <!-- Footer -->

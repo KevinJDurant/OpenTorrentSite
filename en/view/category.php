@@ -29,8 +29,9 @@
         header("Location: ../../en/status/404.php"); exit;
     }
 
+	$configPlugin = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config/plugins.ini');
 	// Page Count
-	$total_result_per_page = 10;
+	$total_result_per_page = $configPlugin['Torrents_Per_Page'];
     $total_torrent = count(get_popular_per_cat_count($cat_id,$db));
     $total_torrent_page = ceil($total_torrent / $total_result_per_page);
     $current_page = 1;
@@ -66,6 +67,21 @@
 
     <!-- Editor TinyMCE -->
     <script src="../../js/tinymce/tinymce.min.js"></script>
+	
+	<!-- Theme Changer -->
+	<script>
+	function event_switch_theme_mode(){
+		var mode = localStorage.getItem('theme_mode');
+		if(mode==null || mode=='light'){return true;}
+		var link = document.createElement("link");
+		link.type = "text/css";
+		link.rel = "stylesheet";
+		link.id = "theme_mode_css";
+		link.href = '../../css/themes/'+mode+'.css';
+		document.head.appendChild(link);
+	}
+	event_switch_theme_mode();
+	</script>
 
     <script>
         tinymce.init({
@@ -140,7 +156,7 @@
                                         <li>
                                             <a href="preferences.php"><span class="glyphicon glyphicon-cog"></span> Preferences</a>
                                         </li>
-					<li>
+										<li>
                                             <a href="invitations.php"><span class="glyphicon glyphicon-pencil"></span> Invites</a>
                                     	</li>
                                         <li>

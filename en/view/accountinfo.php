@@ -19,36 +19,32 @@
     $db = new Db();
     $userid = $_SESSION["userid"];
 	
-	// User Upload Count
-	$totaluseruploads = $db->select("SELECT COUNT(id) AS 'Total User Uploads' FROM torrents WHERE userid=".$userid."");
+	$acc_info = $db->select("SELECT * FROM users WHERE user_id=".$userid)[0];
 	
-	// Check user uploaderstatus
-	$uploaderstatus = $db->select("SELECT uploaderstatus AS 'vipstatus' FROM users WHERE user_id=".$userid."");
-
-	// Administrator Section
-	if ($uploaderstatus[0]["vipstatus"] === '99'){
-		
-		// Total Upload Count
-		$totaluploads = $db->select("SELECT COUNT(id) AS 'Total Uploads' FROM torrents");
-
-		// Total User Count
-		$total_user = $db->select("SELECT count(user_id) as 'Total Users' FROM users WHERE uploaderstatus < 99");
-
-		// Results Per Page
-		$total_result_per_page = 5;
-		$total_user_page = ceil($total_user[0]['Total Users'] / $total_result_per_page);
-		$current_page = 1;
-
-		// Get Current Page
-		if(isset($_GET['page']) && !empty($_GET['page'] && intval($_GET['page']) > 0)){
-			$current_page = intval($_GET['page']);
+	if(isset($_POST['action'])){
+		if($_POST['action']=='pass'){
+			$currentpass = $db->quote(htmlspecialchars($_POST['current']));
+			$newpassword = $db->quote(htmlspecialchars($_POST['password']));
+			if(password_verify($currentpass, $acc_info['password'])){
+				$hashed_password = password_hash($newpassword, PASSWORD_BCRYPT);
+				$db->query("UPDATE `users` SET `password`='".$hashed_password."' WHERE `user_id`=".$userid."");
+				$success = 'Password changed successfully.';
+			}else{
+				$error = "Current Password Incorrect";
+			}
 		}
-		$start_result = $total_result_per_page * ($current_page - 1);
-
-		// User List
-		$userlist = $db->select("SELECT user_id,reg_date,username,uploaderstatus FROM users WHERE uploaderstatus < 99 limit $start_result,$total_result_per_page");
-	
+		if($_POST['action']=='mail'){
+			$email = $db->quote(htmlspecialchars($_POST['email']));
+			$mailresult = $db->select("SELECT `email` FROM `users` WHERE `email`=".$email."");
+			if(count($mailresult)<1){
+				$db->query("UPDATE `users` SET `email`=$email WHERE `user_id`=$userid");
+				$success = 'Email changed successfully.';
+			}else{
+				$error = "Email already in use.";
+			}
+		}
 	}
+	
 	
     ?>
 
@@ -161,6 +157,14 @@
             if (isset($_GET['msg']) && !empty($_GET['msg'])) {
                 echo '<h3 class="alert alert-success text-center">' . $_GET['msg'] . '</h3>';
             }
+			
+            if (isset($success)) {
+                echo '<h3 class="alert alert-success text-center">' .$success. '</h3>';
+            }
+			
+            if (isset($error)) {
+                echo '<h3 class="alert alert-danger text-center">' .$error. '</h3>';
+            }
          ?>
 
         <!-- Search -->
@@ -201,123 +205,54 @@
         <div class="row">
             <div class="col-lg-12">
             <?php
-                if ($uploaderstatus[0]["vipstatus"] === '99'){
-                    echo '<h1>Admin Control Panel</h1>';
-                } else {
-                    echo '<h1>User Control Panel</h1>';
-                }
+               echo '<h1>Account Information</h1>';
 			?>
             <br />
 			
 		<!-- User Account Information -->	
-			<?php
-                echo '<b>Account Uploads: </b>' ;
-                echo $totaluseruploads[0]["Total User Uploads"];
-
-                // Admin Control Panel
-                if ($uploaderstatus[0]["vipstatus"] === '99'){
-                    echo '  |  <b>Total Uploads: </b>' ;
-                    echo $totaluploads[0]["Total Uploads"];
-                    echo '  |  <b>Total Users: </b>' ;
-                    echo $total_user[0]["Total Users"];
-					echo '  |  <b><a href="preferences.php">User Management</a></b>';
-					echo '  |  <b><a href="bad-torrents.php">Reported Torrents</a></b>';
-                }
-
-                echo "</br>";
-
-                // Show user status
-                echo '<b>Account Status: </b>';
-                switch ($uploaderstatus[0]["vipstatus"]) {
-                    case 99:
-                        echo ' Administrator <img src="../../css/vip.png" alt="VIP User">';
-                        break;
-                    case 3:
-                        echo ' VIP User <img src="../../css/vip.png" alt="VIP User">';
-                        break;
-                    case 2:
-                        echo ' Trusted User <img src="../../css/trusted.png" alt="Trusted User">';
-                        break;
-                    case -1:
-                        echo 'Banned User';
-                        break;
-                    default:
-                        echo ' User';
-                }
 				
-				
-			?>
-			<br />
-			<!-- Update Account Information -->
-			<a href="accountinfo.php">Update Account Information</a>
-			
-			<!-- Select Theme -->
-			<div class="form-group">
-				<label for="switch_mode">Theme: </label>
-				<select class="form-control" style="width:120px;display:inline" id="switch_mode">
-				  <option value="Default">Light</option>
-				  <option value="dark">Dark</option>
-				  <option value="thepiratebay">ThePirateBay</option>
-				</select>
-		    </div>
+		<div class="row">
+			<div class="col-sm-4">
+                <form action="accountinfo.php" method="post">
+				<h3>Update your password</h3>
+				<label>Current Password</label>
+				<div class="form-group"> 
+					<input type="password" class="form-control" placeholder="Current Password" required name="current"> 
+				</div> 
+				   <label>New Password</label>
+				<div class="form-group"> 
+					<input type="password" class="form-control" placeholder="New Password" required id="password"> 
+				</div> 
+				   <label>Confirm Password</label>
+				<div class="form-group"> 
+					<input type="password" class="form-control" placeholder="Confirm Password" required id="confirm_password" name="password"> 
+					<span id='message'></span>
+				</div> 
+				<div class="form-group"> 
+					<input type="submit" class="form-control btn btn-primary" value="Submit"> 
+				</div> 
+				<input type="hidden" name="action" value="pass">
+				</form>
+			</div> 
+			<div class="col-sm-4">
+                <form action="accountinfo.php" method="post">
+				<h3>Update your email</h3>
+				<label>New email</label>
+				<div class="form-group"> 
+					<input type="email" class="form-control" placeholder="Enter new email" required name="email"> 
+				</div> 
+				<div class="form-group"> 
+					<input type="submit" class="form-control btn btn-primary" value="Submit"> 
+				</div> 
+				<input type="hidden" name="action" value="mail">
+				</form>
+			</div>  
+		</div>
+  
             <br />
             <br />
-			<!-- User Table -->
-			<?php
-				if ($uploaderstatus[0]["vipstatus"] === '99')
-					{
-					    echo '<table class="table table-striped" id="User List">
-                            <thead>
-                                <tr>
-                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Username</th>
-                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Register Date</th>
-                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>User ID</th>
-                                    <th width="20%"><span class="glyphicon glyphicon-sort"></span></small>Access Level</th>
-                                    <th width="20%">Options</th>
-                                </tr>
-                              </thead>
-                              <tbody>';
-
-                        if(count($userlist) !== 0) {
-                            foreach ($userlist as $key => $row) {
-                            echo '<tr>
-                                <td class="Name" data-label="Username"><a href="user-torrents.php?userid='.$row["user_id"].'"> '.$row["username"]. UserHelper::displayUserIcon($row['uploaderstatus']) . '</span></a></td>
-                                <td data-label="Register Date">'.$row["reg_date"].'</td>
-                                <td data-label="User ID">'.$row["user_id"].'</td>
-                                <td data-label="Access Level">'.UserHelper::translateUserStatus($row["uploaderstatus"]).'</td>
-                                <td data-label="Options">
-                                    <a href="#"></span></a>							
-                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=3" alt="VIP Status"  class="delete" data-confirm="Give user VIP status?"><span class="glyphicon glyphicon-heart"></span></a>
-                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=2" alt="StatusDown"  class="delete" data-confirm="Give user Trusted status?"><span class="glyphicon glyphicon-star"></span></a>
-                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=0" alt="StatusDown"  class="delete" data-confirm="Set regular user status?"><span class="glyphicon glyphicon-star-empty"></span></a>
-                                    <a href="/api/change-user-status.php?user_id='.$row["user_id"].'&status=-1" alt="Ban"  class="delete" data-confirm="Ban User?"><span class="glyphicon glyphicon-ban-circle"></span></a>
-                                    <a href="/api/delete-all-torrents.php?user_id='.$row["user_id"].'" alt="Ban"  class="delete" data-confirm="Remove all users torrents?"><span class="glyphicon glyphicon-trash"></span></a>
-                                </td>
-                                </tr>';
-                            }
-                        }
-
-                        echo '</tbody></table>';
-					}
-                ?>
             </div>
-        </div><?php 
-                if ($uploaderstatus[0]["vipstatus"] === '99'){ 
-					if ($total_user_page > 0){ ?>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination" style="
-    width: 100%;">
-			            <?php if ($current_page>1) { ?>
-                            <li class="page-item"><a class="page-link" style="float: left;" href="?page=<?=$current_page-1?>">Previous</a></li>
-                        <?php }
-                        if ($current_page<$total_user_page) { ?>
-                            <li class="page-item">
-                                <a class="page-link" style="float: right;" href="?page=<?=$current_page+1?>">Next</a>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                </nav>
-					<?php }} ?>
+        </div>
             <!-- /.row -->
         <hr>
 
@@ -344,18 +279,17 @@
 
     <script>
     $(document).ready(function(e){
-		
-		var mode = localStorage.getItem('theme_mode');
-		if(mode!=null){
-			$('#switch_mode').val(mode);
-		}
-		
-		$('#switch_mode').on('change',function(){
-			var mode = $(this).val();
-			localStorage.setItem('theme_mode', mode);
-			$('#theme_mode_css').remove();
-			event_switch_theme_mode();
+		$('#password, #confirm_password').on('keyup', function () {
+		  if ($('#password').val() == $('#confirm_password').val()) {
+			$('#message').html('');
+			if($('#password').val().length<8){
+				$('#message').html('Enter minimum 8 charecter.').css('color', 'red');
+			}
+		  } else {
+			$('#message').html('Password does not match.').css('color', 'red');
+		  }
 		});
+
         $('.search-panel .dropdown-menu').find('a').click(function(e) {
             e.preventDefault();
             var param = $(this).attr("href").replace("#","");
@@ -366,28 +300,5 @@
     });
     </script>
     
-    <!-- Tablesort -->
-    <script src="../../js/jquery.tablesorter.js"></script>
-    
-    <script>
-    $(document).ready(function() {
-        $("#mytorrents").tablesorter();
-    });
-
-    // JS code for show Confirm alert
-    let deleteLinks = document.querySelectorAll('.delete');
-
-    for (let i = 0, l = deleteLinks.length; i < l; i++) {
-      deleteLinks[i].addEventListener('click', function(event) {
-          event.preventDefault();
-
-          let choice = confirm(this.getAttribute('data-confirm'));
-
-          if (choice) {
-            window.location.href = this.getAttribute('href');
-          }
-      });
-    }
-    </script>
 </body>
 </html>

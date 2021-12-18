@@ -156,6 +156,21 @@
         <!-- /.container -->
     </nav>
 
+	<!-- Theme Script -->
+	<script>
+	function event_switch_theme_mode(){
+		var mode = localStorage.getItem('theme_mode');
+		if(mode==null || mode=='light'){return true;}
+		var link = document.createElement("link");
+		link.type = "text/css";
+		link.rel = "stylesheet";
+		link.id = "theme_mode_css";
+		link.href = '../../css/themes/'+mode+'.css';
+		document.head.appendChild(link);
+	}
+	event_switch_theme_mode();
+	</script>
+
     <!-- Page Content -->
     <div class="container">
             <!-- Search -->

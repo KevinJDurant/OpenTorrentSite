@@ -49,8 +49,24 @@
     <!-- Custom CSS -->
     <link href="css/custom.css" rel="stylesheet">
     <style>.aa { color: rgb(51, 51, 51);}</style>
+	
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="css/favicon.png"/>
+	
+	<!-- Theme Changer -->
+	<script>
+	function event_switch_theme_mode(){
+		var mode = localStorage.getItem('theme_mode');
+		if(mode==null || mode=='light'){return true;}
+		var link = document.createElement("link");
+		link.type = "text/css";
+		link.rel = "stylesheet";
+		link.id = "theme_mode_css";
+		link.href = '../../css/themes/'+mode+'.css';
+		document.head.appendChild(link);
+	}
+	event_switch_theme_mode();
+	</script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -59,8 +75,8 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
+
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
